@@ -19,9 +19,9 @@ public:
 
 	std::vector<std::vector<char>> TempVectorForRendering{ QuadSize, std::vector<char>(QuadSize) };
 
-	std::vector<int> RenderXCord{ 5, 9, 13, 17, 21, 25, 29, 33, 37 };
+	std::vector<int> RenderXCord{ 5, 9, 13, 17, 21, 25, 29, 33, 37, 41 };
 
-	std::vector<int> RenderYCord{ 5, 9, 13, 17, 21, 25, 29, 33, 37 };
+	std::vector<int> RenderYCord{ 5, 8, 11, 14, 17, 20, 23, 26, 29, 32 };
 
 	int RenderYCordAdjust{ 0 };
 

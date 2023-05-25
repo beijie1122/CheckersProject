@@ -40,8 +40,36 @@ void BaseGameMode::InitializeFullBoard()
 	{
 		UniquePtrInitValue = i;
 		std::unique_ptr<CheckerBoardQuads> UniquePtrInitValue = std::make_unique<CheckerBoardQuads>();
-		UniquePtrInitValue->PopulateQuadWithBaseSymbol();
 		UniquePtrInitValue->AssignQuadNumber(i);
+		if (UniquePtrInitValue->QuadNumber < 8 && UniquePtrInitValue->QuadNumber % 2 != 0)
+		{
+			UniquePtrInitValue->PopulateQuadWithPlayer2Symbol();
+		}
+		else if (UniquePtrInitValue->QuadNumber > 7 && UniquePtrInitValue->QuadNumber < 15 && UniquePtrInitValue->QuadNumber % 2 == 0)
+		{
+			UniquePtrInitValue->PopulateQuadWithPlayer2Symbol();
+		}
+		else if (UniquePtrInitValue->QuadNumber > 15 && UniquePtrInitValue->QuadNumber < 24 && UniquePtrInitValue->QuadNumber % 2 != 0)
+		{
+			UniquePtrInitValue->PopulateQuadWithPlayer2Symbol();
+		}
+		else if (UniquePtrInitValue->QuadNumber > 39 && UniquePtrInitValue->QuadNumber < 48 && UniquePtrInitValue->QuadNumber % 2 == 0)
+		{
+			UniquePtrInitValue->PopulateQuadWithPlayer1Symbol();
+		}
+		else if (UniquePtrInitValue->QuadNumber > 47 && UniquePtrInitValue->QuadNumber < 56 && UniquePtrInitValue->QuadNumber % 2 != 0)
+		{
+			UniquePtrInitValue->PopulateQuadWithPlayer1Symbol();
+		}
+		else if (UniquePtrInitValue->QuadNumber > 55 && UniquePtrInitValue->QuadNumber < 64 && UniquePtrInitValue->QuadNumber % 2 == 0)
+		{
+			UniquePtrInitValue->PopulateQuadWithPlayer1Symbol();
+		}
+		else
+		{
+			UniquePtrInitValue->PopulateQuadWithBaseSymbol();
+		}
+		
 		QuadStorageVector.emplace_back(*UniquePtrInitValue);
 	}
 }

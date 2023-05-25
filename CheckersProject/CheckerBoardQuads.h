@@ -26,6 +26,8 @@ public:
 
 	char Player1Symbol{ 'X' };
 
+	char Player2Symbol{ 'O' };
+
 	std::vector<std::vector<char>> Quadrant{ QuadSize, std::vector<char>(QuadSize) };
 
 	CheckerBoardQuads();
@@ -35,6 +37,8 @@ public:
 	void PopulateQuadWithBaseSymbol();
 
 	void PopulateQuadWithPlayer1Symbol();
+
+	void PopulateQuadWithPlayer2Symbol();
 
 	~CheckerBoardQuads();
 

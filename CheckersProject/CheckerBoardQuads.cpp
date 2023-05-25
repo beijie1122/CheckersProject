@@ -29,6 +29,18 @@ void CheckerBoardQuads::PopulateQuadWithPlayer1Symbol()
 	Quadrant[1][1] = BaseNumber;
 }
 
+void CheckerBoardQuads::PopulateQuadWithPlayer2Symbol()
+{
+	for (size_t i = 0; i < QuadSize; i++)
+	{
+		for (size_t j = 0; j < QuadSize; j++)
+		{
+			Quadrant[i][j] = Player2Symbol;
+		}
+	}
+	Quadrant[1][1] = BaseNumber;
+}
+
 void CheckerBoardQuads::AssignQuadNumber(int& QuadInput)
 {
 	QuadNumber = QuadInput;

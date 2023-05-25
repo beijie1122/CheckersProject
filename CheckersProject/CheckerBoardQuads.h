@@ -18,17 +18,23 @@ public:
 
 	int QuadSize = 3;
 
-	char QuadNumber = '0';
+	int QuadNumber = 0;
+
+	char BaseNumber{ '0' };
 
 	char BaseSymbol{ '~' };
+
+	char Player1Symbol{ 'X' };
 
 	std::vector<std::vector<char>> Quadrant{ QuadSize, std::vector<char>(QuadSize) };
 
 	CheckerBoardQuads();
 
-	CheckerBoardQuads(char QuadNum);
+	void AssignQuadNumber(int &QuadInput);
 
 	void PopulateQuadWithBaseSymbol();
+
+	void PopulateQuadWithPlayer1Symbol();
 
 	~CheckerBoardQuads();
 

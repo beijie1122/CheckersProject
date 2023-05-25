@@ -36,11 +36,12 @@ void BaseGameMode::MainMenu()
 
 void BaseGameMode::InitializeFullBoard()
 {
-	for (size_t i = 0; i < 64; i++)
+	for (int i = 0; i < 64; i++)
 	{
 		UniquePtrInitValue = i;
 		std::unique_ptr<CheckerBoardQuads> UniquePtrInitValue = std::make_unique<CheckerBoardQuads>();
 		UniquePtrInitValue->PopulateQuadWithBaseSymbol();
+		UniquePtrInitValue->AssignQuadNumber(i);
 		QuadStorageVector.emplace_back(*UniquePtrInitValue);
 	}
 }
@@ -51,8 +52,6 @@ void BaseGameMode::RenderBoard()
 	{
 
 		Renderer BoardRenderer;
-
-		
 
 		//TempVectorForRendering = QuantIterator->Quadrant;
 		//BoardRenderer.Draw2DVector(TempVectorForRendering, { 20, 20 });

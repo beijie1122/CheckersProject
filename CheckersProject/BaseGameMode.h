@@ -59,6 +59,10 @@ public:
 
 	int Player2QuadSelectionCharsVariable{ 0 };
 
+	int LeftHandBoundryValue{};
+
+	int RightHandBoundryValue{};
+
 	BaseGameMode();
 
 	void MainMenu();
@@ -68,6 +72,10 @@ public:
 	void RenderBoard();
 
 	void Player1MovePieceSetup(int SelectedQuad);
+
+	void CheckLeftHandValueForQuadMovement(int SelectedQuad);
+
+	void CheckRightHandValueForQuadMovement(int SelectedQuad);
 
 	~BaseGameMode();
 

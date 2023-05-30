@@ -223,9 +223,12 @@ void BaseGameMode::RenderBoard()
 		}
 
 
-
-			
-			if (IsVirtualKeyPressed(VK_NUMPAD2))
+			if (IsVirtualKeyPressed(VK_NUMPAD1))
+			{
+				PiecePlaceinVector = 0;
+				Player1MovePieceSetup(0);
+			}
+			else if (IsVirtualKeyPressed(VK_NUMPAD2))
 			{
 				PiecePlaceinVector = 1;
 				Player1MovePieceSetup(1);
@@ -335,15 +338,32 @@ void BaseGameMode::Player1MovePieceSetup(int SelectedQuad)
 			std::vector<CheckerBoardQuads>::iterator MoveIterator1 = QuadStorageVector.begin();
 			for (size_t i = 0; i < QuadStorageVector.size(); i++)
 			{
+				CheckLeftHandValueForQuadMovement(SelectedQuad);
 				if (i == SelectedQuadMove1Value)
 				{
-					MoveIterator1->MoveSelectionQuadFill(SelectedQuadMove1CharValue);
-					advance(MoveIterator1, 1);
+					if (SelectedQuadMove1Value >= LeftHandBoundryValue)
+					{
+						MoveIterator1->MoveSelectionQuadFill(SelectedQuadMove1CharValue);
+						advance(MoveIterator1, 1);
+					}
+					else
+					{
+						advance(MoveIterator1, 1);
+					}
+
 				}
 				else if (i == SelectedQuadMove2Value)
 				{
-					MoveIterator1->MoveSelectionQuadFill(SelectedQuadMove2CharValue);
-					advance(MoveIterator1, 1);
+					if (SelectedQuadMove2Value <= RightHandBoundryValue)
+					{
+						MoveIterator1->MoveSelectionQuadFill(SelectedQuadMove2CharValue);
+						advance(MoveIterator1, 1);
+					}
+					else
+					{
+						advance(MoveIterator1, 1);
+					}
+
 				}
 				else
 				{
@@ -357,6 +377,50 @@ void BaseGameMode::Player1MovePieceSetup(int SelectedQuad)
 		}
 	}
 	IsQuadSelectedToMove = true;
+}
+
+void BaseGameMode::CheckLeftHandValueForQuadMovement(int SelectedQuad)
+{
+	//Consider putting all the Boundry Values into a Vector and navigate via that
+	if (Player1Pieces.at(SelectedQuad) > 0 && Player1Pieces.at(SelectedQuad) < 8) // Need to Fix, not within bounds
+	{
+		LeftHandBoundryValue = 0;
+	}
+	else if (Player1Pieces.at(SelectedQuad) > 7 && Player1Pieces.at(SelectedQuad) < 16)
+	{
+		LeftHandBoundryValue = 0;
+		RightHandBoundryValue = 7;
+	}
+	else if (Player1Pieces.at(SelectedQuad) > 15 && Player1Pieces.at(SelectedQuad) < 24)
+	{
+		LeftHandBoundryValue = 8;
+		RightHandBoundryValue = 15;
+	}
+	else if (Player1Pieces.at(SelectedQuad) > 23 && Player1Pieces.at(SelectedQuad) < 32)
+	{
+		LeftHandBoundryValue = 16;
+		RightHandBoundryValue = 23;
+	}
+	else if (Player1Pieces.at(SelectedQuad) > 31 && Player1Pieces.at(SelectedQuad) < 40)
+	{
+		LeftHandBoundryValue = 24;
+		RightHandBoundryValue = 31;
+	}
+	else if (Player1Pieces.at(SelectedQuad) > 39 && Player1Pieces.at(SelectedQuad) < 48)
+	{
+		LeftHandBoundryValue = 32;
+		RightHandBoundryValue = 39;
+	}
+	else if (Player1Pieces.at(SelectedQuad) > 47 && Player1Pieces.at(SelectedQuad) < 56)
+	{
+		LeftHandBoundryValue = 40;
+		RightHandBoundryValue = 47;
+	}
+	else if (Player1Pieces.at(SelectedQuad) > 55 && Player1Pieces.at(SelectedQuad) < 64)
+	{
+		LeftHandBoundryValue = 48;
+		RightHandBoundryValue = 55;
+	}
 }
 
 BaseGameMode::~BaseGameMode()

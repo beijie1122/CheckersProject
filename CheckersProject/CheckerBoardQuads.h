@@ -36,11 +36,11 @@ public:
 
 	void PopulateQuadWithBaseSymbol();
 
-	void PopulateQuadWithPlayer1Symbol();
+	void PopulateQuadWithPlayer1Symbol(char &AssignedNumberFromBaseGame);
 
-	void PopulateQuadWithPlayer2Symbol();
+	void PopulateQuadWithPlayer2Symbol(char& AssignedNumberFromBaseGame);
 
-	void MoveSelectionQuadFill();
+	void MoveSelectionQuadFill(char& AssignedNumberFromBaseGame);
 
 	~CheckerBoardQuads();
 

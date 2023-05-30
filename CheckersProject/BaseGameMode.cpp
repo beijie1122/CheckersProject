@@ -43,32 +43,38 @@ void BaseGameMode::InitializeFullBoard()
 		UniquePtrInitValue->AssignQuadNumber(i);
 		if (UniquePtrInitValue->QuadNumber < 8 && UniquePtrInitValue->QuadNumber % 2 != 0)
 		{
-			UniquePtrInitValue->PopulateQuadWithPlayer2Symbol();
+			UniquePtrInitValue->PopulateQuadWithPlayer2Symbol(Player2QuadSelectionChars.at(Player2QuadSelectionCharsVariable));
+			Player2QuadSelectionCharsVariable++;
 			Player2Pieces.push_back(UniquePtrInitValue->QuadNumber);
 		}
 		else if (UniquePtrInitValue->QuadNumber > 7 && UniquePtrInitValue->QuadNumber < 15 && UniquePtrInitValue->QuadNumber % 2 == 0)
 		{
-			UniquePtrInitValue->PopulateQuadWithPlayer2Symbol();
+			UniquePtrInitValue->PopulateQuadWithPlayer2Symbol(Player2QuadSelectionChars.at(Player2QuadSelectionCharsVariable));
+			Player2QuadSelectionCharsVariable++;
 			Player2Pieces.push_back(UniquePtrInitValue->QuadNumber);
 		}
 		else if (UniquePtrInitValue->QuadNumber > 15 && UniquePtrInitValue->QuadNumber < 24 && UniquePtrInitValue->QuadNumber % 2 != 0)
 		{
-			UniquePtrInitValue->PopulateQuadWithPlayer2Symbol();
+			UniquePtrInitValue->PopulateQuadWithPlayer2Symbol(Player2QuadSelectionChars.at(Player2QuadSelectionCharsVariable));
+			Player2QuadSelectionCharsVariable++;
 			Player2Pieces.push_back(UniquePtrInitValue->QuadNumber);
 		}
 		else if (UniquePtrInitValue->QuadNumber > 39 && UniquePtrInitValue->QuadNumber < 48 && UniquePtrInitValue->QuadNumber % 2 == 0)
 		{
-			UniquePtrInitValue->PopulateQuadWithPlayer1Symbol();
+			UniquePtrInitValue->PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(Player1QuadSelectionCharsVariable));
+			Player1QuadSelectionCharsVariable++;
 			Player1Pieces.push_back(UniquePtrInitValue->QuadNumber);
 		}
 		else if (UniquePtrInitValue->QuadNumber > 47 && UniquePtrInitValue->QuadNumber < 56 && UniquePtrInitValue->QuadNumber % 2 != 0)
 		{
-			UniquePtrInitValue->PopulateQuadWithPlayer1Symbol();
+			UniquePtrInitValue->PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(Player1QuadSelectionCharsVariable));
+			Player1QuadSelectionCharsVariable++;
 			Player1Pieces.push_back(UniquePtrInitValue->QuadNumber);
 		}
 		else if (UniquePtrInitValue->QuadNumber > 55 && UniquePtrInitValue->QuadNumber < 64 && UniquePtrInitValue->QuadNumber % 2 == 0)
 		{
-			UniquePtrInitValue->PopulateQuadWithPlayer1Symbol();
+			UniquePtrInitValue->PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(Player1QuadSelectionCharsVariable));
+			Player1QuadSelectionCharsVariable++;
 			Player1Pieces.push_back(UniquePtrInitValue->QuadNumber);
 		}
 		else
@@ -210,109 +216,147 @@ void BaseGameMode::RenderBoard()
 		if (IsQuadSelectedToMove == false)
 		{
 			BoardRenderer.Draw("Select A Quad", { 1, 4 });
+		}
+		else if (IsQuadSelectedToMove == true)
+		{
+			BoardRenderer.Draw("TEST", { 1, 4 });
+		}
+
+
+
+			
 			if (IsVirtualKeyPressed(VK_NUMPAD2))
 			{
-				SelectedQuadValue = Player1Pieces.at(1);
-				SelectedQuadMove1Value = SelectedQuadValue - 9;
-				SelectedQuadMove2Value = SelectedQuadValue - 7;
-				std::vector<CheckerBoardQuads>::iterator MoveIterator = QuadStorageVector.begin();
-
-				for (size_t i = 0; i < QuadStorageVector.size(); i++)
-				{
-					if (i == Player1Pieces.at(1))
-					{
-						MoveIterator->MoveSelectionQuadFill();
-						std::vector<CheckerBoardQuads>::iterator MoveIterator1 = QuadStorageVector.begin();
-						for (size_t i = 0; i < QuadStorageVector.size(); i++)
-						{
-							if (i == SelectedQuadMove1Value)
-							{
-								MoveIterator1->MoveSelectionQuadFill();
-								advance(MoveIterator1, 1);
-							}
-							else if (i == SelectedQuadMove2Value)
-							{
-								MoveIterator1->MoveSelectionQuadFill();
-								advance(MoveIterator1, 1);
-							}
-							else
-							{
-								advance(MoveIterator1, 1);
-							}
-						}
-					}
-					else
-					{
-						advance(MoveIterator, 1);
-					}
-				}
-				IsQuadSelectedToMove = true;
-			}
-		}
-		else if (IsQuadSelectedToMove == true);
-		{
-			BoardRenderer.Draw("Select an area to move to", { 1, 4 });
-			if (IsVirtualKeyPressed(VK_NUMPAD1))
-			{
-				std::vector<CheckerBoardQuads>::iterator MoveIterator2 = QuadStorageVector.begin();
-				for (size_t i = 0; i < QuadStorageVector.size(); i++)
-				{
-					BoardRenderer.Draw("Pressed 1", { 1, 3 });
-					if (i == SelectedQuadMove1Value)
-					{
-						MoveIterator2->PopulateQuadWithPlayer1Symbol();
-						advance(MoveIterator2, 1);
-					}
-					else if (i == SelectedQuadMove2Value)
-					{
-						MoveIterator2->PopulateQuadWithBaseSymbol();
-						advance(MoveIterator2, 1);
-					}
-					else if (i == Player1Pieces.at(1))
-					{
-						MoveIterator2->PopulateQuadWithBaseSymbol();
-						advance(MoveIterator2, 1);
-					}
-					else
-					{
-						advance(MoveIterator2, 1);
-					}
-				}
-				Player1Pieces.at(1) = SelectedQuadMove1Value;
+				PiecePlaceinVector = 1;
+				Player1MovePieceSetup(1);
 			}
 			else if (IsVirtualKeyPressed(VK_NUMPAD3))
 			{
-				std::vector<CheckerBoardQuads>::iterator MoveIterator2 = QuadStorageVector.begin();
-				for (size_t i = 0; i < QuadStorageVector.size(); i++)
-				{
-					BoardRenderer.Draw("Pressed 2", { 1, 3 });
-					if (i == SelectedQuadMove1Value)
-					{
-						MoveIterator2->PopulateQuadWithBaseSymbol();
-						advance(MoveIterator2, 1);
-					}
-					else if (i == SelectedQuadMove2Value)
-					{
-						MoveIterator2->PopulateQuadWithPlayer1Symbol();
-						advance(MoveIterator2, 1);
-					}
-					else if (i == Player1Pieces.at(1))
-					{
-						MoveIterator2->PopulateQuadWithBaseSymbol();
-						advance(MoveIterator2, 1);
-					}
-					else
-					{
-						advance(MoveIterator2, 1);
-					}
-				}
-				Player1Pieces.at(1) = SelectedQuadMove2Value;
+				PiecePlaceinVector = 2;
+				Player1MovePieceSetup(2);
 			}
-			IsQuadSelectedToMove = false;
-		}
+			else if (IsVirtualKeyPressed(VK_NUMPAD4))
+			{
+				PiecePlaceinVector = 3;
+				Player1MovePieceSetup(3);
+			}
 
-		
+
+	
+			if (IsVirtualKeyPressed(0x41)) // A Key
+			{
+				if (IsQuadSelectedToMove == true)
+				{
+					BoardRenderer.Draw("successfully Moved a Quad!", { 1, 3 });
+					std::vector<CheckerBoardQuads>::iterator MoveIterator2 = QuadStorageVector.begin();
+					for (size_t i = 0; i < QuadStorageVector.size(); i++)
+					{
+						BoardRenderer.Draw("Pressed 1", { 1, 3 });
+						if (i == SelectedQuadMove1Value)
+						{
+							MoveIterator2->PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(PiecePlaceinVector));
+							advance(MoveIterator2, 1);
+						}
+						else if (i == SelectedQuadMove2Value)
+						{
+							MoveIterator2->PopulateQuadWithBaseSymbol();
+							advance(MoveIterator2, 1);
+						}
+						else if (i == Player1Pieces.at(PiecePlaceinVector))
+						{
+							MoveIterator2->PopulateQuadWithBaseSymbol();
+							advance(MoveIterator2, 1);
+						}
+						else
+						{
+							advance(MoveIterator2, 1);
+						}
+					}
+					Player1Pieces.at(PiecePlaceinVector) = SelectedQuadMove1Value;
+					IsQuadSelectedToMove = false;
+				}
+				else
+				{
+					BoardRenderer.Draw("Please Select a Quad to move!", { 1, 3 });
+				}
+			}
+			else if (IsVirtualKeyPressed(0x44)) //D key
+			{
+				if (IsQuadSelectedToMove == true)
+				{
+					std::vector<CheckerBoardQuads>::iterator MoveIterator2 = QuadStorageVector.begin();
+					for (size_t i = 0; i < QuadStorageVector.size(); i++)
+					{
+						BoardRenderer.Draw("Pressed 2", { 1, 3 });
+						if (i == SelectedQuadMove1Value)
+						{
+							MoveIterator2->PopulateQuadWithBaseSymbol();
+							advance(MoveIterator2, 1);
+						}
+						else if (i == SelectedQuadMove2Value)
+						{
+							MoveIterator2->PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(PiecePlaceinVector));
+							advance(MoveIterator2, 1);
+						}
+						else if (i == Player1Pieces.at(PiecePlaceinVector))
+						{
+							MoveIterator2->PopulateQuadWithBaseSymbol();
+							advance(MoveIterator2, 1);
+						}
+						else
+						{
+							advance(MoveIterator2, 1);
+						}
+					}
+					Player1Pieces.at(PiecePlaceinVector) = SelectedQuadMove2Value;
+					IsQuadSelectedToMove = false;
+				}
+				else
+				{
+					BoardRenderer.Draw("Please Select a Quad to move!", { 1, 3 });
+				}
+				
+			}
 	}
+}
+
+void BaseGameMode::Player1MovePieceSetup(int SelectedQuad)
+{
+	SelectedQuadValue = Player1Pieces.at(SelectedQuad);
+	SelectedQuadMove1Value = SelectedQuadValue - 9;
+	SelectedQuadMove2Value = SelectedQuadValue - 7;
+	std::vector<CheckerBoardQuads>::iterator MoveIterator = QuadStorageVector.begin();
+
+	for (size_t i = 0; i < QuadStorageVector.size(); i++)
+	{
+		if (i == Player1Pieces.at(SelectedQuad))
+		{
+			MoveIterator->MoveSelectionQuadFill(SelectedQuadMoveBaseQuadCharValue);
+			std::vector<CheckerBoardQuads>::iterator MoveIterator1 = QuadStorageVector.begin();
+			for (size_t i = 0; i < QuadStorageVector.size(); i++)
+			{
+				if (i == SelectedQuadMove1Value)
+				{
+					MoveIterator1->MoveSelectionQuadFill(SelectedQuadMove1CharValue);
+					advance(MoveIterator1, 1);
+				}
+				else if (i == SelectedQuadMove2Value)
+				{
+					MoveIterator1->MoveSelectionQuadFill(SelectedQuadMove2CharValue);
+					advance(MoveIterator1, 1);
+				}
+				else
+				{
+					advance(MoveIterator1, 1);
+				}
+			}
+		}
+		else
+		{
+			advance(MoveIterator, 1);
+		}
+	}
+	IsQuadSelectedToMove = true;
 }
 
 BaseGameMode::~BaseGameMode()

@@ -35,11 +35,29 @@ public:
 
 	int SelectedQuadMove1Value;
 
+	char SelectedQuadMove1CharValue{ 'A' };
+
 	int SelectedQuadMove2Value;
+
+	char SelectedQuadMove2CharValue{ 'D' };
+
+	char SelectedQuadMoveBaseQuadCharValue{ 'E' };
 
 	int RenderYCordAdjust{ 0 };
 
 	bool IsQuadSelectedToMove = false;
+
+	int OldQuadPlace{};
+
+	int PiecePlaceinVector{};
+
+	std::vector<char> Player1QuadSelectionChars{ '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'O', 'P' };
+
+	int Player1QuadSelectionCharsVariable{ 0 };
+
+	std::vector<char> Player2QuadSelectionChars{ '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'O', 'P' };
+
+	int Player2QuadSelectionCharsVariable{ 0 };
 
 	BaseGameMode();
 
@@ -48,6 +66,8 @@ public:
 	void InitializeFullBoard();
 
 	void RenderBoard();
+
+	void Player1MovePieceSetup(int SelectedQuad);
 
 	~BaseGameMode();
 

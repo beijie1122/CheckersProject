@@ -207,24 +207,111 @@ void BaseGameMode::RenderBoard()
 		//		RenderXCordSetter = RenderXCordSetter + 4;
 		//}
 
-
-
-		if (IsVirtualKeyPressed(VK_NUMPAD1))
+		if (IsQuadSelectedToMove == false)
 		{
-			std::vector<CheckerBoardQuads>::iterator MoveIterator = QuadStorageVector.begin();
-
-			for (size_t i = 0; i < QuadStorageVector.size(); i++)
+			BoardRenderer.Draw("Select A Quad", { 1, 4 });
+			if (IsVirtualKeyPressed(VK_NUMPAD2))
 			{
-				if (i == 42)
+				SelectedQuadValue = Player1Pieces.at(1);
+				SelectedQuadMove1Value = SelectedQuadValue - 9;
+				SelectedQuadMove2Value = SelectedQuadValue - 7;
+				std::vector<CheckerBoardQuads>::iterator MoveIterator = QuadStorageVector.begin();
+
+				for (size_t i = 0; i < QuadStorageVector.size(); i++)
 				{
-					MoveIterator->MoveSelectionQuadFill();
+					if (i == Player1Pieces.at(1))
+					{
+						MoveIterator->MoveSelectionQuadFill();
+						std::vector<CheckerBoardQuads>::iterator MoveIterator1 = QuadStorageVector.begin();
+						for (size_t i = 0; i < QuadStorageVector.size(); i++)
+						{
+							if (i == SelectedQuadMove1Value)
+							{
+								MoveIterator1->MoveSelectionQuadFill();
+								advance(MoveIterator1, 1);
+							}
+							else if (i == SelectedQuadMove2Value)
+							{
+								MoveIterator1->MoveSelectionQuadFill();
+								advance(MoveIterator1, 1);
+							}
+							else
+							{
+								advance(MoveIterator1, 1);
+							}
+						}
+					}
+					else
+					{
+						advance(MoveIterator, 1);
+					}
 				}
-				else
-				{
-					advance(MoveIterator, 1);
-				}
+				IsQuadSelectedToMove = true;
 			}
 		}
+		else if (IsQuadSelectedToMove == true);
+		{
+			BoardRenderer.Draw("Select an area to move to", { 1, 4 });
+			if (IsVirtualKeyPressed(VK_NUMPAD1))
+			{
+				std::vector<CheckerBoardQuads>::iterator MoveIterator2 = QuadStorageVector.begin();
+				for (size_t i = 0; i < QuadStorageVector.size(); i++)
+				{
+					BoardRenderer.Draw("Pressed 1", { 1, 3 });
+					if (i == SelectedQuadMove1Value)
+					{
+						MoveIterator2->PopulateQuadWithPlayer1Symbol();
+						advance(MoveIterator2, 1);
+					}
+					else if (i == SelectedQuadMove2Value)
+					{
+						MoveIterator2->PopulateQuadWithBaseSymbol();
+						advance(MoveIterator2, 1);
+					}
+					else if (i == Player1Pieces.at(1))
+					{
+						MoveIterator2->PopulateQuadWithBaseSymbol();
+						advance(MoveIterator2, 1);
+					}
+					else
+					{
+						advance(MoveIterator2, 1);
+					}
+				}
+				Player1Pieces.at(1) = SelectedQuadMove1Value;
+			}
+			else if (IsVirtualKeyPressed(VK_NUMPAD3))
+			{
+				std::vector<CheckerBoardQuads>::iterator MoveIterator2 = QuadStorageVector.begin();
+				for (size_t i = 0; i < QuadStorageVector.size(); i++)
+				{
+					BoardRenderer.Draw("Pressed 2", { 1, 3 });
+					if (i == SelectedQuadMove1Value)
+					{
+						MoveIterator2->PopulateQuadWithBaseSymbol();
+						advance(MoveIterator2, 1);
+					}
+					else if (i == SelectedQuadMove2Value)
+					{
+						MoveIterator2->PopulateQuadWithPlayer1Symbol();
+						advance(MoveIterator2, 1);
+					}
+					else if (i == Player1Pieces.at(1))
+					{
+						MoveIterator2->PopulateQuadWithBaseSymbol();
+						advance(MoveIterator2, 1);
+					}
+					else
+					{
+						advance(MoveIterator2, 1);
+					}
+				}
+				Player1Pieces.at(1) = SelectedQuadMove2Value;
+			}
+			IsQuadSelectedToMove = false;
+		}
+
+		
 	}
 }
 

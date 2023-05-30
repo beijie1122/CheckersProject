@@ -27,7 +27,19 @@ public:
 	
 	std::vector<int> Player2Pieces{};
 
+	int MoveSelectionValue1 = 9;
+
+	int MoveSelectionValue2 = 7;
+
+	int SelectedQuadValue;
+
+	int SelectedQuadMove1Value;
+
+	int SelectedQuadMove2Value;
+
 	int RenderYCordAdjust{ 0 };
+
+	bool IsQuadSelectedToMove = false;
 
 	BaseGameMode();
 

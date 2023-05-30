@@ -43,6 +43,15 @@ void Renderer::DrawVector(const std::vector<char>& Vec, const Point& position)
 	}
 }
 
+void Renderer::DrawVectorInt(const std::vector<int>& Vec, const Point& position)
+{
+	SetCursorToPosition(position.x, position.y);
+	for (size_t i = 0; i < Vec.size(); i++)
+	{
+		std::cout << Vec.at(i) << " ";
+	}
+}
+
 void Renderer::DrawStringVector(const std::vector<std::string>& Vec, const Point& position)
 {
 	int IterateY = 0;

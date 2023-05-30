@@ -40,6 +40,8 @@ public:
 
 	void PopulateQuadWithPlayer2Symbol();
 
+	void MoveSelectionQuadFill();
+
 	~CheckerBoardQuads();
 
 

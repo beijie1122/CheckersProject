@@ -44,26 +44,32 @@ void BaseGameMode::InitializeFullBoard()
 		if (UniquePtrInitValue->QuadNumber < 8 && UniquePtrInitValue->QuadNumber % 2 != 0)
 		{
 			UniquePtrInitValue->PopulateQuadWithPlayer2Symbol();
+			Player2Pieces.push_back(UniquePtrInitValue->QuadNumber);
 		}
 		else if (UniquePtrInitValue->QuadNumber > 7 && UniquePtrInitValue->QuadNumber < 15 && UniquePtrInitValue->QuadNumber % 2 == 0)
 		{
 			UniquePtrInitValue->PopulateQuadWithPlayer2Symbol();
+			Player2Pieces.push_back(UniquePtrInitValue->QuadNumber);
 		}
 		else if (UniquePtrInitValue->QuadNumber > 15 && UniquePtrInitValue->QuadNumber < 24 && UniquePtrInitValue->QuadNumber % 2 != 0)
 		{
 			UniquePtrInitValue->PopulateQuadWithPlayer2Symbol();
+			Player2Pieces.push_back(UniquePtrInitValue->QuadNumber);
 		}
 		else if (UniquePtrInitValue->QuadNumber > 39 && UniquePtrInitValue->QuadNumber < 48 && UniquePtrInitValue->QuadNumber % 2 == 0)
 		{
 			UniquePtrInitValue->PopulateQuadWithPlayer1Symbol();
+			Player1Pieces.push_back(UniquePtrInitValue->QuadNumber);
 		}
 		else if (UniquePtrInitValue->QuadNumber > 47 && UniquePtrInitValue->QuadNumber < 56 && UniquePtrInitValue->QuadNumber % 2 != 0)
 		{
 			UniquePtrInitValue->PopulateQuadWithPlayer1Symbol();
+			Player1Pieces.push_back(UniquePtrInitValue->QuadNumber);
 		}
 		else if (UniquePtrInitValue->QuadNumber > 55 && UniquePtrInitValue->QuadNumber < 64 && UniquePtrInitValue->QuadNumber % 2 == 0)
 		{
 			UniquePtrInitValue->PopulateQuadWithPlayer1Symbol();
+			Player1Pieces.push_back(UniquePtrInitValue->QuadNumber);
 		}
 		else
 		{
@@ -181,6 +187,9 @@ void BaseGameMode::RenderBoard()
 				XCordCounter++;
 			}
 
+			BoardRenderer.DrawVectorInt(Player2Pieces, { 1, 1 });
+			BoardRenderer.DrawVectorInt(Player1Pieces, { 1, 2 });
+
 			//else if (i > 8 && i < 17)
 			//{
 			//	for (size_t j = 0; j < 9; j++)
@@ -202,7 +211,19 @@ void BaseGameMode::RenderBoard()
 
 		if (IsVirtualKeyPressed(VK_NUMPAD1))
 		{
-			return;
+			std::vector<CheckerBoardQuads>::iterator MoveIterator = QuadStorageVector.begin();
+
+			for (size_t i = 0; i < QuadStorageVector.size(); i++)
+			{
+				if (i == 42)
+				{
+					MoveIterator->MoveSelectionQuadFill();
+				}
+				else
+				{
+					advance(MoveIterator, 1);
+				}
+			}
 		}
 	}
 }

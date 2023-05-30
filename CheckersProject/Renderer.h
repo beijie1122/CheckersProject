@@ -34,9 +34,12 @@ public:
 
 	void DrawVector(const std::vector<char>& Vec, const Point& position);
 
+	void DrawVectorInt(const std::vector<int>& Vec, const Point& position);
+
 	void DrawStringVector(const std::vector<std::string>& Vec, const Point& position);
 
 	void Draw2DVector(const std::vector<std::vector<char>>& Vec, const Point& position);
+
 
 	void DrawVerticleBorder(const std::vector<char>& Vec, const Point& position);
 

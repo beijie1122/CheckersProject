@@ -23,6 +23,10 @@ public:
 
 	std::vector<int> RenderYCord{ 5, 8, 11, 14, 17, 20, 23, 26, 29, 32 };
 
+	std::vector<int> Player1Pieces{};
+	
+	std::vector<int> Player2Pieces{};
+
 	int RenderYCordAdjust{ 0 };
 
 	BaseGameMode();

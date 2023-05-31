@@ -55,13 +55,17 @@ public:
 
 	int Player1QuadSelectionCharsVariable{ 0 };
 
-	std::vector<char> Player2QuadSelectionChars{ '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'O', 'P' };
+	std::vector<char> Player2QuadSelectionChars{ 'P', 'O', '0', '9', '8', '7', '6', '5', '4', '3', '2', '1'};
 
 	int Player2QuadSelectionCharsVariable{ 0 };
 
 	int LeftHandBoundryValue{};
 
 	int RightHandBoundryValue{};
+
+	bool IsPlayer1Turn = true;
+
+	bool IsPlayer2Turn = false;
 
 	BaseGameMode();
 
@@ -73,9 +77,19 @@ public:
 
 	void Player1MovePieceSetup(int SelectedQuad);
 
+	void Player2MovePieceSetup(int SelectedQuad);
+
 	void CheckLeftHandValueForQuadMovement(int SelectedQuad);
 
-	void CheckRightHandValueForQuadMovement(int SelectedQuad);
+	void CheckDownwardValueforQuadMovement(int SelectedQuad, std::vector<int> SelectedPlayerPieces);
+
+	void CheckIfLeftHandQuadMoveValueIsOccupied(int SelectedQuad);
+
+	void MoveSelectedQuadToLeftHandQuad(std::vector<int> SelectedPlayerPieces);
+
+	void MoveSelectedQuadToRightHandQuad(std::vector<int> SelectedPlayerPieces);
+
+	void CheckPlayerTurnWithQuadSetup(int Player1QuadSelection, int Player2QuadSelection);
 
 	~BaseGameMode();
 

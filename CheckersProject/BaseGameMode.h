@@ -27,6 +27,8 @@ public:
 	
 	std::vector<int> Player2Pieces{};
 
+	int PlayerPiecesVectorSize = 11;
+
 	int MoveSelectionValue1 = 9;
 
 	int MoveSelectionValue2 = 7;
@@ -57,6 +59,10 @@ public:
 
 	std::vector<char> Player2QuadSelectionChars{ 'P', 'O', '0', '9', '8', '7', '6', '5', '4', '3', '2', '1'};
 
+	std::vector<int> BoardLeftEdgeCoords{ 0, 8, 16, 24, 32, 40, 48, 56 };
+
+	std::vector<int> BoardRightEdgeCoords{ 7, 15, 23, 31, 39, 47, 55, 63 };
+
 	int Player2QuadSelectionCharsVariable{ 0 };
 
 	int LeftHandBoundryValue{};
@@ -66,6 +72,10 @@ public:
 	bool IsPlayer1Turn = true;
 
 	bool IsPlayer2Turn = false;
+
+	bool IsPieceAtLeftEdgeOfBoard = false;
+
+	bool IsPieceAtRightEdgeOfBoard = false;
 
 	BaseGameMode();
 
@@ -79,17 +89,27 @@ public:
 
 	void Player2MovePieceSetup(int SelectedQuad);
 
-	void CheckLeftHandValueForQuadMovement(int SelectedQuad);
+	void CheckLeftHandValueForUpwardQuadMovement(int LeftHandMoveValue);
+
+	void CheckRightHandValueForUpwardQuadMovement(int RightHandMoveValue);
 
 	void CheckDownwardValueforQuadMovement(int SelectedQuad, std::vector<int> SelectedPlayerPieces);
 
-	void CheckIfLeftHandQuadMoveValueIsOccupied(int SelectedQuad);
+	void CheckIfLeftHandQuadMoveValueIsOccupied(int SelectedQuad, std::vector<int> FriendlyPieces, std::vector<int> OpponentPieces);
+
+	void CheckIfRightHandQuadMoveValueIsOccupied(int SelectedQuad, std::vector<int> FriendlyPieces, std::vector<int> OpponentPieces);
 
 	void MoveSelectedQuadToLeftHandQuad(std::vector<int> SelectedPlayerPieces);
 
 	void MoveSelectedQuadToRightHandQuad(std::vector<int> SelectedPlayerPieces);
 
+	void CancelMovement(std::vector<int> SelectedPlayerPieces);
+
 	void CheckPlayerTurnWithQuadSetup(int Player1QuadSelection, int Player2QuadSelection);
+
+	void CheckIfPieceIsOnLeftEdgeOfBoard();
+
+	void CheckIffPieceIsOnRightEdgeOfBoard();
 
 	~BaseGameMode();
 

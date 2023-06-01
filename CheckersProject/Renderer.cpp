@@ -103,6 +103,12 @@ void Renderer::DrawHorizontalBorder(const std::vector<char>& Vec, const Point& p
 	}
 }
 
+void Renderer::DrawInt(const int& variable, const Point& position)
+{
+	SetCursorToPosition(position.x, position.y);
+	std::cout << variable;
+}
+
 //void Renderer::DrawIterator(const std::vector<CheckerBoardQuads>::iterator& QuadIterator, const Point& position)
 //{
 //	int IterateY = 0;

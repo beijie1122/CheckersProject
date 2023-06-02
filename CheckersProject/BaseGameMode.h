@@ -77,6 +77,10 @@ public:
 
 	bool IsPieceAtRightEdgeOfBoard = false;
 
+	bool IsOpponentsPieceToBeTaken = false;
+
+	int OpponentPieceToBeTaken{};
+
 	BaseGameMode();
 
 	void MainMenu();
@@ -93,7 +97,7 @@ public:
 
 	void CheckRightHandValueForUpwardQuadMovement(int RightHandMoveValue);
 
-	void CheckDownwardValueforQuadMovement(int SelectedQuad, std::vector<int> SelectedPlayerPieces);
+	void CheckDownwardValueforQuadMovement(int LeftHandMoveValue);
 
 	void CheckIfLeftHandQuadMoveValueIsOccupied(int SelectedQuad, std::vector<int> FriendlyPieces, std::vector<int> OpponentPieces);
 

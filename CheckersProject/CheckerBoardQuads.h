@@ -28,6 +28,8 @@ public:
 
 	char Player2Symbol{ 'O' };
 
+	char PrepareToBeTakenSymbol{ '$' };
+
 	std::vector<std::vector<char>> Quadrant{ QuadSize, std::vector<char>(QuadSize) };
 
 	CheckerBoardQuads();
@@ -39,6 +41,8 @@ public:
 	void PopulateQuadWithPlayer1Symbol(char &AssignedNumberFromBaseGame);
 
 	void PopulateQuadWithPlayer2Symbol(char& AssignedNumberFromBaseGame);
+
+	void PopulateQuadWithPrepareToBeTaken();
 
 	void MoveSelectionQuadFill(char& AssignedNumberFromBaseGame);
 

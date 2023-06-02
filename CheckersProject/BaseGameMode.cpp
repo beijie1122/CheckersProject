@@ -714,9 +714,7 @@ void BaseGameMode::MoveSelectedQuadToLeftHandQuad(std::vector<int> SelectedPlaye
 	{
 		BoardRenderer.Draw("Please Select a Quad to move!", { 1, 3 });
 	}
-	IsPieceAtLeftEdgeOfBoard = false;
-	IsPieceAtRightEdgeOfBoard = false;
-	IsOpponentsPieceToBeTaken = false;
+	ResetBoolValues();
 }
 
 void BaseGameMode::MoveSelectedQuadToRightHandQuad(std::vector<int> SelectedPlayerPieces)
@@ -775,9 +773,7 @@ void BaseGameMode::MoveSelectedQuadToRightHandQuad(std::vector<int> SelectedPlay
 	{
 		BoardRenderer.Draw("Please Select a Quad to move!", { 1, 3 });
 	}
-	IsPieceAtLeftEdgeOfBoard = false;
-	IsPieceAtRightEdgeOfBoard = false;
-	IsOpponentsPieceToBeTaken = false;
+	ResetBoolValues();
 }
 
 void BaseGameMode::CancelMovement(std::vector<int> SelectedPlayerPieces)
@@ -822,29 +818,28 @@ void BaseGameMode::CancelMovement(std::vector<int> SelectedPlayerPieces)
 	{
 		BoardRenderer.Draw("Please Select a Quad to move!", { 1, 3 });
 	}
-	IsPieceAtLeftEdgeOfBoard = false;
-	IsPieceAtRightEdgeOfBoard = false;
-	IsOpponentsPieceToBeTaken = false;
-	
+
+	ResetBoolValues();
 }
 
 void BaseGameMode::CheckPlayerTurnWithQuadSetup(int Player1QuadSelection, int Player2QuadSelection)
 {
 	if (IsQuadSelectedToMove != true)
 	{
-		if (IsPlayer1Turn == true)
-		{
-			PiecePlaceinVector = Player1QuadSelection;
-			Player1MovePieceSetup(Player1QuadSelection);
-			IsQuadSelectedToMove = true;
-		}
-		else if (IsPlayer2Turn == true)
-		{
-			PiecePlaceinVector = Player2QuadSelection;
-			Player2MovePieceSetup(Player2QuadSelection);
-			IsQuadSelectedToMove = true;
-		}
+	if (IsPlayer1Turn == true)
+	{
+		PiecePlaceinVector = Player1QuadSelection;
+		Player1MovePieceSetup(Player1QuadSelection);
+		IsQuadSelectedToMove = true;
 	}
+	else if (IsPlayer2Turn == true)
+	{
+		PiecePlaceinVector = Player2QuadSelection;
+		Player2MovePieceSetup(Player2QuadSelection);
+		IsQuadSelectedToMove = true;
+	}
+	}
+
 }
 
 void BaseGameMode::CheckIfPieceIsOnLeftEdgeOfBoard()
@@ -867,6 +862,13 @@ void BaseGameMode::CheckIffPieceIsOnRightEdgeOfBoard()
 			IsPieceAtRightEdgeOfBoard = true;
 		}
 	}
+}
+
+void BaseGameMode::ResetBoolValues()
+{
+	IsPieceAtLeftEdgeOfBoard = false;
+	IsPieceAtRightEdgeOfBoard = false;
+	IsOpponentsPieceToBeTaken = false;
 }
 
 BaseGameMode::~BaseGameMode()

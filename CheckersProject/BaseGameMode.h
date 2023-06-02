@@ -79,6 +79,10 @@ public:
 
 	bool IsOpponentsPieceToBeTaken = false;
 
+	bool IsOpponentsPieceToBeTakenLeft = false;
+
+	bool IsOpponentsPieceToBeTakenRight = false;
+
 	int OpponentPieceToBeTaken{};
 
 	BaseGameMode();
@@ -114,6 +118,8 @@ public:
 	void CheckIfPieceIsOnLeftEdgeOfBoard();
 
 	void CheckIffPieceIsOnRightEdgeOfBoard();
+
+	void ResetBoolValues();
 
 	~BaseGameMode();
 

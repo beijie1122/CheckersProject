@@ -33,6 +33,14 @@ public:
 
 	int MoveSelectionValue2 = 7;
 
+	int UpwardMovementLeftMeasure = -9;
+
+	int UpwardMovementRightMeasure = -7;
+
+	int DownwardMovementLeftMeasure = 7;
+
+	int DownwardMovementRightMeasure = 9;
+
 	int SelectedQuadValue;
 
 	int SelectedQuadMove1Value;
@@ -85,6 +93,8 @@ public:
 
 	int OpponentPieceToBeTaken{};
 
+	int TakenPieceIndexinPiecesQuad;
+
 	BaseGameMode();
 
 	void MainMenu();
@@ -101,15 +111,13 @@ public:
 
 	void CheckRightHandValueForUpwardQuadMovement(int RightHandMoveValue);
 
-	void CheckDownwardValueforQuadMovement(int LeftHandMoveValue);
-
 	void CheckIfLeftHandQuadMoveValueIsOccupied(int SelectedQuad, std::vector<int> FriendlyPieces, std::vector<int> OpponentPieces);
 
 	void CheckIfRightHandQuadMoveValueIsOccupied(int SelectedQuad, std::vector<int> FriendlyPieces, std::vector<int> OpponentPieces);
 
-	void MoveSelectedQuadToLeftHandQuad(std::vector<int> SelectedPlayerPieces);
+	void MoveSelectedQuadToLeftHandQuad(std::vector<int> SelectedPlayerPieces, int LeftHandMeasure, int RightHandMeasure);
 
-	void MoveSelectedQuadToRightHandQuad(std::vector<int> SelectedPlayerPieces);
+	void MoveSelectedQuadToRightHandQuad(std::vector<int> SelectedPlayerPieces, int LeftHandMeasure, int RightHandMeasure);
 
 	void CancelMovement(std::vector<int> SelectedPlayerPieces);
 
@@ -120,6 +128,8 @@ public:
 	void CheckIffPieceIsOnRightEdgeOfBoard();
 
 	void ResetBoolValues();
+
+	void UpdateVecForPieceCapture(std::vector<int> SelectedPlayerPieces);
 
 	~BaseGameMode();
 

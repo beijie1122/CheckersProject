@@ -1,0 +1,5 @@
+*******************************
+Player 1 Remaining Pieces: 
+
+Player 2 Remaining Pieces: 
+*******************************

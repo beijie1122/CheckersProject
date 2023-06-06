@@ -95,6 +95,39 @@ public:
 
 	int TakenPieceIndexinPiecesQuad;
 
+	//UI: Menu for Remaining Pieces for P1 & P2 
+
+	int Player1RemainingPieces = 12;
+
+	int Player2RemainingPieces = 12;
+
+	std::vector<std::string> PlayersRemainingPiecesMenu;
+
+	std::string FStreamPlayerRemainingPiecesString{ "PlayerRemainingPiecesTextDoc.txt" };
+
+	std::string FStreamInputString;
+
+	int PlayerRemainingPiecesMenuXCoord =  40;
+
+	int PlayerRemainingPiecesMenuYCoord = 10;
+
+	int Player1RemainingPiecesXCoord;
+
+	int Player1RemainingPiecesYCoord = PlayerRemainingPiecesMenuYCoord + 1;
+
+	int Player2RemainingPiecesXCoord;
+
+	int Player2RemainingPiecesYCoord = PlayerRemainingPiecesMenuYCoord + 3;
+
+	int PlayerPiecesMenuTextLength;
+
+	int FStreamLengthFinderCounter;
+
+	//Checking If Quad is Null Vars
+
+	bool IsSelectedQuadNull = false;
+
+
 	BaseGameMode();
 
 	void MainMenu();
@@ -130,6 +163,12 @@ public:
 	void ResetBoolValues();
 
 	void UpdateVecForPieceCapture(std::vector<int> SelectedPlayerPieces);
+
+	void CheckIfSelectedPieceIsNull(int QuadToBeChecked);
+
+	void FStreamExtractionFunctions(std::string FStreamInput, std::vector<std::string>& FStreamStorageVector);
+
+	void DrawPlayerPiecesRemainingMenu(Renderer RenderMode);
 
 	~BaseGameMode();
 

@@ -10,6 +10,7 @@
 #include <vector>
 #include <iterator>
 #include <numeric>
+#include <fstream>
 
 BaseGameMode::BaseGameMode() 
 {
@@ -27,6 +28,7 @@ void BaseGameMode::MainMenu()
 
 	while (true)
 	{
+		FStreamExtractionFunctions(FStreamPlayerRemainingPiecesString, PlayersRemainingPiecesMenu);
 		InitializeFullBoard();
 		RenderBoard();
 	}
@@ -195,6 +197,9 @@ void BaseGameMode::RenderBoard()
 			BoardRenderer.DrawVectorInt(Player2Pieces, { 1, 1 });
 			BoardRenderer.DrawVectorInt(Player1Pieces, { 1, 2 });
 
+			//DrawPlayerPiecesRemainingMenu();
+
+
 			if (IsPlayer1Turn == true)
 			{
 				BoardRenderer.Draw("Player 1's Turn!", { 50, 1 });
@@ -204,7 +209,19 @@ void BaseGameMode::RenderBoard()
 				BoardRenderer.Draw("Player 2's Turn!", { 50, 1 });
 			}
 
+			if (IsSelectedQuadNull == true)
+			{
+				BoardRenderer.Draw("Sorry, the piece you have captured is already taken!", { 50, 2 });
+			}
+
+
+			BoardRenderer.DrawStringVector(PlayersRemainingPiecesMenu, { PlayerRemainingPiecesMenuXCoord, PlayerRemainingPiecesMenuYCoord });
+			BoardRenderer.DrawInt(Player1RemainingPieces, { Player1RemainingPiecesXCoord, Player1RemainingPiecesYCoord });
+			BoardRenderer.DrawInt(Player2RemainingPieces, { Player2RemainingPiecesXCoord, Player2RemainingPiecesYCoord });
+
 			BoardRenderer.DrawInt(LeftHandBoundryValue, { 40, 1 });
+
+			BoardRenderer.DrawInt(PlayerPiecesMenuTextLength, { 40, 3 });
 
 			//else if (i > 8 && i < 17)
 			//{
@@ -822,22 +839,47 @@ void BaseGameMode::CancelMovement(std::vector<int> SelectedPlayerPieces)
 
 void BaseGameMode::CheckPlayerTurnWithQuadSetup(int Player1QuadSelection, int Player2QuadSelection)
 {
+	IsSelectedQuadNull = false;
+
 	if (IsQuadSelectedToMove != true)
 	{
 	if (IsPlayer1Turn == true)
 	{
-		PiecePlaceinVector = Player1QuadSelection;
-		Player1MovePieceSetup(Player1QuadSelection);
-		IsQuadSelectedToMove = true;
+		CheckIfSelectedPieceIsNull(Player1QuadSelection);
+		if (IsSelectedQuadNull != true)
+		{
+			PiecePlaceinVector = Player1QuadSelection;
+			Player1MovePieceSetup(Player1QuadSelection);
+			IsQuadSelectedToMove = true;
+		}
+
 	}
 	else if (IsPlayer2Turn == true)
 	{
-		PiecePlaceinVector = Player2QuadSelection;
-		Player2MovePieceSetup(Player2QuadSelection);
-		IsQuadSelectedToMove = true;
+		CheckIfSelectedPieceIsNull(Player2QuadSelection);
+		if (IsSelectedQuadNull != true)
+		{
+			PiecePlaceinVector = Player2QuadSelection;
+			Player2MovePieceSetup(Player2QuadSelection);
+			IsQuadSelectedToMove = true;
+		}
 	}
 	}
 
+}
+
+void BaseGameMode::CheckIfSelectedPieceIsNull(int QuadToBeChecked)
+{
+	if (IsPlayer1Turn == true && Player1Pieces.at(QuadToBeChecked) == NULL)
+	{
+			IsSelectedQuadNull = true;
+			return;
+	}
+	else if (IsPlayer2Turn == true && Player2Pieces.at(QuadToBeChecked) == NULL)
+	{
+			IsSelectedQuadNull = true;
+			return;
+	}
 }
 
 void BaseGameMode::CheckIfPieceIsOnLeftEdgeOfBoard()
@@ -875,11 +917,56 @@ void BaseGameMode::UpdateVecForPieceCapture(std::vector<int> SelectedPlayerPiece
 	if (SelectedPlayerPieces == Player1Pieces)
 	{
 		Player2Pieces.at(TakenPieceIndexinPiecesQuad) = NULL;
+		Player2RemainingPieces--;
 	}
 	else
 	{
 		Player1Pieces.at(TakenPieceIndexinPiecesQuad) = NULL;
+		Player1RemainingPieces--;
 	}
+}
+
+void BaseGameMode::FStreamExtractionFunctions(std::string FStreamInput, std::vector<std::string>& FStreamStorageVector)
+{
+	std::ifstream in_file;
+	in_file.open(FStreamInput);
+	if (!in_file)
+	{
+		return;
+	}
+	else
+	{
+		if (in_file.is_open())
+		{
+			while (std::getline(in_file, FStreamInputString))
+			{
+				if (FStreamLengthFinderCounter != 1)
+				{
+					FStreamStorageVector.emplace_back(FStreamInputString);
+					FStreamLengthFinderCounter++;
+				}
+				else
+				{
+					PlayerPiecesMenuTextLength = FStreamInputString.size();
+					FStreamStorageVector.emplace_back(FStreamInputString);
+					FStreamLengthFinderCounter++;
+				}
+				
+			}
+		}
+	}
+	Player1RemainingPiecesXCoord = PlayerRemainingPiecesMenuXCoord + PlayerPiecesMenuTextLength;
+
+	Player2RemainingPiecesXCoord = PlayerRemainingPiecesMenuXCoord + PlayerPiecesMenuTextLength;
+
+	in_file.close();
+}
+
+void BaseGameMode::DrawPlayerPiecesRemainingMenu(Renderer RenderMode)
+{
+	RenderMode.DrawStringVector(PlayersRemainingPiecesMenu, { PlayerRemainingPiecesMenuXCoord, PlayerRemainingPiecesMenuYCoord });
+	RenderMode.DrawInt(Player1RemainingPieces, { Player1RemainingPiecesXCoord, Player1RemainingPiecesYCoord });
+	RenderMode.DrawInt(Player2RemainingPieces, { Player2RemainingPiecesXCoord, Player2RemainingPiecesYCoord });
 }
 
 BaseGameMode::~BaseGameMode()

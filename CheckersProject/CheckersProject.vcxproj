@@ -149,6 +149,9 @@
     <ClInclude Include="CheckerBoardQuads.h" />
     <ClInclude Include="Renderer.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="PlayerRemainingPiecesTextDoc.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

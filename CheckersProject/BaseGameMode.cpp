@@ -211,7 +211,7 @@ void BaseGameMode::RenderBoard()
 
 			if (IsSelectedQuadNull == true)
 			{
-				BoardRenderer.Draw("Sorry, the piece you have captured is already taken!", { 50, 2 });
+				BoardRenderer.Draw("Sorry, the piece you have selected is already taken!", { 50, 2 });
 			}
 
 
@@ -221,7 +221,8 @@ void BaseGameMode::RenderBoard()
 
 			BoardRenderer.DrawInt(LeftHandBoundryValue, { 40, 1 });
 
-			BoardRenderer.DrawInt(PlayerPiecesMenuTextLength, { 40, 3 });
+			//Test for UI Length Value
+			//BoardRenderer.DrawInt(PlayerPiecesMenuTextLength, { 40, 3 });
 
 			//else if (i > 8 && i < 17)
 			//{
@@ -246,7 +247,7 @@ void BaseGameMode::RenderBoard()
 		}
 		else if (IsQuadSelectedToMove == true)
 		{
-			BoardRenderer.Draw("TEST", { 1, 4 });
+			BoardRenderer.Draw("Select where to move the quad", { 1, 4 });
 		}
 
 
@@ -801,12 +802,26 @@ void BaseGameMode::CancelMovement(std::vector<int> SelectedPlayerPieces)
 		{
 			if (i == SelectedQuadMove1Value)
 			{
+
 				MoveIterator2->PopulateQuadWithBaseSymbol();
 				advance(MoveIterator2, 1);
 			}
 			else if (i == SelectedQuadMove2Value)
 			{
+
 				MoveIterator2->PopulateQuadWithBaseSymbol();
+				advance(MoveIterator2, 1);
+			}
+			else if (i == OpponentPieceToBeTaken) // Dangerous, feel like there should be a bool here
+			{
+				if (IsPlayer1Turn == true)
+				{
+					MoveIterator2->PopulateQuadWithPlayer2Symbol(Player2QuadSelectionChars.at(TakenPieceIndexinPiecesQuad));
+				}
+				else
+				{
+					MoveIterator2->PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(TakenPieceIndexinPiecesQuad));
+				}
 				advance(MoveIterator2, 1);
 			}
 			else if (i == SelectedPlayerPieces.at(PiecePlaceinVector)) //Fixed

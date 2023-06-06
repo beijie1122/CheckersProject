@@ -127,6 +127,10 @@ public:
 
 	bool IsSelectedQuadNull = false;
 
+	//Cancel Move Function Vars 
+
+	int PlayerPieceReplacementValue;
+
 
 	BaseGameMode();
 

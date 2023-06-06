@@ -28,7 +28,7 @@ void CheckerBoardQuads::PopulateQuadWithPlayer1Symbol(char& AssignedNumberFromBa
 		}
 	}
 	Quadrant[1][1] = AssignedNumberFromBaseGame;
-	PopulateQuadWithCopiedValues(AssignedNumberFromBaseGame, Player1Symbol);
+	
 }
 
 void CheckerBoardQuads::PopulateQuadWithPlayer2Symbol(char& AssignedNumberFromBaseGame)
@@ -41,7 +41,7 @@ void CheckerBoardQuads::PopulateQuadWithPlayer2Symbol(char& AssignedNumberFromBa
 		}
 	}
 	Quadrant[1][1] = AssignedNumberFromBaseGame;
-	PopulateQuadWithCopiedValues(AssignedNumberFromBaseGame, Player2Symbol);
+	
 }
 
 void CheckerBoardQuads::PopulateQuadWithPrepareToBeTaken()

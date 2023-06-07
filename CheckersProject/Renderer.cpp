@@ -43,8 +43,9 @@ void Renderer::DrawVector(const std::vector<char>& Vec, const Point& position)
 	}
 }
 
-void Renderer::DrawVectorInt(const std::vector<int>& Vec, const Point& position)
+void Renderer::DrawVectorInt(const std::vector<int>& Vec, const Point& position, const int& Color)
 {
+	//SetTextColor(Color);
 	SetCursorToPosition(position.x, position.y);
 	for (size_t i = 0; i < Vec.size(); i++)
 	{
@@ -109,6 +110,13 @@ void Renderer::DrawInt(const int& variable, const Point& position)
 	std::cout << variable;
 }
 
+void Renderer::SetTextColor(int Color)
+{
+	HANDLE console_color;
+	console_color = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(console_color, Color);
+}
+
 //void Renderer::DrawIterator(const std::vector<CheckerBoardQuads>::iterator& QuadIterator, const Point& position)
 //{
 //	int IterateY = 0;
@@ -135,6 +143,8 @@ void InitializeRenderer()
 	CONSOLE_CURSOR_INFO ConCurInf;
 
 	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+
+
 
 	ConCurInf.dwSize = 10;
 	ConCurInf.bVisible = FALSE;

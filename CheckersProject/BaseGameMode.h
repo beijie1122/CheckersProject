@@ -107,7 +107,7 @@ public:
 
 	std::string FStreamInputString;
 
-	int PlayerRemainingPiecesMenuXCoord =  40;
+	int PlayerRemainingPiecesMenuXCoord =  50;
 
 	int PlayerRemainingPiecesMenuYCoord = 10;
 

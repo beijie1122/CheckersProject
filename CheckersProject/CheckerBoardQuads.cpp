@@ -15,7 +15,7 @@ void CheckerBoardQuads::PopulateQuadWithBaseSymbol()
 		}
 	}
 	Quadrant[1][1] = BaseNumber;
-	PopulateQuadWithCopiedValues(BaseNumber, BaseSymbol);
+	PopulateQuadWithBorders();
 }
 
 void CheckerBoardQuads::PopulateQuadWithPlayer1Symbol(char& AssignedNumberFromBaseGame)
@@ -28,7 +28,8 @@ void CheckerBoardQuads::PopulateQuadWithPlayer1Symbol(char& AssignedNumberFromBa
 		}
 	}
 	Quadrant[1][1] = AssignedNumberFromBaseGame;
-	
+	PopulateQuadWithBorders();
+
 }
 
 void CheckerBoardQuads::PopulateQuadWithPlayer2Symbol(char& AssignedNumberFromBaseGame)
@@ -41,11 +42,17 @@ void CheckerBoardQuads::PopulateQuadWithPlayer2Symbol(char& AssignedNumberFromBa
 		}
 	}
 	Quadrant[1][1] = AssignedNumberFromBaseGame;
-	
+	PopulateQuadWithBorders();
 }
 
 void CheckerBoardQuads::PopulateQuadWithPrepareToBeTaken()
 {
+	//Quadrant[0][0] = 201;
+	//Quadrant[0][2] = 187;
+	//Quadrant[2][0] = 200;
+	//Quadrant[2][2] = 188;
+
+
 	for (size_t i = 0; i < QuadSize; i++)
 	{
 		for (size_t j = 0; j < QuadSize; j++)
@@ -53,6 +60,7 @@ void CheckerBoardQuads::PopulateQuadWithPrepareToBeTaken()
 			Quadrant[i][j] = PrepareToBeTakenSymbol;
 		}
 	}
+	PopulateQuadWithBorders();
 }
 
 void CheckerBoardQuads::AssignQuadNumber(int& QuadInput)
@@ -70,19 +78,21 @@ void CheckerBoardQuads::MoveSelectionQuadFill(char& AssignedNumberFromBaseGame)
 		}
 	}
 	Quadrant[1][1] = AssignedNumberFromBaseGame;
+	PopulateQuadWithBorders();
 }
 
-void CheckerBoardQuads::PopulateQuadWithCopiedValues(char& AssignedNumberFromBaseGame, char PassedSymbol)
+void CheckerBoardQuads::PopulateQuadWithBorders()
 {
-	for (size_t i = 0; i < QuadSize; i++)
-	{
-		for (size_t j = 0; j < QuadSize; j++)
-		{
-			Quadrant[i][j] = PassedSymbol;
-		}
-	}
-	Quadrant[1][1] = AssignedNumberFromBaseGame;
+	Quadrant[0][0] = 201;
+	Quadrant[0][1] = 205;
+	Quadrant[0][2] = 187;
+	Quadrant[1][0] = 186;
+	Quadrant[1][2] = 186;
+	Quadrant[2][0] = 200;
+	Quadrant[2][1] = 205;
+	Quadrant[2][2] = 188;
 }
+
 
 
 CheckerBoardQuads::~CheckerBoardQuads()

@@ -194,8 +194,8 @@ void BaseGameMode::RenderBoard()
 				XCordCounter++;
 			}
 
-			BoardRenderer.DrawVectorInt(Player2Pieces, { 1, 1 });
-			BoardRenderer.DrawVectorInt(Player1Pieces, { 1, 2 });
+			BoardRenderer.DrawVectorInt(Player2Pieces, { 1, 1 }, 2);
+			BoardRenderer.DrawVectorInt(Player1Pieces, { 1, 2 }, 3);
 
 			//DrawPlayerPiecesRemainingMenu();
 
@@ -337,6 +337,37 @@ void BaseGameMode::RenderBoard()
 	}
 }
 
+void BaseGameMode::CheckPlayerTurnWithQuadSetup(int Player1QuadSelection, int Player2QuadSelection)
+{
+	IsSelectedQuadNull = false;
+
+	if (IsQuadSelectedToMove != true)
+	{
+		if (IsPlayer1Turn == true)
+		{
+			CheckIfSelectedPieceIsNull(Player1QuadSelection);
+			if (IsSelectedQuadNull != true)
+			{
+				PiecePlaceinVector = Player1QuadSelection;
+				Player1MovePieceSetup(Player1QuadSelection);
+				IsQuadSelectedToMove = true;
+			}
+
+		}
+		else if (IsPlayer2Turn == true)
+		{
+			CheckIfSelectedPieceIsNull(Player2QuadSelection);
+			if (IsSelectedQuadNull != true)
+			{
+				PiecePlaceinVector = Player2QuadSelection;
+				Player2MovePieceSetup(Player2QuadSelection);
+				IsQuadSelectedToMove = true;
+			}
+		}
+	}
+
+}
+
 void BaseGameMode::Player1MovePieceSetup(int SelectedQuad)
 {
 	SelectedQuadValue = Player1Pieces.at(SelectedQuad);
@@ -346,6 +377,11 @@ void BaseGameMode::Player1MovePieceSetup(int SelectedQuad)
 	CheckIfRightHandQuadMoveValueIsOccupied(SelectedQuad, Player1Pieces, Player2Pieces);
 
 	std::vector<CheckerBoardQuads>::iterator MoveIterator = QuadStorageVector.begin();
+
+	//
+	//CheckerBoardQuads& quad1 = QuadStorageVector.at(SelectedQuad);
+	//CheckerBoardQuads& quad2 = QuadStorageVector.at(SelectedQuad - 9);
+	//
 
 	for (size_t i = 0; i < QuadStorageVector.size(); i++)
 	{
@@ -852,36 +888,7 @@ void BaseGameMode::CancelMovement(std::vector<int> SelectedPlayerPieces)
 	ResetBoolValues();
 }
 
-void BaseGameMode::CheckPlayerTurnWithQuadSetup(int Player1QuadSelection, int Player2QuadSelection)
-{
-	IsSelectedQuadNull = false;
 
-	if (IsQuadSelectedToMove != true)
-	{
-	if (IsPlayer1Turn == true)
-	{
-		CheckIfSelectedPieceIsNull(Player1QuadSelection);
-		if (IsSelectedQuadNull != true)
-		{
-			PiecePlaceinVector = Player1QuadSelection;
-			Player1MovePieceSetup(Player1QuadSelection);
-			IsQuadSelectedToMove = true;
-		}
-
-	}
-	else if (IsPlayer2Turn == true)
-	{
-		CheckIfSelectedPieceIsNull(Player2QuadSelection);
-		if (IsSelectedQuadNull != true)
-		{
-			PiecePlaceinVector = Player2QuadSelection;
-			Player2MovePieceSetup(Player2QuadSelection);
-			IsQuadSelectedToMove = true;
-		}
-	}
-	}
-
-}
 
 void BaseGameMode::CheckIfSelectedPieceIsNull(int QuadToBeChecked)
 {

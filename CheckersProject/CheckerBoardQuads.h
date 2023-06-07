@@ -46,7 +46,7 @@ public:
 
 	void MoveSelectionQuadFill(char& AssignedNumberFromBaseGame);
 
-	void PopulateQuadWithCopiedValues(char& AssignedNumberFromBaseGame, char PassedSymbol);
+	void PopulateQuadWithBorders();
 
 	~CheckerBoardQuads();
 

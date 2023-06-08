@@ -17,6 +17,7 @@ void CheckerBoardQuads::PopulateQuadWithBaseSymbol()
 	//}
 	Quadrant[1][1] = ' ';
 	PopulateQuadWithBorders();
+	QuadColor = 1;
 }
 
 void CheckerBoardQuads::PopulateQuadWithPlayer1Symbol(char& AssignedNumberFromBaseGame)
@@ -30,6 +31,7 @@ void CheckerBoardQuads::PopulateQuadWithPlayer1Symbol(char& AssignedNumberFromBa
 	}
 	Quadrant[1][1] = AssignedNumberFromBaseGame;
 	PopulateQuadWithBorders();
+	QuadColor = 2;
 
 }
 
@@ -44,6 +46,7 @@ void CheckerBoardQuads::PopulateQuadWithPlayer2Symbol(char& AssignedNumberFromBa
 	}
 	Quadrant[1][1] = AssignedNumberFromBaseGame;
 	PopulateQuadWithBorders();
+	QuadColor = 3;
 }
 
 void CheckerBoardQuads::PopulateQuadWithPrepareToBeTaken()
@@ -96,7 +99,7 @@ void CheckerBoardQuads::PopulateQuadWithBorders()
 
 void CheckerBoardQuads::RenderQuad(Renderer &RenderQuad, int XCORD, int YCORD)
 {
-	RenderQuad.Draw2DVector(Quadrant, { XCORD, YCORD });
+	RenderQuad.Draw2DVector(Quadrant, { XCORD, YCORD }, QuadColor);
 }
 
 

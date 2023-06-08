@@ -66,8 +66,9 @@ void Renderer::DrawStringVector(const std::vector<std::string>& Vec, const Point
 }
 
 //Edit to pass vec sizes
-void Renderer::Draw2DVector(const std::vector<std::vector<char>>& Vec, const Point& position)
+void Renderer::Draw2DVector(const std::vector<std::vector<char>>& Vec, const Point& position, const int& Color)
 {
+	SetTextColor(Color);
 	int IterateY = 0;
 	SetCursorToPosition(position.x, position.y);
 	for (size_t i = 0; i < 3; i++)

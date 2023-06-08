@@ -40,7 +40,7 @@ public:
 
 	void DrawStringVector(const std::vector<std::string>& Vec, const Point& position);
 
-	void Draw2DVector(const std::vector<std::vector<char>>& Vec, const Point& position);
+	void Draw2DVector(const std::vector<std::vector<char>>& Vec, const Point& position, const int& Color);
 
 	//void Draw2DObjectVector(const std::vector<std::vector<CheckerBoardQuads>>& Vec, const Point& position);
 

@@ -20,6 +20,8 @@ public:
 
 	int QuadNumber = 0;
 
+	int QuadColor = 0;
+
 	char BaseNumber{ '0' };
 
 	char BaseSymbol{ '~' };

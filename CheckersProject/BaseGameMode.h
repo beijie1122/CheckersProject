@@ -95,6 +95,9 @@ public:
 
 	int TakenPieceIndexinPiecesQuad;
 
+	
+
+
 	//UI: Menu for Remaining Pieces for P1 & P2 
 
 	int Player1RemainingPieces = 12;
@@ -123,9 +126,11 @@ public:
 
 	int FStreamLengthFinderCounter;
 
+
 	//Checking If Quad is Null Vars
 
 	bool IsSelectedQuadNull = false;
+
 
 	//Cancel Move Function Vars 
 
@@ -173,6 +178,8 @@ public:
 	void FStreamExtractionFunctions(std::string FStreamInput, std::vector<std::string>& FStreamStorageVector);
 
 	void DrawPlayerPiecesRemainingMenu(Renderer RenderMode);
+
+	void UpdateXCordCounterForRender();
 
 	~BaseGameMode();
 

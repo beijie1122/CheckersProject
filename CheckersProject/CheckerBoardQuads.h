@@ -48,6 +48,8 @@ public:
 
 	void PopulateQuadWithBorders();
 
+	void RenderQuad(Renderer &RenderQuad, int XCORD, int YCORD);
+
 	~CheckerBoardQuads();
 
 

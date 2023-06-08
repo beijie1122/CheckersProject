@@ -45,7 +45,7 @@ void Renderer::DrawVector(const std::vector<char>& Vec, const Point& position)
 
 void Renderer::DrawVectorInt(const std::vector<int>& Vec, const Point& position, const int& Color)
 {
-	//SetTextColor(Color);
+	SetTextColor(Color);
 	SetCursorToPosition(position.x, position.y);
 	for (size_t i = 0; i < Vec.size(); i++)
 	{
@@ -81,6 +81,21 @@ void Renderer::Draw2DVector(const std::vector<std::vector<char>>& Vec, const Poi
 	}
 
 }
+
+//void Renderer::Draw2DObjectVector(const std::vector<std::vector<CheckerBoardQuads>>& Vec, const Point& position)
+//{
+//	int IterateY = 0;
+//	SetCursorToPosition(position.x, position.y);
+//	for (size_t i = 0; i < 3; i++)
+//	{
+//		for (size_t j = 0; j < 3; j++)
+//		{
+//			Vec[i][j];
+//		}
+//		IterateY++;
+//		SetCursorToPosition(position.x, position.y + IterateY);
+//	}
+//}
 
 void Renderer::DrawVerticleBorder(const std::vector<char>& Vec, const Point& position)
 {
@@ -137,8 +152,8 @@ void Renderer::SetTextColor(int Color)
 
 void InitializeRenderer()
 {
-
-	system("COLOR 8F");
+	//Enables the system color to be changed
+	//system("COLOR 8F");
 	HANDLE hOut;
 	CONSOLE_CURSOR_INFO ConCurInf;
 

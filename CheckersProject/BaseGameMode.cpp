@@ -94,38 +94,24 @@ void BaseGameMode::RenderBoard()
 
 		Renderer BoardRenderer;
 
-		//TempVectorForRendering = QuantIterator->Quadrant;
-		//BoardRenderer.Draw2DVector(TempVectorForRendering, { 20, 20 });
-		//advance(QuantIterator, 1);
-
-		//TempVectorForRendering = QuantIterator->Quadrant;
-		//BoardRenderer.Draw2DVector(TempVectorForRendering, { 25, 20 });
-		//advance(QuantIterator, 1);
-
-
 		int XCordCounter = 0;
-		std::vector<CheckerBoardQuads>::iterator QuantIterator = QuadStorageVector.begin();
 
 		for (size_t i = 0; i < QuadStorageVector.size(); i++)
 		{
 			if (i < 8)
 			{
-				TempVectorForRendering = QuantIterator->Quadrant;
-				BoardRenderer.Draw2DVector(TempVectorForRendering, { RenderXCord.at(XCordCounter), RenderYCord.at(0) });
-				advance(QuantIterator, 1);
+				QuadStorageVector.at(i).RenderQuad(BoardRenderer, RenderXCord.at(XCordCounter), RenderYCord.at(0));
 				XCordCounter++;
 			}
-
 			else if (i >= 8 && i < 16)
 			{
 				if (XCordCounter > 7)
 				{
 					XCordCounter = 0;
 				}
-				TempVectorForRendering = QuantIterator->Quadrant;
-				BoardRenderer.Draw2DVector(TempVectorForRendering, { RenderXCord.at(XCordCounter), RenderYCord.at(1) });
-				advance(QuantIterator, 1);
+				QuadStorageVector.at(i).RenderQuad(BoardRenderer, RenderXCord.at(XCordCounter), RenderYCord.at(1));
 				XCordCounter++;
+
 			}
 			else if (i >= 16 && i < 24)
 			{
@@ -133,9 +119,7 @@ void BaseGameMode::RenderBoard()
 				{
 					XCordCounter = 0;
 				}
-				TempVectorForRendering = QuantIterator->Quadrant;
-				BoardRenderer.Draw2DVector(TempVectorForRendering, { RenderXCord.at(XCordCounter), RenderYCord.at(2) });
-				advance(QuantIterator, 1);
+				QuadStorageVector.at(i).RenderQuad(BoardRenderer, RenderXCord.at(XCordCounter), RenderYCord.at(2));
 				XCordCounter++;
 			}
 			else if (i >= 24 && i < 32)
@@ -144,9 +128,7 @@ void BaseGameMode::RenderBoard()
 				{
 					XCordCounter = 0;
 				}
-				TempVectorForRendering = QuantIterator->Quadrant;
-				BoardRenderer.Draw2DVector(TempVectorForRendering, { RenderXCord.at(XCordCounter), RenderYCord.at(3) });
-				advance(QuantIterator, 1);
+				QuadStorageVector.at(i).RenderQuad(BoardRenderer, RenderXCord.at(XCordCounter), RenderYCord.at(3));
 				XCordCounter++;
 			}
 			else if (i >= 32 && i < 40)
@@ -155,9 +137,7 @@ void BaseGameMode::RenderBoard()
 				{
 					XCordCounter = 0;
 				}
-				TempVectorForRendering = QuantIterator->Quadrant;
-				BoardRenderer.Draw2DVector(TempVectorForRendering, { RenderXCord.at(XCordCounter), RenderYCord.at(4) });
-				advance(QuantIterator, 1);
+				QuadStorageVector.at(i).RenderQuad(BoardRenderer, RenderXCord.at(XCordCounter), RenderYCord.at(4));
 				XCordCounter++;
 			}
 			else if (i >= 40 && i < 48)
@@ -166,9 +146,7 @@ void BaseGameMode::RenderBoard()
 				{
 					XCordCounter = 0;
 				}
-				TempVectorForRendering = QuantIterator->Quadrant;
-				BoardRenderer.Draw2DVector(TempVectorForRendering, { RenderXCord.at(XCordCounter), RenderYCord.at(5) });
-				advance(QuantIterator, 1);
+				QuadStorageVector.at(i).RenderQuad(BoardRenderer, RenderXCord.at(XCordCounter), RenderYCord.at(5));
 				XCordCounter++;
 			}
 			else if (i >= 48 && i < 56)
@@ -177,9 +155,7 @@ void BaseGameMode::RenderBoard()
 				{
 					XCordCounter = 0;
 				}
-				TempVectorForRendering = QuantIterator->Quadrant;
-				BoardRenderer.Draw2DVector(TempVectorForRendering, { RenderXCord.at(XCordCounter), RenderYCord.at(6) });
-				advance(QuantIterator, 1);
+				QuadStorageVector.at(i).RenderQuad(BoardRenderer, RenderXCord.at(XCordCounter), RenderYCord.at(6));
 				XCordCounter++;
 			}
 			else if (i >= 56 && i < 64)
@@ -188,16 +164,15 @@ void BaseGameMode::RenderBoard()
 				{
 					XCordCounter = 0;
 				}
-				TempVectorForRendering = QuantIterator->Quadrant;
-				BoardRenderer.Draw2DVector(TempVectorForRendering, { RenderXCord.at(XCordCounter), RenderYCord.at(7) });
-				advance(QuantIterator, 1);
+				QuadStorageVector.at(i).RenderQuad(BoardRenderer, RenderXCord.at(XCordCounter), RenderYCord.at(7));
 				XCordCounter++;
 			}
+		}
 
 			BoardRenderer.DrawVectorInt(Player2Pieces, { 1, 1 }, 2);
 			BoardRenderer.DrawVectorInt(Player1Pieces, { 1, 2 }, 3);
 
-			//DrawPlayerPiecesRemainingMenu();
+			DrawPlayerPiecesRemainingMenu(BoardRenderer);
 
 
 			if (IsPlayer1Turn == true)
@@ -215,42 +190,28 @@ void BaseGameMode::RenderBoard()
 			}
 
 
-			BoardRenderer.DrawStringVector(PlayersRemainingPiecesMenu, { PlayerRemainingPiecesMenuXCoord, PlayerRemainingPiecesMenuYCoord });
-			BoardRenderer.DrawInt(Player1RemainingPieces, { Player1RemainingPiecesXCoord, Player1RemainingPiecesYCoord });
-			BoardRenderer.DrawInt(Player2RemainingPieces, { Player2RemainingPiecesXCoord, Player2RemainingPiecesYCoord });
+			//BoardRenderer.DrawStringVector(PlayersRemainingPiecesMenu, { PlayerRemainingPiecesMenuXCoord, PlayerRemainingPiecesMenuYCoord });
+			//BoardRenderer.DrawInt(Player1RemainingPieces, { Player1RemainingPiecesXCoord, Player1RemainingPiecesYCoord });
+			//BoardRenderer.DrawInt(Player2RemainingPieces, { Player2RemainingPiecesXCoord, Player2RemainingPiecesYCoord });
+
+
+
+			//DrawPlayerPiecesRemainingMenu(BoardRenderer);
+			if (IsQuadSelectedToMove == false)
+			{
+				BoardRenderer.Draw("Select A Quad", { 1, 4 });
+			}
+			else if (IsQuadSelectedToMove == true)
+			{
+				BoardRenderer.Draw("Select where to move the quad", { 1, 4 });
+			}
 
 			BoardRenderer.DrawInt(LeftHandBoundryValue, { 40, 1 });
 
 			//Test for UI Length Value
 			//BoardRenderer.DrawInt(PlayerPiecesMenuTextLength, { 40, 3 });
-
-			//else if (i > 8 && i < 17)
-			//{
-			//	for (size_t j = 0; j < 9; j++)
-			//	{
-			//		BoardRenderer.Draw2DVector(TempVectorForRendering, { RenderXCord.at(j), RenderYCord.at(1) });
-			//		advance(QuantIterator, 1);
-			//	}
-			//}
-		}
 		
-		//for (QuantIterator = QuadStorageVector.begin(); QuantIterator < QuadStorageVector.end(); QuantIterator++)
-		//{
-		//		TempVectorForRendering = QuantIterator->Quadrant;
-		//		BoardRenderer.Draw2DVector(TempVectorForRendering, { RenderXCordSetter, 1 });
-		//		RenderXCordSetter = RenderXCordSetter + 4;
-		//}
-
-		if (IsQuadSelectedToMove == false)
-		{
-			BoardRenderer.Draw("Select A Quad", { 1, 4 });
-		}
-		else if (IsQuadSelectedToMove == true)
-		{
-			BoardRenderer.Draw("Select where to move the quad", { 1, 4 });
-		}
-
-
+			
 			if (IsVirtualKeyPressed(VK_NUMPAD1))
 			{
 				CheckPlayerTurnWithQuadSetup(0, Player2QuadSelectionChars.size() - 1);
@@ -334,6 +295,9 @@ void BaseGameMode::RenderBoard()
 					CancelMovement(Player2Pieces);
 				}
 			}
+			
+			//If you want to Render a function, you must call the Global renderer into the function AND put it last in the document
+
 	}
 }
 
@@ -989,6 +953,14 @@ void BaseGameMode::DrawPlayerPiecesRemainingMenu(Renderer RenderMode)
 	RenderMode.DrawStringVector(PlayersRemainingPiecesMenu, { PlayerRemainingPiecesMenuXCoord, PlayerRemainingPiecesMenuYCoord });
 	RenderMode.DrawInt(Player1RemainingPieces, { Player1RemainingPiecesXCoord, Player1RemainingPiecesYCoord });
 	RenderMode.DrawInt(Player2RemainingPieces, { Player2RemainingPiecesXCoord, Player2RemainingPiecesYCoord });
+}
+
+void BaseGameMode::UpdateXCordCounterForRender()
+{
+	//if (XCordCounter > 7)
+	//{
+	//	XCordCounter = 0;
+	//}
 }
 
 BaseGameMode::~BaseGameMode()

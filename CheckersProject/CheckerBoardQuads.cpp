@@ -1,4 +1,5 @@
 #include "CheckerBoardQuads.h"
+#include "Renderer.h"
 
 CheckerBoardQuads::CheckerBoardQuads()
 {
@@ -7,14 +8,14 @@ CheckerBoardQuads::CheckerBoardQuads()
 
 void CheckerBoardQuads::PopulateQuadWithBaseSymbol()
 {
-	for (size_t i = 0; i < QuadSize; i++)
-	{
-		for (size_t j = 0; j < QuadSize; j++)
-		{
-			Quadrant[i][j] = BaseSymbol;
-		}
-	}
-	Quadrant[1][1] = BaseNumber;
+	//for (size_t i = 0; i < QuadSize; i++)
+	//{
+	//	for (size_t j = 0; j < QuadSize; j++)
+	//	{
+	//		Quadrant[i][j] = BaseSymbol;
+	//	}
+	//}
+	Quadrant[1][1] = ' ';
 	PopulateQuadWithBorders();
 }
 
@@ -93,6 +94,10 @@ void CheckerBoardQuads::PopulateQuadWithBorders()
 	Quadrant[2][2] = 188;
 }
 
+void CheckerBoardQuads::RenderQuad(Renderer &RenderQuad, int XCORD, int YCORD)
+{
+	RenderQuad.Draw2DVector(Quadrant, { XCORD, YCORD });
+}
 
 
 CheckerBoardQuads::~CheckerBoardQuads()

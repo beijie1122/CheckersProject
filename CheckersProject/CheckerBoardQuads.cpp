@@ -65,6 +65,7 @@ void CheckerBoardQuads::PopulateQuadWithPrepareToBeTaken()
 		}
 	}
 	PopulateQuadWithBorders();
+	QuadColor = 4;
 }
 
 void CheckerBoardQuads::AssignQuadNumber(int& QuadInput)
@@ -83,6 +84,7 @@ void CheckerBoardQuads::MoveSelectionQuadFill(char& AssignedNumberFromBaseGame)
 	}
 	Quadrant[1][1] = AssignedNumberFromBaseGame;
 	PopulateQuadWithBorders();
+	QuadColor = 5;
 }
 
 void CheckerBoardQuads::PopulateQuadWithBorders()

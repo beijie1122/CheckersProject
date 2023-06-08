@@ -168,9 +168,10 @@ void BaseGameMode::RenderBoard()
 				XCordCounter++;
 			}
 		}
+			BoardRenderer.DrawVectorInt(Player2Pieces, { 1, 1 }, 6);
+			BoardRenderer.DrawVectorInt(Player1Pieces, { 1, 2 }, 6);
 
-			BoardRenderer.DrawVectorInt(Player2Pieces, { 1, 1 }, 2);
-			BoardRenderer.DrawVectorInt(Player1Pieces, { 1, 2 }, 3);
+
 
 			DrawPlayerPiecesRemainingMenu(BoardRenderer);
 
@@ -188,13 +189,6 @@ void BaseGameMode::RenderBoard()
 			{
 				BoardRenderer.Draw("Sorry, the piece you have selected is already taken!", { 50, 2 });
 			}
-
-
-			//BoardRenderer.DrawStringVector(PlayersRemainingPiecesMenu, { PlayerRemainingPiecesMenuXCoord, PlayerRemainingPiecesMenuYCoord });
-			//BoardRenderer.DrawInt(Player1RemainingPieces, { Player1RemainingPiecesXCoord, Player1RemainingPiecesYCoord });
-			//BoardRenderer.DrawInt(Player2RemainingPieces, { Player2RemainingPiecesXCoord, Player2RemainingPiecesYCoord });
-
-
 
 			//DrawPlayerPiecesRemainingMenu(BoardRenderer);
 			if (IsQuadSelectedToMove == false)

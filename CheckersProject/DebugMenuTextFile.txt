@@ -1,0 +1,8 @@
+************************************
+Selected Quad Move 1 Value
+Selected Quad Move 2 Value
+(B) Is Opponent Piece To Be Taken
+Opponent Piece to Be Taken
+Left Hand Boundry Value 
+Right Hand Boundtry Value 
+************************************

@@ -27,7 +27,7 @@ public:
 	
 	std::vector<int> Player2Pieces{};
 
-	int PlayerPiecesVectorSize = 11;
+	int PlayerPiecesVectorSize = 12;
 
 	int MoveSelectionValue1 = 9;
 
@@ -140,6 +140,19 @@ public:
 	//Cancel Move Function Vars 
 
 	int PlayerPieceReplacementValue;
+
+
+	//Debug Menu 
+
+	std::vector<std::string> DebugMenuVec{};
+
+	std::string FStreamDebugMenu{ "DebugMenuTextFile.txt" };
+
+	int DebugMenuXCoord = 50;
+
+	int DebugMenuYCord = 15;
+
+	int DebugIntXCoord = 34 + DebugMenuXCoord;
 
 
 	BaseGameMode();

@@ -43,5 +43,8 @@
     <Text Include="PlayerRemainingPiecesTextDoc.txt">
       <Filter>Source Files</Filter>
     </Text>
+    <Text Include="DebugMenuTextFile.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

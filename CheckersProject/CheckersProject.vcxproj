@@ -150,6 +150,7 @@
     <ClInclude Include="Renderer.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="DebugMenuTextFile.txt" />
     <Text Include="PlayerRemainingPiecesTextDoc.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

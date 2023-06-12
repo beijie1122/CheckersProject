@@ -29,6 +29,7 @@ void BaseGameMode::MainMenu()
 	while (true)
 	{
 		FStreamExtractionFunctions(FStreamPlayerRemainingPiecesString, PlayersRemainingPiecesMenu);
+		FStreamExtractionFunctions(FStreamDebugMenu, DebugMenuVec);
 		InitializeFullBoard();
 		RenderBoard();
 	}
@@ -179,6 +180,13 @@ void BaseGameMode::RenderBoard()
 			}
 
 			DrawPlayerPiecesRemainingMenu(BoardRenderer);
+			BoardRenderer.DrawStringVector(DebugMenuVec, { DebugMenuXCoord, DebugMenuYCord });
+			BoardRenderer.DrawInt(SelectedQuadMove1Value, { DebugIntXCoord, DebugMenuYCord + 1 });
+			BoardRenderer.DrawInt(SelectedQuadMove2Value, { DebugIntXCoord, DebugMenuYCord + 2 });
+			//Bool Render
+			BoardRenderer.DrawInt(OpponentPieceToBeTaken, { DebugIntXCoord, DebugMenuYCord + 4 });
+			BoardRenderer.DrawInt(LeftHandBoundryValue, { DebugIntXCoord, DebugMenuYCord + 5 });
+			BoardRenderer.DrawInt(RightHandBoundryValue, { DebugIntXCoord, DebugMenuYCord + 6 });
 
 
 			if (IsPlayer1Turn == true)
@@ -205,9 +213,9 @@ void BaseGameMode::RenderBoard()
 				BoardRenderer.Draw("Select where to move the quad", { 1, 4 });
 			}
 
-			BoardRenderer.DrawInt(LeftHandBoundryValue, { 40, 1 });
+			BoardRenderer.DrawInt(LeftHandBoundryValue, { 40, 1 });   
 
-			//Test for UI Length Value
+			//Test for UI Length Value 
 			//BoardRenderer.DrawInt(PlayerPiecesMenuTextLength, { 40, 3 });
 		
 			

@@ -145,7 +145,7 @@ public:
 
 	void RenderBoard();
 
-	void Player1MovePieceSetup(int SelectedQuad);
+	void UpwardMovementSetup(int SelectedQuad);
 
 	void Player2MovePieceSetup(int SelectedQuad);
 
@@ -162,6 +162,8 @@ public:
 	void MoveSelectedQuadToRightHandQuad(std::vector<int> SelectedPlayerPieces, int LeftHandMeasure, int RightHandMeasure);
 
 	void CancelMovement(std::vector<int> SelectedPlayerPieces);
+
+	void CancelMovementRefactor(std::vector<int> SelectedPlayerPieces);
 
 	void CheckPlayerTurnWithQuadSetup(int Player1QuadSelection, int Player2QuadSelection);
 

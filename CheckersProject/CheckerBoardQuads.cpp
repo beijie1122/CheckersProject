@@ -15,7 +15,7 @@ void CheckerBoardQuads::PopulateQuadWithBaseSymbol()
 	//		Quadrant[i][j] = BaseSymbol;
 	//	}
 	//}
-	Quadrant[1][1] = ' ';
+	Quadrant[1][1] = '_';
 	PopulateQuadWithBorders();
 	QuadColor = 1;
 }

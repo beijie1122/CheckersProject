@@ -90,13 +90,17 @@ void CheckerBoardQuads::MoveSelectionQuadFill(char& AssignedNumberFromBaseGame)
 void CheckerBoardQuads::PopulateQuadWithBorders()
 {
 	Quadrant[0][0] = 201;
+	//Quadrant[0][0] = 254;
 	Quadrant[0][1] = 205;
 	Quadrant[0][2] = 187;
+	//Quadrant[0][2] = 254;
 	Quadrant[1][0] = 186;
 	Quadrant[1][2] = 186;
 	Quadrant[2][0] = 200;
+	//Quadrant[2][0] = 254;
 	Quadrant[2][1] = 205;
 	Quadrant[2][2] = 188;
+	//Quadrant[2][2] = 254;
 }
 
 void CheckerBoardQuads::RenderQuad(Renderer &RenderQuad, int XCORD, int YCORD)

@@ -168,10 +168,15 @@ void BaseGameMode::RenderBoard()
 				XCordCounter++;
 			}
 		}
-			BoardRenderer.DrawVectorInt(Player2Pieces, { 1, 1 }, 6);
+			BoardRenderer.DrawVectorInt(Player2Pieces, { 1, 1 }, RenderColorPlayer1Pieces);
 			BoardRenderer.DrawVectorInt(Player1Pieces, { 1, 2 }, 6);
 
+			RenderColorPlayer1Pieces++;
 
+			if (RenderColorPlayer1Pieces == 6)
+			{
+				RenderColorPlayer1Pieces = 1;
+			}
 
 			DrawPlayerPiecesRemainingMenu(BoardRenderer);
 
@@ -512,7 +517,7 @@ void BaseGameMode::CheckIfLeftHandQuadMoveValueIsOccupied(int SelectedQuad, std:
 			}
 			else if (SelectedQuadMove1Value == FriendlyPieces.at(i))
 			{
-				SelectedQuadMove1Value = 99; //Might not be smart to do
+				SelectedQuadMove1Value = 0; //Might not be smart to do
 			}
 			else
 			{
@@ -534,7 +539,7 @@ void BaseGameMode::CheckIfLeftHandQuadMoveValueIsOccupied(int SelectedQuad, std:
 			}
 			else if (SelectedQuadMove1Value == FriendlyPieces.at(i))
 			{
-				SelectedQuadMove1Value = 99; //Might not be smart to do
+				SelectedQuadMove1Value = 0; //Might not be smart to do
 			}
 			else
 			{
@@ -561,7 +566,7 @@ void BaseGameMode::CheckIfRightHandQuadMoveValueIsOccupied(int SelectedQuad, std
 			}
 			else if (SelectedQuadMove2Value == FriendlyPieces.at(i))
 			{
-				SelectedQuadMove2Value = 99; //Might not be smart to do
+				SelectedQuadMove2Value = 0; //Might not be smart to do
 			}
 			else
 			{
@@ -583,7 +588,7 @@ void BaseGameMode::CheckIfRightHandQuadMoveValueIsOccupied(int SelectedQuad, std
 			}
 			else if (SelectedQuadMove2Value == FriendlyPieces.at(i))
 			{
-				SelectedQuadMove2Value = 99; //Might not be smart to do
+				SelectedQuadMove2Value = 0; //Might not be smart to do
 			}
 			else
 			{
@@ -747,66 +752,6 @@ void BaseGameMode::MoveSelectedQuadToRightHandQuad(std::vector<int> SelectedPlay
 	{
 		BoardRenderer.Draw("Please Select a Quad to move!", { 1, 3 });
 	}
-	ResetBoolValues();
-}
-
-void BaseGameMode::CancelMovement(std::vector<int> SelectedPlayerPieces)
-{
-	Renderer BoardRenderer;
-	if (IsQuadSelectedToMove == true)
-	{
-		std::vector<CheckerBoardQuads>::iterator MoveIterator2 = QuadStorageVector.begin();
-		for (size_t i = 0; i < QuadStorageVector.size(); i++)
-		{
-			if (i == SelectedQuadMove1Value)
-			{
-
-				MoveIterator2->PopulateQuadWithBaseSymbol();
-				advance(MoveIterator2, 1);
-			}
-			else if (i == SelectedQuadMove2Value)
-			{
-
-				MoveIterator2->PopulateQuadWithBaseSymbol();
-				advance(MoveIterator2, 1);
-			}
-			else if (i == OpponentPieceToBeTaken) // Dangerous, feel like there should be a bool here
-			{
-				if (IsPlayer1Turn == true)
-				{
-					MoveIterator2->PopulateQuadWithPlayer2Symbol(Player2QuadSelectionChars.at(TakenPieceIndexinPiecesQuad));
-				}
-				else
-				{
-					MoveIterator2->PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(TakenPieceIndexinPiecesQuad));
-				}
-				advance(MoveIterator2, 1);
-			}
-			else if (i == SelectedPlayerPieces.at(PiecePlaceinVector)) //Fixed
-			{
-				if (IsPlayer1Turn == true)
-				{
-					MoveIterator2->PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(PiecePlaceinVector)); //fixed
-				}
-				else if (IsPlayer2Turn == true)
-				{
-					MoveIterator2->PopulateQuadWithPlayer2Symbol(Player2QuadSelectionChars.at(PiecePlaceinVector)); //fixed
-				}
-				advance(MoveIterator2, 1);
-			}
-			else
-			{
-				advance(MoveIterator2, 1);
-			}
-		}
-
-		IsQuadSelectedToMove = false;
-	}
-	else
-	{
-		BoardRenderer.Draw("Please Select a Quad to move!", { 1, 3 });
-	}
-
 	ResetBoolValues();
 }
 

@@ -127,6 +127,11 @@ public:
 	int FStreamLengthFinderCounter;
 
 
+	//UI Colors
+
+	int RenderColorPlayer1Pieces = 1;
+
+
 	//Checking If Quad is Null Vars
 
 	bool IsSelectedQuadNull = false;
@@ -160,8 +165,6 @@ public:
 	void MoveSelectedQuadToLeftHandQuad(std::vector<int> SelectedPlayerPieces, int LeftHandMeasure, int RightHandMeasure);
 
 	void MoveSelectedQuadToRightHandQuad(std::vector<int> SelectedPlayerPieces, int LeftHandMeasure, int RightHandMeasure);
-
-	void CancelMovement(std::vector<int> SelectedPlayerPieces);
 
 	void CancelMovementRefactor(std::vector<int> SelectedPlayerPieces);
 

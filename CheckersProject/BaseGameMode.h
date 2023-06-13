@@ -167,6 +167,8 @@ public:
 
 	void Player2MovePieceSetup(int SelectedQuad);
 
+	void DownwardMovementSetup(int SelectedQuad);
+
 	void CheckLeftHandValueForUpwardQuadMovement(int LeftHandMoveValue);
 
 	void CheckRightHandValueForUpwardQuadMovement(int RightHandMoveValue);
@@ -175,9 +177,9 @@ public:
 
 	void CheckIfRightHandQuadMoveValueIsOccupied(int SelectedQuad, std::vector<int> FriendlyPieces, std::vector<int> OpponentPieces);
 
-	void MoveSelectedQuadToLeftHandQuad(std::vector<int> SelectedPlayerPieces, int LeftHandMeasure, int RightHandMeasure);
+	void MoveQuadtoLeftQuad(std::vector<int> SelectedPlayerPieces, int LeftHandMeasure, int RightHandMeasure);
 
-	void MoveSelectedQuadToRightHandQuad(std::vector<int> SelectedPlayerPieces, int LeftHandMeasure, int RightHandMeasure);
+	void MoveQuadtoRightQuad(std::vector<int> SelectedPlayerPieces, int LeftHandMeasure, int RightHandMeasure);
 
 	void CancelMovementRefactor(std::vector<int> SelectedPlayerPieces);
 

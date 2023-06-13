@@ -83,6 +83,7 @@ void Renderer::Draw2DVector(const std::vector<std::vector<char>>& Vec, const Poi
 
 }
 
+
 //void Renderer::Draw2DObjectVector(const std::vector<std::vector<CheckerBoardQuads>>& Vec, const Point& position)
 //{
 //	int IterateY = 0;

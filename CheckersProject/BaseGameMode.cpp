@@ -384,7 +384,14 @@ void BaseGameMode::CheckMovementQuadDestinationIsOccupied(int &DestinationQuad, 
 		if (QuadStorageVector.at(DestinationQuad).IsPlayer2Quad == true)
 		{
 			OpponentPieceToBeTaken = DestinationQuad;
-			OpponentPieceToBeTaken = true;
+			for (int i = 0; i < PlayerPiecesVectorSize; i++)
+			{
+				if (OpponentPieceToBeTaken == Player2Pieces.at(i))
+				{
+					TakenPieceIndexinPiecesQuad = i;
+				}
+			}
+			IsOpponentsPieceToBeTaken = true;
 			CheckFollowingQuadForOccupation(MovementModifier, DestinationQuad, CannotMoveBool);
 		}
 		else if (QuadStorageVector.at(DestinationQuad).IsPlayer1Quad == true)
@@ -408,7 +415,14 @@ void BaseGameMode::CheckMovementQuadDestinationIsOccupied(int &DestinationQuad, 
 		if (QuadStorageVector.at(DestinationQuad).IsPlayer1Quad == true)
 		{
 			OpponentPieceToBeTaken = DestinationQuad;
-			OpponentPieceToBeTaken = true;
+			for (int i = 0; i < PlayerPiecesVectorSize; i++)
+			{
+				if (OpponentPieceToBeTaken == Player1Pieces.at(i))
+				{
+					TakenPieceIndexinPiecesQuad = i;
+				}
+			}
+			IsOpponentsPieceToBeTaken = true;
 			CheckFollowingQuadForOccupation(MovementModifier, DestinationQuad, CannotMoveBool);
 		}
 		else if (QuadStorageVector.at(DestinationQuad).IsPlayer2Quad == true)
@@ -689,7 +703,32 @@ void BaseGameMode::MoveQuadtoLeftQuad(std::vector<int> SelectedPlayerPieces, int
 		QuadStorageVector.at(SelectedQuadMove1Value).PopulateQuadWithPlayer2Symbol(Player2QuadSelectionChars.at(PiecePlaceinVector));
 	}
 
-	QuadStorageVector.at(SelectedQuadMove2Value).PopulateQuadWithBaseSymbol();
+	if (QuadStorageVector.at(SelectedQuadMove2Value).IsPlayer1Quad == true)
+	{
+		for (int i = 0; i < PlayerPiecesVectorSize; i++)
+		{
+			if (SelectedQuadMove2Value == Player1Pieces.at(i))
+			{
+				QuadStorageVector.at(SelectedQuadMove2Value).PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(i));
+			}
+		}
+	}
+	else if (QuadStorageVector.at(SelectedQuadMove2Value).IsPlayer2Quad == true)
+	{
+		for (int i = 0; i < PlayerPiecesVectorSize; i++)
+		{
+			if (SelectedQuadMove2Value == Player2Pieces.at(i))
+			{
+				QuadStorageVector.at(SelectedQuadMove2Value).PopulateQuadWithPlayer2Symbol(Player2QuadSelectionChars.at(i));
+			}
+		}
+	}
+	else
+	{
+		QuadStorageVector.at(SelectedQuadMove2Value).PopulateQuadWithBaseSymbol();
+	}
+
+	
 
 	if (OpponentPieceToBeTaken == SelectedPlayerPieces.at(PiecePlaceinVector) + LeftHandMeasure)
 	{
@@ -732,7 +771,32 @@ void BaseGameMode::MoveQuadtoLeftQuad(std::vector<int> SelectedPlayerPieces, int
 
 void BaseGameMode::MoveQuadtoRightQuad(std::vector<int> SelectedPlayerPieces, int LeftHandMeasure, int RightHandMeasure)
 {
-	QuadStorageVector.at(SelectedQuadMove1Value).PopulateQuadWithBaseSymbol();
+	//QuadStorageVector.at(SelectedQuadMove1Value).PopulateQuadWithBaseSymbol();
+
+	if (QuadStorageVector.at(SelectedQuadMove1Value).IsPlayer1Quad == true)
+	{
+		for (int i = 0; i < PlayerPiecesVectorSize; i++)
+		{
+			if (SelectedQuadMove1Value == Player1Pieces.at(i))
+			{
+				QuadStorageVector.at(SelectedQuadMove1Value).PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(i));
+			}
+		}
+	}
+	else if (QuadStorageVector.at(SelectedQuadMove1Value).IsPlayer2Quad == true)
+	{
+		for (int i = 0; i < PlayerPiecesVectorSize; i++)
+		{
+			if (SelectedQuadMove1Value == Player2Pieces.at(i))
+			{
+				QuadStorageVector.at(SelectedQuadMove1Value).PopulateQuadWithPlayer2Symbol(Player2QuadSelectionChars.at(i));
+			}
+		}
+	}
+	else
+	{
+		QuadStorageVector.at(SelectedQuadMove1Value).PopulateQuadWithBaseSymbol();
+	}
 
 	if (IsPlayer1Turn == true)
 	{
@@ -786,8 +850,59 @@ void BaseGameMode::CancelMovementRefactor(std::vector<int> SelectedPlayerPieces)
 	Renderer BoardRenderer;
 	if (IsQuadSelectedToMove == true)
 	{
-		QuadStorageVector.at(SelectedQuadMove1Value).PopulateQuadWithBaseSymbol();
-		QuadStorageVector.at(SelectedQuadMove2Value).PopulateQuadWithBaseSymbol();
+		if (QuadStorageVector.at(SelectedQuadMove1Value).IsPlayer1Quad == true)
+		{
+			for (int i = 0; i < PlayerPiecesVectorSize; i++)
+			{
+				if (SelectedQuadMove1Value == Player1Pieces.at(i))
+				{
+					QuadStorageVector.at(SelectedQuadMove1Value).PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(i));
+				}
+			}
+			
+		}
+		else if (QuadStorageVector.at(SelectedQuadMove1Value).IsPlayer2Quad == true)
+		{
+			for (int i = 0; i < PlayerPiecesVectorSize; i++)
+			{
+				if (SelectedQuadMove1Value == Player2Pieces.at(i))
+				{
+					QuadStorageVector.at(SelectedQuadMove1Value).PopulateQuadWithPlayer2Symbol(Player2QuadSelectionChars.at(i));
+				}
+			}
+		}
+		else
+		{
+			QuadStorageVector.at(SelectedQuadMove1Value).PopulateQuadWithBaseSymbol();
+		}
+		
+		if (QuadStorageVector.at(SelectedQuadMove2Value).IsPlayer1Quad == true)
+		{
+			for (int i = 0; i < PlayerPiecesVectorSize; i++)
+			{
+				if (SelectedQuadMove2Value == Player1Pieces.at(i))
+				{
+					QuadStorageVector.at(SelectedQuadMove2Value).PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(i));
+				}
+			}
+
+		}
+		else if (QuadStorageVector.at(SelectedQuadMove2Value).IsPlayer2Quad == true)
+		{
+			for (int i = 0; i < PlayerPiecesVectorSize; i++)
+			{
+				if (SelectedQuadMove2Value == Player2Pieces.at(i))
+				{
+					QuadStorageVector.at(SelectedQuadMove2Value).PopulateQuadWithPlayer2Symbol(Player2QuadSelectionChars.at(i));
+				}
+			}
+		}
+		else
+		{
+			QuadStorageVector.at(SelectedQuadMove2Value).PopulateQuadWithBaseSymbol();
+		}
+
+		
 
 		if (IsPlayer1Turn == true)
 		{

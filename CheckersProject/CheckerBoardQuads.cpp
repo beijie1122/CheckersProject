@@ -33,6 +33,7 @@ void CheckerBoardQuads::PopulateQuadWithPlayer1Symbol(char& AssignedNumberFromBa
 		}
 	}
 	Quadrant[1][1] = AssignedNumberFromBaseGame;
+	//Quadrant[1][1] = '1';
 	IsUnoccupiedQuad = false;
 	IsPlayer1Quad = true;
 	IsPlayer2Quad = false;

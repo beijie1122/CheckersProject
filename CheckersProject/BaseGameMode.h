@@ -95,7 +95,19 @@ public:
 
 	int TakenPieceIndexinPiecesQuad;
 
-	
+	//Gameplay: Moving The Quads 
+
+	void MovementSetup(int SelectedQuad, std::vector<int> SelectedPlayerPieces, int LHValue, int RHValue);
+
+	void CheckMovementQuadDestinationIsOccupied(int &DestinationQuad, int MovementModifier, bool &CannotMoveBool);
+
+	void CheckFollowingQuadForOccupation(int MovementModifier, int &DestinationQuad, bool &CannotMoveBool);
+
+	int CheckFollowingQuadInt;
+
+	bool LHCannotMove = false;
+
+	bool RHCannotMove = false;
 
 
 	//UI: Menu for Remaining Pieces for P1 & P2 
@@ -165,8 +177,6 @@ public:
 
 	void UpwardMovementSetup(int SelectedQuad);
 
-	void Player2MovePieceSetup(int SelectedQuad);
-
 	void DownwardMovementSetup(int SelectedQuad);
 
 	void CheckLeftHandValueForUpwardQuadMovement(int LeftHandMoveValue);
@@ -185,9 +195,9 @@ public:
 
 	void CheckPlayerTurnWithQuadSetup(int Player1QuadSelection, int Player2QuadSelection);
 
-	void CheckIfPieceIsOnLeftEdgeOfBoard();
+	void CheckIfPieceIsOnLeftEdgeOfBoard(int SelectedQuad, std::vector<int> SelectedPlayerPieces);
 
-	void CheckIffPieceIsOnRightEdgeOfBoard();
+	void CheckIffPieceIsOnRightEdgeOfBoard(int SelectedQuad, std::vector<int> SelectedPlayerPieces);
 
 	void ResetBoolValues();
 

@@ -32,6 +32,12 @@ public:
 
 	char PrepareToBeTakenSymbol{ '$' };
 
+	bool IsPlayer1Quad = false;
+
+	bool IsPlayer2Quad = false;
+
+	bool IsUnoccupiedQuad = false;
+
 	std::vector<std::vector<char>> Quadrant{ QuadSize, std::vector<char>(QuadSize) };
 
 	CheckerBoardQuads();

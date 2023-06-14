@@ -17,6 +17,9 @@ void CheckerBoardQuads::PopulateQuadWithBaseSymbol()
 	//}
 	Quadrant[1][1] = '_';
 	PopulateQuadWithBorders();
+	IsUnoccupiedQuad = true;
+	IsPlayer1Quad = false;
+	IsPlayer2Quad = false;
 	QuadColor = 1;
 }
 
@@ -30,6 +33,9 @@ void CheckerBoardQuads::PopulateQuadWithPlayer1Symbol(char& AssignedNumberFromBa
 		}
 	}
 	Quadrant[1][1] = AssignedNumberFromBaseGame;
+	IsUnoccupiedQuad = false;
+	IsPlayer1Quad = true;
+	IsPlayer2Quad = false;
 	PopulateQuadWithBorders();
 	QuadColor = 2;
 
@@ -45,6 +51,9 @@ void CheckerBoardQuads::PopulateQuadWithPlayer2Symbol(char& AssignedNumberFromBa
 		}
 	}
 	Quadrant[1][1] = AssignedNumberFromBaseGame;
+	IsUnoccupiedQuad = false;
+	IsPlayer1Quad = false;
+	IsPlayer2Quad = true;
 	PopulateQuadWithBorders();
 	QuadColor = 3;
 }
@@ -57,13 +66,13 @@ void CheckerBoardQuads::PopulateQuadWithPrepareToBeTaken()
 	//Quadrant[2][2] = 188;
 
 
-	for (size_t i = 0; i < QuadSize; i++)
-	{
-		for (size_t j = 0; j < QuadSize; j++)
-		{
-			Quadrant[i][j] = PrepareToBeTakenSymbol;
-		}
-	}
+//	for (size_t i = 0; i < QuadSize; i++)
+//	{
+//		for (size_t j = 0; j < QuadSize; j++)
+//		{
+//			Quadrant[i][j] = PrepareToBeTakenSymbol;
+//		}
+//	}
 	PopulateQuadWithBorders();
 	QuadColor = 4;
 }

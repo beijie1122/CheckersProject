@@ -315,10 +315,12 @@ void BaseGameMode::CheckPlayerTurnWithQuadSetup(int Player1QuadSelection, int Pl
 		if (IsPlayer1Turn == true)
 		{
 			CheckIfSelectedPieceIsNull(Player1QuadSelection);
+			//Check for kings here if this function works
 			if (IsSelectedQuadNull != true)
 			{
 				PiecePlaceinVector = Player1QuadSelection;
-				UpwardMovementSetup(Player1QuadSelection);
+				MovementSetup(Player1QuadSelection, Player1Pieces, UpwardMovementLeftMeasure, UpwardMovementRightMeasure);
+				//UpwardMovementSetup(Player1QuadSelection);
 				IsQuadSelectedToMove = true;
 			}
 
@@ -329,7 +331,8 @@ void BaseGameMode::CheckPlayerTurnWithQuadSetup(int Player1QuadSelection, int Pl
 			if (IsSelectedQuadNull != true)
 			{
 				PiecePlaceinVector = Player2QuadSelection;
-				DownwardMovementSetup(Player2QuadSelection);
+				MovementSetup(Player2QuadSelection, Player2Pieces, DownwardMovementLeftMeasure, DownwardMovementRightMeasure);
+				//DownwardMovementSetup(Player2QuadSelection);
 				IsQuadSelectedToMove = true;
 			}
 		}
@@ -342,7 +345,111 @@ void BaseGameMode::CheckPlayerTurnWithQuadSetup(int Player1QuadSelection, int Pl
 //CheckerBoardQuads& quad2 = QuadStorageVector.at(SelectedQuad - 9);
 //
 
+void BaseGameMode::MovementSetup(int SelectedQuad, std::vector<int> SelectedPlayerPieces, int LHValue, int RHValue)
+{
+	SelectedQuadValue = SelectedPlayerPieces.at(SelectedQuad); //Redundant, but needed to work foro the check boundries function atm
+	SelectedQuadMove1Value = SelectedPlayerPieces.at(SelectedQuad) + LHValue;
+	CheckMovementQuadDestinationIsOccupied(SelectedQuadMove1Value, LHValue, LHCannotMove);
+	SelectedQuadMove2Value = SelectedPlayerPieces.at(SelectedQuad) + RHValue;
+	CheckMovementQuadDestinationIsOccupied(SelectedQuadMove2Value, RHValue, RHCannotMove);
 
+	QuadStorageVector.at(SelectedPlayerPieces.at(SelectedQuad)).MoveSelectionQuadFill(SelectedQuadMoveBaseQuadCharValue);
+	CheckIfPieceIsOnLeftEdgeOfBoard(SelectedQuad, SelectedPlayerPieces);
+	CheckIffPieceIsOnRightEdgeOfBoard(SelectedQuad, SelectedPlayerPieces);
+
+	//CheckLeftHandValueForUpwardQuadMovement(SelectedQuadMove1Value);
+
+	//CheckRightHandValueForUpwardQuadMovement(SelectedQuadMove2Value);
+
+	if (SelectedQuadMove1Value >= LeftHandBoundryValue && IsPieceAtLeftEdgeOfBoard == false && LHCannotMove == false)
+	{
+		QuadStorageVector.at(SelectedQuadMove1Value).MoveSelectionQuadFill(SelectedQuadMove1CharValue);
+	}
+	if (SelectedQuadMove2Value <= RightHandBoundryValue && IsPieceAtRightEdgeOfBoard == false && RHCannotMove == false)
+	{
+		QuadStorageVector.at(SelectedQuadMove2Value).MoveSelectionQuadFill(SelectedQuadMove2CharValue);
+	}
+	if (IsOpponentsPieceToBeTaken == true)
+	{
+		QuadStorageVector.at(OpponentPieceToBeTaken).PopulateQuadWithPrepareToBeTaken();
+	}
+	IsQuadSelectedToMove = true;
+
+}
+
+void BaseGameMode::CheckMovementQuadDestinationIsOccupied(int &DestinationQuad, int MovementModifier, bool &CannotMoveBool)
+{
+	if (IsPlayer1Turn == true)
+	{
+		if (QuadStorageVector.at(DestinationQuad).IsPlayer2Quad == true)
+		{
+			OpponentPieceToBeTaken = DestinationQuad;
+			OpponentPieceToBeTaken = true;
+			CheckFollowingQuadForOccupation(MovementModifier, DestinationQuad, CannotMoveBool);
+		}
+		else if (QuadStorageVector.at(DestinationQuad).IsPlayer1Quad == true)
+		{
+			CannotMoveBool = true;
+		}
+		else
+		{
+			if (MovementModifier == UpwardMovementLeftMeasure || MovementModifier == DownwardMovementLeftMeasure)
+			{
+				CheckLeftHandValueForUpwardQuadMovement(DestinationQuad);
+			}
+			else
+			{
+				CheckRightHandValueForUpwardQuadMovement(DestinationQuad);
+			}
+		}
+	}
+	else
+	{
+		if (QuadStorageVector.at(DestinationQuad).IsPlayer1Quad == true)
+		{
+			OpponentPieceToBeTaken = DestinationQuad;
+			OpponentPieceToBeTaken = true;
+			CheckFollowingQuadForOccupation(MovementModifier, DestinationQuad, CannotMoveBool);
+		}
+		else if (QuadStorageVector.at(DestinationQuad).IsPlayer2Quad == true)
+		{
+			CannotMoveBool = true;
+		}
+		else
+		{
+			if (MovementModifier == UpwardMovementLeftMeasure || MovementModifier == DownwardMovementLeftMeasure)
+			{
+				CheckLeftHandValueForUpwardQuadMovement(DestinationQuad);
+			}
+			else
+			{
+				CheckRightHandValueForUpwardQuadMovement(DestinationQuad);
+			}
+		}
+	}
+}
+
+void BaseGameMode::CheckFollowingQuadForOccupation(int MovementModifier, int& DestinationQuad, bool &CannotMoveBool)
+{
+	CheckFollowingQuadInt = OpponentPieceToBeTaken + MovementModifier;
+	if (QuadStorageVector.at(CheckFollowingQuadInt).IsPlayer1Quad == true || QuadStorageVector.at(CheckFollowingQuadInt).IsPlayer2Quad == true)
+	{
+		CannotMoveBool = true;
+		//Also Check for Edges
+	}
+	else
+	{
+		DestinationQuad = DestinationQuad + MovementModifier;
+		if (MovementModifier == UpwardMovementLeftMeasure || MovementModifier == DownwardMovementLeftMeasure)
+		{
+			CheckLeftHandValueForUpwardQuadMovement(DestinationQuad);
+		}
+		else
+		{
+			CheckRightHandValueForUpwardQuadMovement(DestinationQuad);
+		}
+	}
+}
 
 void BaseGameMode::UpwardMovementSetup(int SelectedQuad)
 {
@@ -353,8 +460,8 @@ void BaseGameMode::UpwardMovementSetup(int SelectedQuad)
 	CheckIfRightHandQuadMoveValueIsOccupied(SelectedQuad, Player1Pieces, Player2Pieces);
 
 	QuadStorageVector.at(Player1Pieces.at(SelectedQuad)).MoveSelectionQuadFill(SelectedQuadMoveBaseQuadCharValue);
-	CheckIfPieceIsOnLeftEdgeOfBoard();
-	CheckIffPieceIsOnRightEdgeOfBoard();
+	CheckIfPieceIsOnLeftEdgeOfBoard(SelectedQuad, Player1Pieces);
+	CheckIffPieceIsOnRightEdgeOfBoard(SelectedQuad, Player1Pieces);
 
 	if (SelectedQuadMove1Value >= LeftHandBoundryValue && IsPieceAtLeftEdgeOfBoard == false)
 	{
@@ -371,7 +478,6 @@ void BaseGameMode::UpwardMovementSetup(int SelectedQuad)
 	IsQuadSelectedToMove = true;
 
 }
-
 
 void BaseGameMode::DownwardMovementSetup(int SelectedQuad)
 {
@@ -382,8 +488,8 @@ void BaseGameMode::DownwardMovementSetup(int SelectedQuad)
 	CheckIfRightHandQuadMoveValueIsOccupied(SelectedQuad, Player2Pieces, Player1Pieces);
 
 	QuadStorageVector.at(Player2Pieces.at(SelectedQuad)).MoveSelectionQuadFill(SelectedQuadMoveBaseQuadCharValue);
-	CheckIfPieceIsOnLeftEdgeOfBoard();
-	CheckIffPieceIsOnRightEdgeOfBoard();
+	CheckIfPieceIsOnLeftEdgeOfBoard(SelectedQuad, Player2Pieces);
+	CheckIffPieceIsOnRightEdgeOfBoard(SelectedQuad, Player2Pieces);
 
 	if (SelectedQuadMove1Value >= LeftHandBoundryValue && IsPieceAtLeftEdgeOfBoard == false)
 	{
@@ -401,7 +507,7 @@ void BaseGameMode::DownwardMovementSetup(int SelectedQuad)
 
 }
 
-void BaseGameMode::CheckLeftHandValueForUpwardQuadMovement(int LeftHandMoveValue) 
+void BaseGameMode::CheckLeftHandValueForUpwardQuadMovement(int LeftHandMoveValue)
 {
 	//Consider putting all the Boundry Values into a Vector and navigate via that
 	if (LeftHandMoveValue >= 0 && LeftHandMoveValue < 8) 
@@ -487,7 +593,7 @@ void BaseGameMode::CheckIfLeftHandQuadMoveValueIsOccupied(int SelectedQuad, std:
 				CheckLeftHandValueForUpwardQuadMovement(SelectedQuadMove1Value);
 				IsOpponentsPieceToBeTaken = true;
 				OpponentPieceToBeTaken = OpponentPieces.at(i);
-				TakenPieceIndexinPiecesQuad = i;
+				TakenPieceIndexinPiecesQuad = i; //ERROR, will not populate for 'O' and 'P' chars
 			}
 			else if (SelectedQuadMove1Value == FriendlyPieces.at(i))
 			{
@@ -725,7 +831,7 @@ void BaseGameMode::CheckIfSelectedPieceIsNull(int QuadToBeChecked)
 	}
 }
 
-void BaseGameMode::CheckIfPieceIsOnLeftEdgeOfBoard()
+void BaseGameMode::CheckIfPieceIsOnLeftEdgeOfBoard(int SelectedQuad, std::vector<int> SelectedPlayerPieces)
 {
 	for (size_t i = 0; i < BoardLeftEdgeCoords.size(); i++)
 	{
@@ -736,7 +842,7 @@ void BaseGameMode::CheckIfPieceIsOnLeftEdgeOfBoard()
 	}
 }
 
-void BaseGameMode::CheckIffPieceIsOnRightEdgeOfBoard()
+void BaseGameMode::CheckIffPieceIsOnRightEdgeOfBoard(int SelectedQuad, std::vector<int> SelectedPlayerPieces)
 {
 	for (size_t i = 0; i < BoardRightEdgeCoords.size(); i++)
 	{
@@ -752,6 +858,13 @@ void BaseGameMode::ResetBoolValues()
 	IsPieceAtLeftEdgeOfBoard = false;
 	IsPieceAtRightEdgeOfBoard = false;
 	IsOpponentsPieceToBeTaken = false;
+	LHCannotMove = false;
+	RHCannotMove = false;
+
+	SelectedQuadMove1Value = 0;
+	SelectedQuadMove2Value = 0;
+	LeftHandBoundryValue = 0;
+	RightHandBoundryValue = 0;
 
 }
 

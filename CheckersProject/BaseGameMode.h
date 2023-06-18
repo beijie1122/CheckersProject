@@ -45,11 +45,11 @@ public:
 
 	int SelectedQuadMove1Value;
 
-	char SelectedQuadMove1CharValue{ 'A' };
+	char SelectedQuadMove1CharValue;
 
 	int SelectedQuadMove2Value;
 
-	char SelectedQuadMove2CharValue{ 'D' };
+	char SelectedQuadMove2CharValue;
 
 	char SelectedQuadMoveBaseQuadCharValue{ 'E' };
 
@@ -225,6 +225,8 @@ public:
 	void DrawPlayerPiecesRemainingMenu(Renderer RenderMode);
 
 	void UpdateXCordCounterForRender();
+
+	void CheckAndUpdateQuadMovementChars(int LHValue, int RHValue);
 
 	~BaseGameMode();
 

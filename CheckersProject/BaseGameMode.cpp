@@ -269,27 +269,38 @@ void BaseGameMode::RenderBoard()
 	
 			if (IsVirtualKeyPressed(0x41)) // A Key
 			{
-				if (IsPlayer1Turn == true)
+				//Will need to mod for when pieces are kinged
+				if (IsQuadMovingUpward == true)
 				{
 					MoveQuadtoLeftQuad(Player1Pieces, UpwardMovementLeftMeasure, UpwardMovementRightMeasure);
-				}
-				else if (IsPlayer2Turn == true)
-				{
-					MoveQuadtoLeftQuad(Player2Pieces, DownwardMovementLeftMeasure, DownwardMovementRightMeasure);
 				}
 				
 			}
 			else if (IsVirtualKeyPressed(0x44)) //D key
 			{
-				if (IsPlayer1Turn == true)
+				//Will need to mod for when pieces are kinged
+				if (IsQuadMovingUpward == true)
 				{
 					MoveQuadtoRightQuad(Player1Pieces, UpwardMovementLeftMeasure, UpwardMovementRightMeasure);
 				}
-				else if (IsPlayer2Turn == true)
+			}
+			else if (IsVirtualKeyPressed(0x4A)) //J key
+			{
+				//Will need to mod for when pieces are kinged
+				if (IsQuadMovingUpward == false)
+				{
+					MoveQuadtoLeftQuad(Player2Pieces, DownwardMovementLeftMeasure, DownwardMovementRightMeasure);
+				}
+			}
+			else if (IsVirtualKeyPressed(0x4C))// L key
+			{
+				//Will need to mod for when pieces are kinged
+				if (IsQuadMovingUpward == false)
 				{
 					MoveQuadtoRightQuad(Player2Pieces, DownwardMovementLeftMeasure, DownwardMovementRightMeasure);
 				}
 			}
+
 			else if (IsVirtualKeyPressed(0x45)) //E key
 			{
 				if (IsPlayer1Turn == true)
@@ -356,6 +367,8 @@ void BaseGameMode::MovementSetup(int SelectedQuad, std::vector<int> SelectedPlay
 	QuadStorageVector.at(SelectedPlayerPieces.at(SelectedQuad)).MoveSelectionQuadFill(SelectedQuadMoveBaseQuadCharValue);
 	CheckIfPieceIsOnLeftEdgeOfBoard(SelectedQuad, SelectedPlayerPieces);
 	CheckIffPieceIsOnRightEdgeOfBoard(SelectedQuad, SelectedPlayerPieces);
+
+	CheckAndUpdateQuadMovementChars(LHValue, RHValue);
 
 	//CheckLeftHandValueForUpwardQuadMovement(SelectedQuadMove1Value);
 
@@ -820,6 +833,7 @@ void BaseGameMode::ResetBoolValues()
 	IsOpponentsPieceToBeTaken = false;
 	LHCannotMove = false;
 	RHCannotMove = false;
+	IsQuadMovingUpward = false;
 
 	SelectedQuadMove1Value = 0;
 	SelectedQuadMove2Value = 0;
@@ -891,6 +905,26 @@ void BaseGameMode::UpdateXCordCounterForRender()
 	//{
 	//	XCordCounter = 0;
 	//}
+}
+
+void BaseGameMode::CheckAndUpdateQuadMovementChars(int LHValue, int RHValue)
+{
+	if (LHValue == UpwardMovementLeftMeasure && RHValue == UpwardMovementRightMeasure)
+	{
+		SelectedQuadMove1CharValue = UpwardMovementLeftCharValue;
+
+		SelectedQuadMove2CharValue = UpwardMovementRightCharValue;
+
+		IsQuadMovingUpward = true;
+	}
+	else
+	{
+		SelectedQuadMove1CharValue = DownwardMovementLeftCharValue;
+
+		SelectedQuadMove2CharValue = DownwardMovementRightCharValue;
+
+		IsQuadMovingUpward = false;
+	}
 }
 
 BaseGameMode::~BaseGameMode()

@@ -53,8 +53,9 @@ void Renderer::DrawVectorInt(const std::vector<int>& Vec, const Point& position,
 	}
 }
 
-void Renderer::DrawStringVector(const std::vector<std::string>& Vec, const Point& position)
+void Renderer::DrawStringVector(const std::vector<std::string>& Vec, const Point& position, const int& Color)
 {
+	SetTextColor(Color);
 	int IterateY = 0;
 	SetCursorToPosition(position.x, position.y);
 	for (size_t i = 0; i < Vec.size(); i++)

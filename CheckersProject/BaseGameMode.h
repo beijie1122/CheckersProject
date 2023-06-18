@@ -141,7 +141,17 @@ public:
 
 	//UI Colors
 
-	int RenderColorPlayer1Pieces = 1;
+	int RenderColorPlayer1Pieces = 2;
+
+	int RenderColorPlayer2Pieces = 3;
+
+	int RenderColorBasePieces = 1;
+
+	int RenderColorPrepareToBeTaken = 4;
+
+	int RenderColorSelection = 5;
+
+	int RenderColorDebugMenu = 1;
 
 
 	//Checking If Quad is Null Vars

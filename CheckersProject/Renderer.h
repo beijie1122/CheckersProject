@@ -38,7 +38,7 @@ public:
 
 	void DrawVectorInt(const std::vector<int>& Vec, const Point& position, const int& Color);
 
-	void DrawStringVector(const std::vector<std::string>& Vec, const Point& position);
+	void DrawStringVector(const std::vector<std::string>& Vec, const Point& position, const int& Color);
 
 	void Draw2DVector(const std::vector<std::vector<char>>& Vec, const Point& position, const int& Color);
 

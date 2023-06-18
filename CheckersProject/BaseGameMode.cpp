@@ -169,18 +169,18 @@ void BaseGameMode::RenderBoard()
 				XCordCounter++;
 			}
 		}
-			BoardRenderer.DrawVectorInt(Player2Pieces, { 1, 1 }, RenderColorPlayer1Pieces);
-			BoardRenderer.DrawVectorInt(Player1Pieces, { 1, 2 }, 6);
+			BoardRenderer.DrawVectorInt(Player2Pieces, { 1, 1 }, RenderColorPlayer2Pieces);
+			BoardRenderer.DrawVectorInt(Player1Pieces, { 1, 2 }, RenderColorPlayer1Pieces);
 
-			RenderColorPlayer1Pieces++;
+			RenderColorDebugMenu++;
 
-			if (RenderColorPlayer1Pieces == 6)
+			if (RenderColorDebugMenu == 6)
 			{
-				RenderColorPlayer1Pieces = 1;
+				RenderColorDebugMenu = 1;
 			}
 
 			DrawPlayerPiecesRemainingMenu(BoardRenderer);
-			BoardRenderer.DrawStringVector(DebugMenuVec, { DebugMenuXCoord, DebugMenuYCord });
+			BoardRenderer.DrawStringVector(DebugMenuVec, { DebugMenuXCoord, DebugMenuYCord }, RenderColorDebugMenu);
 			BoardRenderer.DrawInt(SelectedQuadMove1Value, { DebugIntXCoord, DebugMenuYCord + 1 });
 			BoardRenderer.DrawInt(SelectedQuadMove2Value, { DebugIntXCoord, DebugMenuYCord + 2 });
 			BoardRenderer.DrawInt(OpponentPieceToBeTaken, { DebugIntXCoord, DebugMenuYCord + 4 });
@@ -1035,7 +1035,7 @@ void BaseGameMode::FStreamExtractionFunctions(std::string FStreamInput, std::vec
 
 void BaseGameMode::DrawPlayerPiecesRemainingMenu(Renderer RenderMode)
 {
-	RenderMode.DrawStringVector(PlayersRemainingPiecesMenu, { PlayerRemainingPiecesMenuXCoord, PlayerRemainingPiecesMenuYCoord });
+	RenderMode.DrawStringVector(PlayersRemainingPiecesMenu, { PlayerRemainingPiecesMenuXCoord, PlayerRemainingPiecesMenuYCoord }, 6);
 	RenderMode.DrawInt(Player1RemainingPieces, { Player1RemainingPiecesXCoord, Player1RemainingPiecesYCoord });
 	RenderMode.DrawInt(Player2RemainingPieces, { Player2RemainingPiecesXCoord, Player2RemainingPiecesYCoord });
 }

@@ -177,6 +177,19 @@ public:
 	int DebugIntXCoord = 34 + DebugMenuXCoord;
 
 
+	//Vars for Upward/Downward movement
+
+	bool IsQuadMovingUpward = true;
+
+	char UpwardMovementLeftCharValue = 'A';
+
+	char UpwardMovementRightCharValue = 'D';
+
+	char DownwardMovementLeftCharValue = 'J';
+
+	char DownwardMovementRightCharValue = 'L';
+
+
 	BaseGameMode();
 
 	void MainMenu();
@@ -185,17 +198,9 @@ public:
 
 	void RenderBoard();
 
-	void UpwardMovementSetup(int SelectedQuad);
-
-	void DownwardMovementSetup(int SelectedQuad);
-
 	void CheckLeftHandValueForUpwardQuadMovement(int LeftHandMoveValue);
 
 	void CheckRightHandValueForUpwardQuadMovement(int RightHandMoveValue);
-
-	void CheckIfLeftHandQuadMoveValueIsOccupied(int SelectedQuad, std::vector<int> FriendlyPieces, std::vector<int> OpponentPieces);
-
-	void CheckIfRightHandQuadMoveValueIsOccupied(int SelectedQuad, std::vector<int> FriendlyPieces, std::vector<int> OpponentPieces);
 
 	void MoveQuadtoLeftQuad(std::vector<int> SelectedPlayerPieces, int LeftHandMeasure, int RightHandMeasure);
 

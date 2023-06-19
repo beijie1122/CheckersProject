@@ -97,7 +97,7 @@ public:
 
 	//Gameplay: Moving The Quads 
 
-	void MovementSetup(int SelectedQuad, std::vector<int> SelectedPlayerPieces, int LHValue, int RHValue);
+	void MovementSetup(int SelectedQuad, std::vector<int> SelectedPlayerPieces, int LHValue, int RHValue, int &LHMovementQuadValue, int &RHMovementQuadValue);
 
 	void CheckMovementQuadDestinationIsOccupied(int &DestinationQuad, int MovementModifier, bool &CannotMoveBool);
 
@@ -190,6 +190,28 @@ public:
 	char DownwardMovementRightCharValue = 'L';
 
 
+	//Vars for Kinging a quad
+
+	std::vector<int> QuadsForP1PiecePromotion{ 0, 1, 2, 3, 4, 5, 6, 7 };
+
+	std::vector<int> QuadsForP2PiecePromotion{ 56, 57, 58, 59, 60, 61, 62, 63 };
+
+
+	//Gameplay: MovementRefactor - considering for kinged-quad movement 
+
+	int LHUpwardMovement;
+
+	int RHUpwardMovement;
+
+	int LHDownwardMovement;
+
+	int RHDownwardMovement;
+
+	//MAKE SURE TO RESET THESE VALUES IN THE RESET VALUE FUNCTION IN CPP FILE
+
+
+	//Functions
+
 	BaseGameMode();
 
 	void MainMenu();
@@ -202,11 +224,11 @@ public:
 
 	void CheckRightHandValueForUpwardQuadMovement(int RightHandMoveValue);
 
-	void MoveQuadtoLeftQuad(std::vector<int> SelectedPlayerPieces, int LeftHandMeasure, int RightHandMeasure);
+	void MoveQuadtoLeftQuad(std::vector<int> SelectedPlayerPieces, int LeftHandMeasure, int RightHandMeasure, int& LHMovementQuadValue, int& RHMovementQuadValue);
 
-	void MoveQuadtoRightQuad(std::vector<int> SelectedPlayerPieces, int LeftHandMeasure, int RightHandMeasure);
+	void MoveQuadtoRightQuad(std::vector<int> SelectedPlayerPieces, int LeftHandMeasure, int RightHandMeasure, int& LHMovementQuadValue, int& RHMovementQuadValue);
 
-	void CancelMovementRefactor(std::vector<int> SelectedPlayerPieces);
+	void CancelMovementRefactor(std::vector<int> SelectedPlayerPieces, int& LHMovementQuadValue, int& RHMovementQuadValue);
 
 	void CheckPlayerTurnWithQuadSetup(int Player1QuadSelection, int Player2QuadSelection);
 
@@ -227,6 +249,8 @@ public:
 	void UpdateXCordCounterForRender();
 
 	void CheckAndUpdateQuadMovementChars(int LHValue, int RHValue);
+
+	void CheckIfPieceShouldBeKinged(int QuadToBeChecked);
 
 	~BaseGameMode();
 

@@ -181,11 +181,13 @@ void BaseGameMode::RenderBoard()
 
 			DrawPlayerPiecesRemainingMenu(BoardRenderer);
 			BoardRenderer.DrawStringVector(DebugMenuVec, { DebugMenuXCoord, DebugMenuYCord }, RenderColorDebugMenu);
-			BoardRenderer.DrawInt(SelectedQuadMove1Value, { DebugIntXCoord, DebugMenuYCord + 1 });
-			BoardRenderer.DrawInt(SelectedQuadMove2Value, { DebugIntXCoord, DebugMenuYCord + 2 });
-			BoardRenderer.DrawInt(OpponentPieceToBeTaken, { DebugIntXCoord, DebugMenuYCord + 4 });
-			BoardRenderer.DrawInt(LeftHandBoundryValue, { DebugIntXCoord, DebugMenuYCord + 5 });
-			BoardRenderer.DrawInt(RightHandBoundryValue, { DebugIntXCoord, DebugMenuYCord + 6 });
+			BoardRenderer.DrawInt(LHUpwardMovement, { DebugIntXCoord, DebugMenuYCord + 1 });
+			BoardRenderer.DrawInt(RHUpwardMovement, { DebugIntXCoord, DebugMenuYCord + 2 });
+			BoardRenderer.DrawInt(LHDownwardMovement, { DebugIntXCoord, DebugMenuYCord + 3 });
+			BoardRenderer.DrawInt(RHDownwardMovement, { DebugIntXCoord, DebugMenuYCord + 4 });
+			BoardRenderer.DrawInt(OpponentPieceToBeTaken, { DebugIntXCoord, DebugMenuYCord + 5 });
+			BoardRenderer.DrawInt(LeftHandBoundryValue, { DebugIntXCoord, DebugMenuYCord + 6 });
+			BoardRenderer.DrawInt(RightHandBoundryValue, { DebugIntXCoord, DebugMenuYCord + 7 });
 
 
 			if (IsPlayer1Turn == true)
@@ -272,7 +274,7 @@ void BaseGameMode::RenderBoard()
 				//Will need to mod for when pieces are kinged
 				if (IsQuadMovingUpward == true)
 				{
-					MoveQuadtoLeftQuad(Player1Pieces, UpwardMovementLeftMeasure, UpwardMovementRightMeasure);
+					MoveQuadtoLeftQuad(Player1Pieces, UpwardMovementLeftMeasure, UpwardMovementRightMeasure, LHUpwardMovement, RHUpwardMovement);
 				}
 				
 			}
@@ -281,7 +283,7 @@ void BaseGameMode::RenderBoard()
 				//Will need to mod for when pieces are kinged
 				if (IsQuadMovingUpward == true)
 				{
-					MoveQuadtoRightQuad(Player1Pieces, UpwardMovementLeftMeasure, UpwardMovementRightMeasure);
+					MoveQuadtoRightQuad(Player1Pieces, UpwardMovementLeftMeasure, UpwardMovementRightMeasure, LHUpwardMovement, RHUpwardMovement);
 				}
 			}
 			else if (IsVirtualKeyPressed(0x4A)) //J key
@@ -289,7 +291,7 @@ void BaseGameMode::RenderBoard()
 				//Will need to mod for when pieces are kinged
 				if (IsQuadMovingUpward == false)
 				{
-					MoveQuadtoLeftQuad(Player2Pieces, DownwardMovementLeftMeasure, DownwardMovementRightMeasure);
+					MoveQuadtoLeftQuad(Player2Pieces, DownwardMovementLeftMeasure, DownwardMovementRightMeasure, LHDownwardMovement, RHDownwardMovement);
 				}
 			}
 			else if (IsVirtualKeyPressed(0x4C))// L key
@@ -297,7 +299,7 @@ void BaseGameMode::RenderBoard()
 				//Will need to mod for when pieces are kinged
 				if (IsQuadMovingUpward == false)
 				{
-					MoveQuadtoRightQuad(Player2Pieces, DownwardMovementLeftMeasure, DownwardMovementRightMeasure);
+					MoveQuadtoRightQuad(Player2Pieces, DownwardMovementLeftMeasure, DownwardMovementRightMeasure, LHDownwardMovement, RHDownwardMovement);
 				}
 			}
 
@@ -306,12 +308,12 @@ void BaseGameMode::RenderBoard()
 				if (IsPlayer1Turn == true)
 				{
 					//CancelMovement(Player1Pieces);
-					CancelMovementRefactor(Player1Pieces);
+					CancelMovementRefactor(Player1Pieces, LHUpwardMovement, RHUpwardMovement);
 				}
 				else if (IsPlayer2Turn == true)
 				{
 					//CancelMovement(Player2Pieces);
-					CancelMovementRefactor(Player2Pieces);
+					CancelMovementRefactor(Player2Pieces, LHDownwardMovement, RHDownwardMovement);
 				}
 			}
 	}
@@ -321,34 +323,30 @@ void BaseGameMode::CheckPlayerTurnWithQuadSetup(int Player1QuadSelection, int Pl
 {
 	IsSelectedQuadNull = false;
 
-	if (IsQuadSelectedToMove != true)
-	{
-		if (IsPlayer1Turn == true)
+		if (IsPlayer1Turn == true && IsQuadSelectedToMove != true)
 		{
 			CheckIfSelectedPieceIsNull(Player1QuadSelection);
 			//Check for kings here if this function works
 			if (IsSelectedQuadNull != true)
 			{
 				PiecePlaceinVector = Player1QuadSelection;
-				MovementSetup(Player1QuadSelection, Player1Pieces, UpwardMovementLeftMeasure, UpwardMovementRightMeasure);
+				MovementSetup(Player1QuadSelection, Player1Pieces, UpwardMovementLeftMeasure, UpwardMovementRightMeasure, LHUpwardMovement, RHUpwardMovement);
 				//UpwardMovementSetup(Player1QuadSelection);
 				IsQuadSelectedToMove = true;
 			}
 
 		}
-		else if (IsPlayer2Turn == true)
+		else if (IsPlayer2Turn == true && IsQuadSelectedToMove != true)
 		{
 			CheckIfSelectedPieceIsNull(Player2QuadSelection);
 			if (IsSelectedQuadNull != true)
 			{
 				PiecePlaceinVector = Player2QuadSelection;
-				MovementSetup(Player2QuadSelection, Player2Pieces, DownwardMovementLeftMeasure, DownwardMovementRightMeasure);
+				MovementSetup(Player2QuadSelection, Player2Pieces, DownwardMovementLeftMeasure, DownwardMovementRightMeasure, LHDownwardMovement, RHDownwardMovement);
 				//DownwardMovementSetup(Player2QuadSelection);
 				IsQuadSelectedToMove = true;
 			}
 		}
-	}
-
 }
 
 //
@@ -356,13 +354,13 @@ void BaseGameMode::CheckPlayerTurnWithQuadSetup(int Player1QuadSelection, int Pl
 //CheckerBoardQuads& quad2 = QuadStorageVector.at(SelectedQuad - 9);
 //
 
-void BaseGameMode::MovementSetup(int SelectedQuad, std::vector<int> SelectedPlayerPieces, int LHValue, int RHValue)
+void BaseGameMode::MovementSetup(int SelectedQuad, std::vector<int> SelectedPlayerPieces, int LHValue, int RHValue, int& LHMovementQuadValue, int& RHMovementQuadValue)
 {
 	SelectedQuadValue = SelectedPlayerPieces.at(SelectedQuad); //Redundant, but needed to work foro the check boundries function atm
-	SelectedQuadMove1Value = SelectedPlayerPieces.at(SelectedQuad) + LHValue;
-	CheckMovementQuadDestinationIsOccupied(SelectedQuadMove1Value, LHValue, LHCannotMove);
-	SelectedQuadMove2Value = SelectedPlayerPieces.at(SelectedQuad) + RHValue;
-	CheckMovementQuadDestinationIsOccupied(SelectedQuadMove2Value, RHValue, RHCannotMove);
+	LHMovementQuadValue = SelectedPlayerPieces.at(SelectedQuad) + LHValue;
+	CheckMovementQuadDestinationIsOccupied(LHMovementQuadValue, LHValue, LHCannotMove);
+	RHMovementQuadValue = SelectedPlayerPieces.at(SelectedQuad) + RHValue;
+	CheckMovementQuadDestinationIsOccupied(RHMovementQuadValue, RHValue, RHCannotMove);
 
 	QuadStorageVector.at(SelectedPlayerPieces.at(SelectedQuad)).MoveSelectionQuadFill(SelectedQuadMoveBaseQuadCharValue);
 	CheckIfPieceIsOnLeftEdgeOfBoard(SelectedQuad, SelectedPlayerPieces);
@@ -374,13 +372,13 @@ void BaseGameMode::MovementSetup(int SelectedQuad, std::vector<int> SelectedPlay
 
 	//CheckRightHandValueForUpwardQuadMovement(SelectedQuadMove2Value);
 
-	if (SelectedQuadMove1Value >= LeftHandBoundryValue && IsPieceAtLeftEdgeOfBoard == false && LHCannotMove == false)
+	if (LHMovementQuadValue >= LeftHandBoundryValue && IsPieceAtLeftEdgeOfBoard == false && LHCannotMove == false)
 	{
-		QuadStorageVector.at(SelectedQuadMove1Value).MoveSelectionQuadFill(SelectedQuadMove1CharValue);
+		QuadStorageVector.at(LHMovementQuadValue).MoveSelectionQuadFill(SelectedQuadMove1CharValue);
 	}
-	if (SelectedQuadMove2Value <= RightHandBoundryValue && IsPieceAtRightEdgeOfBoard == false && RHCannotMove == false)
+	if (RHMovementQuadValue <= RightHandBoundryValue && IsPieceAtRightEdgeOfBoard == false && RHCannotMove == false)
 	{
-		QuadStorageVector.at(SelectedQuadMove2Value).MoveSelectionQuadFill(SelectedQuadMove2CharValue);
+		QuadStorageVector.at(RHMovementQuadValue).MoveSelectionQuadFill(SelectedQuadMove2CharValue);
 	}
 	if (IsOpponentsPieceToBeTaken == true)
 	{
@@ -552,40 +550,30 @@ void BaseGameMode::CheckRightHandValueForUpwardQuadMovement(int RightHandMoveVal
 	}
 }
 
-void BaseGameMode::MoveQuadtoLeftQuad(std::vector<int> SelectedPlayerPieces, int LeftHandMeasure, int RightHandMeasure)
+void BaseGameMode::MoveQuadtoLeftQuad(std::vector<int> SelectedPlayerPieces, int LeftHandMeasure, int RightHandMeasure, int& LHMovementQuadValue, int& RHMovementQuadValue)
 {
 	if (IsPlayer1Turn == true)
 	{
-		QuadStorageVector.at(SelectedQuadMove1Value).PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(PiecePlaceinVector));
+		QuadStorageVector.at(LHMovementQuadValue).PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(PiecePlaceinVector));
+		CheckIfPieceShouldBeKinged(LHMovementQuadValue);
 	}
 	else
 	{
-		QuadStorageVector.at(SelectedQuadMove1Value).PopulateQuadWithPlayer2Symbol(Player2QuadSelectionChars.at(PiecePlaceinVector));
+		QuadStorageVector.at(LHMovementQuadValue).PopulateQuadWithPlayer2Symbol(Player2QuadSelectionChars.at(PiecePlaceinVector));
+		CheckIfPieceShouldBeKinged(LHMovementQuadValue);
 	}
 
-	if (QuadStorageVector.at(SelectedQuadMove2Value).IsPlayer1Quad == true)
+	if (QuadStorageVector.at(RHMovementQuadValue).IsPlayer1Quad == true)
 	{
-		for (int i = 0; i < PlayerPiecesVectorSize; i++)
-		{
-			if (SelectedQuadMove2Value == Player1Pieces.at(i))
-			{
-				QuadStorageVector.at(SelectedQuadMove2Value).PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(i));
-			}
-		}
+
 	}
-	else if (QuadStorageVector.at(SelectedQuadMove2Value).IsPlayer2Quad == true)
+	else if (QuadStorageVector.at(RHMovementQuadValue).IsPlayer2Quad == true)
 	{
-		for (int i = 0; i < PlayerPiecesVectorSize; i++)
-		{
-			if (SelectedQuadMove2Value == Player2Pieces.at(i))
-			{
-				QuadStorageVector.at(SelectedQuadMove2Value).PopulateQuadWithPlayer2Symbol(Player2QuadSelectionChars.at(i));
-			}
-		}
+
 	}
 	else
 	{
-		QuadStorageVector.at(SelectedQuadMove2Value).PopulateQuadWithBaseSymbol();
+		QuadStorageVector.at(RHMovementQuadValue).PopulateQuadWithBaseSymbol();
 	}
 
 	
@@ -612,13 +600,13 @@ void BaseGameMode::MoveQuadtoLeftQuad(std::vector<int> SelectedPlayerPieces, int
 
 	if (IsPlayer1Turn == true)
 	{
-		Player1Pieces.at(PiecePlaceinVector) = SelectedQuadMove1Value; //fixed
+		Player1Pieces.at(PiecePlaceinVector) = LHMovementQuadValue; //fixed
 		IsPlayer1Turn = false;
 		IsPlayer2Turn = true;
 	}
 	else if (IsPlayer2Turn == true)
 	{
-		Player2Pieces.at(PiecePlaceinVector) = SelectedQuadMove1Value; //fixed
+		Player2Pieces.at(PiecePlaceinVector) = LHMovementQuadValue; //fixed -- might be broken, need to switch to RH
 		IsPlayer1Turn = true;
 		IsPlayer2Turn = false;
 	}
@@ -627,42 +615,32 @@ void BaseGameMode::MoveQuadtoLeftQuad(std::vector<int> SelectedPlayerPieces, int
 	ResetBoolValues();
 }
 
-void BaseGameMode::MoveQuadtoRightQuad(std::vector<int> SelectedPlayerPieces, int LeftHandMeasure, int RightHandMeasure)
+void BaseGameMode::MoveQuadtoRightQuad(std::vector<int> SelectedPlayerPieces, int LeftHandMeasure, int RightHandMeasure, int& LHMovementQuadValue, int& RHMovementQuadValue)
 {
 	//QuadStorageVector.at(SelectedQuadMove1Value).PopulateQuadWithBaseSymbol();
 
-	if (QuadStorageVector.at(SelectedQuadMove1Value).IsPlayer1Quad == true)
+	if (QuadStorageVector.at(LHMovementQuadValue).IsPlayer1Quad == true)
 	{
-		for (int i = 0; i < PlayerPiecesVectorSize; i++)
-		{
-			if (SelectedQuadMove1Value == Player1Pieces.at(i))
-			{
-				QuadStorageVector.at(SelectedQuadMove1Value).PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(i));
-			}
-		}
+
 	}
-	else if (QuadStorageVector.at(SelectedQuadMove1Value).IsPlayer2Quad == true)
+	else if (QuadStorageVector.at(LHMovementQuadValue).IsPlayer2Quad == true)
 	{
-		for (int i = 0; i < PlayerPiecesVectorSize; i++)
-		{
-			if (SelectedQuadMove1Value == Player2Pieces.at(i))
-			{
-				QuadStorageVector.at(SelectedQuadMove1Value).PopulateQuadWithPlayer2Symbol(Player2QuadSelectionChars.at(i));
-			}
-		}
+
 	}
 	else
 	{
-		QuadStorageVector.at(SelectedQuadMove1Value).PopulateQuadWithBaseSymbol();
+		QuadStorageVector.at(LHMovementQuadValue).PopulateQuadWithBaseSymbol();
 	}
 
 	if (IsPlayer1Turn == true)
 	{
-		QuadStorageVector.at(SelectedQuadMove2Value).PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(PiecePlaceinVector));
+		QuadStorageVector.at(RHMovementQuadValue).PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(PiecePlaceinVector));
+		CheckIfPieceShouldBeKinged(RHMovementQuadValue);
 	}
 	else
 	{
-		QuadStorageVector.at(SelectedQuadMove2Value).PopulateQuadWithPlayer2Symbol(Player2QuadSelectionChars.at(PiecePlaceinVector));
+		QuadStorageVector.at(RHMovementQuadValue).PopulateQuadWithPlayer2Symbol(Player2QuadSelectionChars.at(PiecePlaceinVector));
+		CheckIfPieceShouldBeKinged(RHMovementQuadValue);
 	}
 
 
@@ -688,13 +666,13 @@ void BaseGameMode::MoveQuadtoRightQuad(std::vector<int> SelectedPlayerPieces, in
 
 	if (IsPlayer1Turn == true)
 	{
-		Player1Pieces.at(PiecePlaceinVector) = SelectedQuadMove2Value; //fixed
+		Player1Pieces.at(PiecePlaceinVector) = RHMovementQuadValue; //fixed
 		IsPlayer1Turn = false;
 		IsPlayer2Turn = true;
 	}
 	else if (IsPlayer2Turn == true)
 	{
-		Player2Pieces.at(PiecePlaceinVector) = SelectedQuadMove2Value; //fixed
+		Player2Pieces.at(PiecePlaceinVector) = RHMovementQuadValue; //fixed -- might be broken, need to switch to LH
 		IsPlayer1Turn = true;
 		IsPlayer2Turn = false;
 	}
@@ -703,61 +681,61 @@ void BaseGameMode::MoveQuadtoRightQuad(std::vector<int> SelectedPlayerPieces, in
 	ResetBoolValues();
 }
 
-void BaseGameMode::CancelMovementRefactor(std::vector<int> SelectedPlayerPieces)
+void BaseGameMode::CancelMovementRefactor(std::vector<int> SelectedPlayerPieces, int& LHMovementQuadValue, int& RHMovementQuadValue)
 {
 	Renderer BoardRenderer;
 	if (IsQuadSelectedToMove == true)
 	{
-		if (QuadStorageVector.at(SelectedQuadMove1Value).IsPlayer1Quad == true)
+		if (QuadStorageVector.at(LHMovementQuadValue).IsPlayer1Quad == true)
 		{
 			for (int i = 0; i < PlayerPiecesVectorSize; i++)
 			{
-				if (SelectedQuadMove1Value == Player1Pieces.at(i))
+				if (LHMovementQuadValue == Player1Pieces.at(i))
 				{
-					QuadStorageVector.at(SelectedQuadMove1Value).PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(i));
+					QuadStorageVector.at(LHMovementQuadValue).PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(i));
 				}
 			}
 			
 		}
-		else if (QuadStorageVector.at(SelectedQuadMove1Value).IsPlayer2Quad == true)
+		else if (QuadStorageVector.at(LHMovementQuadValue).IsPlayer2Quad == true)
 		{
 			for (int i = 0; i < PlayerPiecesVectorSize; i++)
 			{
-				if (SelectedQuadMove1Value == Player2Pieces.at(i))
+				if (LHMovementQuadValue == Player2Pieces.at(i))
 				{
-					QuadStorageVector.at(SelectedQuadMove1Value).PopulateQuadWithPlayer2Symbol(Player2QuadSelectionChars.at(i));
+					QuadStorageVector.at(LHMovementQuadValue).PopulateQuadWithPlayer2Symbol(Player2QuadSelectionChars.at(i));
 				}
 			}
 		}
 		else
 		{
-			QuadStorageVector.at(SelectedQuadMove1Value).PopulateQuadWithBaseSymbol();
+			QuadStorageVector.at(LHMovementQuadValue).PopulateQuadWithBaseSymbol();
 		}
 		
-		if (QuadStorageVector.at(SelectedQuadMove2Value).IsPlayer1Quad == true)
+		if (QuadStorageVector.at(RHMovementQuadValue).IsPlayer1Quad == true)
 		{
 			for (int i = 0; i < PlayerPiecesVectorSize; i++)
 			{
-				if (SelectedQuadMove2Value == Player1Pieces.at(i))
+				if (RHMovementQuadValue == Player1Pieces.at(i))
 				{
-					QuadStorageVector.at(SelectedQuadMove2Value).PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(i));
+					QuadStorageVector.at(RHMovementQuadValue).PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(i));
 				}
 			}
 
 		}
-		else if (QuadStorageVector.at(SelectedQuadMove2Value).IsPlayer2Quad == true)
+		else if (QuadStorageVector.at(RHMovementQuadValue).IsPlayer2Quad == true)
 		{
 			for (int i = 0; i < PlayerPiecesVectorSize; i++)
 			{
-				if (SelectedQuadMove2Value == Player2Pieces.at(i))
+				if (RHMovementQuadValue == Player2Pieces.at(i))
 				{
-					QuadStorageVector.at(SelectedQuadMove2Value).PopulateQuadWithPlayer2Symbol(Player2QuadSelectionChars.at(i));
+					QuadStorageVector.at(RHMovementQuadValue).PopulateQuadWithPlayer2Symbol(Player2QuadSelectionChars.at(i));
 				}
 			}
 		}
 		else
 		{
-			QuadStorageVector.at(SelectedQuadMove2Value).PopulateQuadWithBaseSymbol();
+			QuadStorageVector.at(RHMovementQuadValue).PopulateQuadWithBaseSymbol();
 		}
 
 		
@@ -835,8 +813,10 @@ void BaseGameMode::ResetBoolValues()
 	RHCannotMove = false;
 	IsQuadMovingUpward = false;
 
-	SelectedQuadMove1Value = 0;
-	SelectedQuadMove2Value = 0;
+	LHUpwardMovement = 0;
+	RHUpwardMovement = 0;
+	LHDownwardMovement = 0;
+	RHDownwardMovement = 0;
 	LeftHandBoundryValue = 0;
 	RightHandBoundryValue = 0;
 
@@ -924,6 +904,32 @@ void BaseGameMode::CheckAndUpdateQuadMovementChars(int LHValue, int RHValue)
 		SelectedQuadMove2CharValue = DownwardMovementRightCharValue;
 
 		IsQuadMovingUpward = false;
+	}
+}
+
+void BaseGameMode::CheckIfPieceShouldBeKinged(int QuadToBeChecked)
+{
+	if (QuadStorageVector.at(QuadToBeChecked).IsPlayer1Quad == true)
+	{
+		for (int i = 0; i < 8; i++)
+		{
+			if (QuadToBeChecked == QuadsForP1PiecePromotion.at(i))
+			{
+				QuadStorageVector.at(QuadToBeChecked).IsPieceKinged = true;
+			}
+		}
+		QuadStorageVector.at(QuadToBeChecked).PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(PiecePlaceinVector));
+	}
+	else if (QuadStorageVector.at(QuadToBeChecked).IsPlayer2Quad == true)
+	{
+		for (int i = 0; i < 8; i++)
+		{
+			if (QuadToBeChecked == QuadsForP2PiecePromotion.at(i))
+			{
+				QuadStorageVector.at(QuadToBeChecked).IsPieceKinged = true;
+			}
+		}
+		QuadStorageVector.at(QuadToBeChecked).PopulateQuadWithPlayer2Symbol(Player2QuadSelectionChars.at(PiecePlaceinVector));
 	}
 }
 

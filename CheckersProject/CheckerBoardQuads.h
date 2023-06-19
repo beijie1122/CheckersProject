@@ -38,6 +38,8 @@ public:
 
 	bool IsUnoccupiedQuad = false;
 
+	bool IsPieceKinged = false;
+
 	std::vector<std::vector<char>> Quadrant{ QuadSize, std::vector<char>(QuadSize) };
 
 	CheckerBoardQuads();

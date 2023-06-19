@@ -97,7 +97,7 @@ public:
 
 	//Gameplay: Moving The Quads 
 
-	void MovementSetup(int SelectedQuad, std::vector<int> SelectedPlayerPieces, int LHValue, int RHValue, int &LHMovementQuadValue, int &RHMovementQuadValue);
+	void MovementSetup(int SelectedQuad, std::vector<int> SelectedPlayerPieces, int LHValue, int RHValue, int &LHMovementQuadValue, int &RHMovementQuadValue, bool &LHCannotMove, bool &RHCannotMove);
 
 	void CheckMovementQuadDestinationIsOccupied(int &DestinationQuad, int MovementModifier, bool &CannotMoveBool);
 
@@ -105,9 +105,9 @@ public:
 
 	int CheckFollowingQuadInt;
 
-	bool LHCannotMove = false;
+	//bool LHCannotMove = false;
 
-	bool RHCannotMove = false;
+	//bool RHCannotMove = false;
 
 
 	//UI: Menu for Remaining Pieces for P1 & P2 
@@ -207,7 +207,24 @@ public:
 
 	int RHDownwardMovement;
 
-	//MAKE SURE TO RESET THESE VALUES IN THE RESET VALUE FUNCTION IN CPP FILE
+	bool CannotMoveUpwardLH;
+
+	bool CannotMoveUpwardRH;
+
+	bool CannotMoveDownwardLH;
+
+	bool CannotMoveDownwardRH;
+
+	int CheckIfP1PieceIsKingedVar;
+
+	int CheckIfP2PieceIsKingedVar;
+
+
+	//Gameplay: Board Edge Checks
+
+	std::vector<int> LHBoundryValues{ 0, 8, 16, 24, 32, 40, 48, 56 };
+
+	std::vector<int> RHBoundtryValues{ 7, 15, 23, 31, 39, 47, 55, 63 };
 
 
 	//Functions
@@ -251,6 +268,10 @@ public:
 	void CheckAndUpdateQuadMovementChars(int LHValue, int RHValue);
 
 	void CheckIfPieceShouldBeKinged(int QuadToBeChecked);
+
+	//void QuadSetupForNonKingedQuads(int PlayerQuadSelection);
+
+	void KingedQuadMovementUnusedQuads(int LHMoveValue, int RHMoveValue);
 
 	~BaseGameMode();
 

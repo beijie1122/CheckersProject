@@ -97,7 +97,7 @@ public:
 
 	//Gameplay: Moving The Quads 
 
-	void MovementSetup(int SelectedQuad, std::vector<int> SelectedPlayerPieces, int LHValue, int RHValue, int &LHMovementQuadValue, int &RHMovementQuadValue, bool &LHCannotMove, bool &RHCannotMove);
+	void MovementSetup(int SelectedQuad, std::vector<int> SelectedPlayerPieces, int LHValue, int RHValue, int &LHMovementQuadValue, int &RHMovementQuadValue, bool &LHCannotMove, bool &RHCannotMove, std::vector<int> OpponenetPieces);
 
 	void CheckMovementQuadDestinationIsOccupied(int &DestinationQuad, int MovementModifier, bool &CannotMoveBool);
 
@@ -224,7 +224,7 @@ public:
 
 	std::vector<int> LHBoundryValues{ 0, 8, 16, 24, 32, 40, 48, 56 };
 
-	std::vector<int> RHBoundtryValues{ 7, 15, 23, 31, 39, 47, 55, 63 };
+	std::vector<int> RHBoundryValues{ 7, 15, 23, 31, 39, 47, 55, 63 };
 
 
 	//Functions

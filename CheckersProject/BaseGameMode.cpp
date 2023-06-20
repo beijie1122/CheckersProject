@@ -295,8 +295,8 @@ void BaseGameMode::RenderBoard()
 				}
 				else if (IsPlayer1Turn == true && QuadStorageVector.at(CheckIfP1PieceIsKingedVar).IsPieceKinged == true)
 				{
-					MoveQuadtoLeftQuad(Player1Pieces, DownwardMovementLeftMeasure, DownwardMovementRightMeasure, LHDownwardMovement, RHDownwardMovement);
 					KingedQuadMovementUnusedQuads(LHUpwardMovement, RHUpwardMovement);
+					MoveQuadtoLeftQuad(Player1Pieces, DownwardMovementLeftMeasure, DownwardMovementRightMeasure, LHDownwardMovement, RHDownwardMovement);
 				}
 			}
 			else if (IsVirtualKeyPressed(0x4C))// L key
@@ -308,8 +308,8 @@ void BaseGameMode::RenderBoard()
 				}
 				else if (IsPlayer1Turn == true && QuadStorageVector.at(CheckIfP1PieceIsKingedVar).IsPieceKinged == true)
 				{
-					MoveQuadtoRightQuad(Player1Pieces, DownwardMovementLeftMeasure, DownwardMovementRightMeasure, LHDownwardMovement, RHDownwardMovement);
 					KingedQuadMovementUnusedQuads(LHUpwardMovement, RHUpwardMovement);
+					MoveQuadtoRightQuad(Player1Pieces, DownwardMovementLeftMeasure, DownwardMovementRightMeasure, LHDownwardMovement, RHDownwardMovement);
 				}
 			}
 
@@ -341,26 +341,26 @@ void BaseGameMode::CheckPlayerTurnWithQuadSetup(int Player1QuadSelection, int Pl
 		if (CheckIfP1PieceIsKingedVar < 8)
 		{
 			PiecePlaceinVector = Player1QuadSelection;
-			MovementSetup(Player1QuadSelection, Player1Pieces, DownwardMovementLeftMeasure, DownwardMovementRightMeasure, LHDownwardMovement, RHDownwardMovement, CannotMoveDownwardLH, CannotMoveDownwardRH);
+			MovementSetup(Player1QuadSelection, Player1Pieces, DownwardMovementLeftMeasure, DownwardMovementRightMeasure, LHDownwardMovement, RHDownwardMovement, CannotMoveDownwardLH, CannotMoveDownwardRH, Player2Pieces);
 			//DownwardMovementSetup(Player2QuadSelection);
 			IsQuadSelectedToMove = true;
 		}
 		else if (CheckIfP1PieceIsKingedVar > 55)
 		{
 			PiecePlaceinVector = Player1QuadSelection;
-			MovementSetup(Player1QuadSelection, Player1Pieces, UpwardMovementLeftMeasure, UpwardMovementRightMeasure, LHUpwardMovement, RHUpwardMovement, CannotMoveUpwardLH, CannotMoveUpwardRH);
+			MovementSetup(Player1QuadSelection, Player1Pieces, UpwardMovementLeftMeasure, UpwardMovementRightMeasure, LHUpwardMovement, RHUpwardMovement, CannotMoveUpwardLH, CannotMoveUpwardRH, Player2Pieces);
 			//UpwardMovementSetup(Player1QuadSelection);
 			IsQuadSelectedToMove = true;
 		}
 		else
 		{
 			PiecePlaceinVector = Player1QuadSelection;
-			MovementSetup(Player1QuadSelection, Player1Pieces, UpwardMovementLeftMeasure, UpwardMovementRightMeasure, LHUpwardMovement, RHUpwardMovement, CannotMoveUpwardLH, CannotMoveUpwardRH);
+			MovementSetup(Player1QuadSelection, Player1Pieces, UpwardMovementLeftMeasure, UpwardMovementRightMeasure, LHUpwardMovement, RHUpwardMovement, CannotMoveUpwardLH, CannotMoveUpwardRH, Player2Pieces);
 			//UpwardMovementSetup(Player1QuadSelection);
 			IsQuadSelectedToMove = true;
 
 			PiecePlaceinVector = Player1QuadSelection;
-			MovementSetup(Player1QuadSelection, Player1Pieces, DownwardMovementLeftMeasure, DownwardMovementRightMeasure, LHDownwardMovement, RHDownwardMovement, CannotMoveDownwardLH, CannotMoveDownwardRH);
+			MovementSetup(Player1QuadSelection, Player1Pieces, DownwardMovementLeftMeasure, DownwardMovementRightMeasure, LHDownwardMovement, RHDownwardMovement, CannotMoveDownwardLH, CannotMoveDownwardRH, Player2Pieces);
 			//DownwardMovementSetup(Player2QuadSelection);
 			IsQuadSelectedToMove = true;
 		}
@@ -374,12 +374,12 @@ void BaseGameMode::CheckPlayerTurnWithQuadSetup(int Player1QuadSelection, int Pl
 
 	else if (IsPlayer1Turn == true && IsQuadSelectedToMove != true)
 	{
-			CheckIfSelectedPieceIsNull(Player1QuadSelection);
+		CheckIfSelectedPieceIsNull(Player1QuadSelection);
 			//Check for kings here if this function works
 		if (IsSelectedQuadNull != true)
 		{
 				PiecePlaceinVector = Player1QuadSelection;
-				MovementSetup(Player1QuadSelection, Player1Pieces, UpwardMovementLeftMeasure, UpwardMovementRightMeasure, LHUpwardMovement, RHUpwardMovement, CannotMoveUpwardLH, CannotMoveUpwardRH);
+				MovementSetup(Player1QuadSelection, Player1Pieces, UpwardMovementLeftMeasure, UpwardMovementRightMeasure, LHUpwardMovement, RHUpwardMovement, CannotMoveUpwardLH, CannotMoveUpwardRH, Player2Pieces);
 				//UpwardMovementSetup(Player1QuadSelection);
 				IsQuadSelectedToMove = true;
 		}
@@ -391,7 +391,7 @@ void BaseGameMode::CheckPlayerTurnWithQuadSetup(int Player1QuadSelection, int Pl
 		if (IsSelectedQuadNull != true)
 		{
 			PiecePlaceinVector = Player2QuadSelection;
-			MovementSetup(Player2QuadSelection, Player2Pieces, DownwardMovementLeftMeasure, DownwardMovementRightMeasure, LHDownwardMovement, RHDownwardMovement, CannotMoveDownwardLH, CannotMoveDownwardRH);
+			MovementSetup(Player2QuadSelection, Player2Pieces, DownwardMovementLeftMeasure, DownwardMovementRightMeasure, LHDownwardMovement, RHDownwardMovement, CannotMoveDownwardLH, CannotMoveDownwardRH, Player1Pieces);
 			//DownwardMovementSetup(Player2QuadSelection);
 			IsQuadSelectedToMove = true;
 		}
@@ -404,7 +404,7 @@ void BaseGameMode::CheckPlayerTurnWithQuadSetup(int Player1QuadSelection, int Pl
 //CheckerBoardQuads& quad2 = QuadStorageVector.at(SelectedQuad - 9);
 //
 
-void BaseGameMode::MovementSetup(int SelectedQuad, std::vector<int> SelectedPlayerPieces, int LHValue, int RHValue, int& LHMovementQuadValue, int& RHMovementQuadValue, bool &LHCannotMove, bool &RHCannotMove)
+void BaseGameMode::MovementSetup(int SelectedQuad, std::vector<int> SelectedPlayerPieces, int LHValue, int RHValue, int& LHMovementQuadValue, int& RHMovementQuadValue, bool &LHCannotMove, bool &RHCannotMove, std::vector<int> OpponenetPieces)
 {
 	SelectedQuadValue = SelectedPlayerPieces.at(SelectedQuad); //Redundant, but needed to work foro the check boundries function atm
 	LHMovementQuadValue = SelectedPlayerPieces.at(SelectedQuad) + LHValue;
@@ -417,10 +417,6 @@ void BaseGameMode::MovementSetup(int SelectedQuad, std::vector<int> SelectedPlay
 	CheckIffPieceIsOnRightEdgeOfBoard(SelectedQuad, SelectedPlayerPieces);
 
 	CheckAndUpdateQuadMovementChars(LHValue, RHValue);
-
-	//CheckLeftHandValueForUpwardQuadMovement(SelectedQuadMove1Value);
-
-	//CheckRightHandValueForUpwardQuadMovement(SelectedQuadMove2Value);
 
 	if (LHMovementQuadValue >= LeftHandBoundryValue && IsPieceAtLeftEdgeOfBoard == false && LHCannotMove == false)
 	{
@@ -487,7 +483,6 @@ void BaseGameMode::CheckMovementQuadDestinationIsOccupied(int &DestinationQuad, 
 		if (QuadStorageVector.at(DestinationQuad).IsPlayer1Quad == true)
 		{
 			//Checks if piece is at LH/RH edges of board
-
 			if (DestinationQuad > 7 && DestinationQuad < 56)
 			{
 				OpponentPieceToBeTaken = DestinationQuad;
@@ -687,7 +682,6 @@ void BaseGameMode::MoveQuadtoLeftQuad(std::vector<int> SelectedPlayerPieces, int
 		IsPlayer1Turn = true;
 		IsPlayer2Turn = false;
 	}
-
 	IsQuadSelectedToMove = false;
 	ResetBoolValues();
 }
@@ -712,12 +706,12 @@ void BaseGameMode::MoveQuadtoRightQuad(std::vector<int> SelectedPlayerPieces, in
 	if (IsPlayer1Turn == true)
 	{
 		QuadStorageVector.at(RHMovementQuadValue).PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(PiecePlaceinVector));
-		CheckIfPieceShouldBeKinged(RHMovementQuadValue);
 		if (QuadStorageVector.at(SelectedPlayerPieces.at(PiecePlaceinVector)).IsPieceKinged == true)
 		{
 			QuadStorageVector.at(SelectedPlayerPieces.at(PiecePlaceinVector)).IsPieceKinged = false;
 			QuadStorageVector.at(RHMovementQuadValue).IsPieceKinged = true;
 		}
+		CheckIfPieceShouldBeKinged(RHMovementQuadValue);
 	}
 	else
 	{

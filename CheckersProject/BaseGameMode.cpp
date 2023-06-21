@@ -189,6 +189,14 @@ void BaseGameMode::RenderBoard()
 			BoardRenderer.DrawInt(LeftHandBoundryValue, { DebugIntXCoord, DebugMenuYCord + 6 });
 			BoardRenderer.DrawInt(RightHandBoundryValue, { DebugIntXCoord, DebugMenuYCord + 7 });
 
+			BoardRenderer.DrawInt(StoredLHUpwardMovement, { DebugIntXCoord + 3, DebugMenuYCord + 1 });
+			BoardRenderer.DrawInt(StoredRHUpwardMovement, { DebugIntXCoord + 3, DebugMenuYCord + 2 });
+			BoardRenderer.DrawInt(StoredLHDownwardMovement, { DebugIntXCoord + 3, DebugMenuYCord + 3 });
+			BoardRenderer.DrawInt(StoredRHDownwardMovement, { DebugIntXCoord + 3, DebugMenuYCord + 4 });
+			BoardRenderer.DrawInt(OpponentPieceToBeTaken, { DebugIntXCoord + 3, DebugMenuYCord + 5 });
+			BoardRenderer.DrawInt(StoredLHBoundryValue, { DebugIntXCoord + 3, DebugMenuYCord + 6 });
+			BoardRenderer.DrawInt(StoredRHBoundryValue, { DebugIntXCoord + 3, DebugMenuYCord + 7 });
+
 
 			if (IsPlayer1Turn == true)
 			{
@@ -917,12 +925,21 @@ void BaseGameMode::ResetBoolValues()
 	CannotMoveDownwardRH = false;
 	//IsQuadMovingUpward = false;
 
+	StoredLHUpwardMovement = LHUpwardMovement;
+	StoredRHUpwardMovement = RHUpwardMovement;
+	StoredLHDownwardMovement = LHDownwardMovement;
+	StoredRHDownwardMovement = RHDownwardMovement;
+	StoredLHBoundryValue = LeftHandBoundryValue;
+	StoredRHBoundryValue = RightHandBoundryValue;
+
+
 	LHUpwardMovement = 0;
 	RHUpwardMovement = 0;
 	LHDownwardMovement = 0;
 	RHDownwardMovement = 0;
 	LeftHandBoundryValue = 0;
 	RightHandBoundryValue = 0;
+	OpponentPieceToBeTaken = 0;
 
 }
 

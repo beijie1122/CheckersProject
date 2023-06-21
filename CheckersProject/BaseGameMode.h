@@ -176,6 +176,18 @@ public:
 
 	int DebugIntXCoord = 34 + DebugMenuXCoord;
 
+	int StoredLHUpwardMovement = 0;
+
+	int StoredRHUpwardMovement = 0;
+
+	int StoredLHDownwardMovement = 0;
+
+	int StoredRHDownwardMovement = 0;
+
+	int StoredLHBoundryValue = 0;
+
+	int StoredRHBoundryValue = 0;
+
 
 	//Vars for Upward/Downward movement
 

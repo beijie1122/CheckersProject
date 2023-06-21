@@ -272,7 +272,12 @@ void BaseGameMode::RenderBoard()
 			if (IsVirtualKeyPressed(0x41)) // A Key
 			{
 				//Will need to mod for when pieces are kinged
-				if (IsPlayer1Turn == true)
+				if (IsPlayer1Turn == true && QuadStorageVector.at(CheckIfP1PieceIsKingedVar).IsPieceKinged == true)
+				{
+					KingedQuadMovementUnusedQuads(LHDownwardMovement, RHDownwardMovement);
+					MoveQuadtoLeftQuad(Player1Pieces, UpwardMovementLeftMeasure, UpwardMovementRightMeasure, LHUpwardMovement, RHUpwardMovement);
+				}
+				else if (IsPlayer1Turn == true)
 				{
 					MoveQuadtoLeftQuad(Player1Pieces, UpwardMovementLeftMeasure, UpwardMovementRightMeasure, LHUpwardMovement, RHUpwardMovement);
 				}
@@ -281,7 +286,12 @@ void BaseGameMode::RenderBoard()
 			else if (IsVirtualKeyPressed(0x44)) //D key
 			{
 				//Will need to mod for when pieces are kinged
-				if (IsPlayer1Turn == true)
+				if (IsPlayer1Turn == true && QuadStorageVector.at(CheckIfP1PieceIsKingedVar).IsPieceKinged == true)
+				{
+					KingedQuadMovementUnusedQuads(LHDownwardMovement, RHDownwardMovement);
+					MoveQuadtoRightQuad(Player1Pieces, UpwardMovementLeftMeasure, UpwardMovementRightMeasure, LHUpwardMovement, RHUpwardMovement);
+				}
+				else if (IsPlayer1Turn == true)
 				{
 					MoveQuadtoRightQuad(Player1Pieces, UpwardMovementLeftMeasure, UpwardMovementRightMeasure, LHUpwardMovement, RHUpwardMovement);
 				}

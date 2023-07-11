@@ -3,6 +3,8 @@
 #include <vector>
 #include <iterator>
 #include "CheckerBoardQuads.h"
+#include "UIMenus.h"
+
 class BaseGameMode
 {
 public: 
@@ -141,7 +143,7 @@ public:
 
 	//UI Colors
 
-	int RenderColorPlayer1Pieces = 2;
+	int RenderColorPlayer1Pieces = 7;
 
 	int RenderColorPlayer2Pieces = 3;
 
@@ -239,6 +241,61 @@ public:
 	std::vector<int> RHBoundryValues{ 7, 15, 23, 31, 39, 47, 55, 63 };
 
 
+	//Gameplay:: Opponenet Pices to be taken vars 
+
+	int LHUpwardOpponentPiece;
+
+	int RHUpwardOpponentPiece; 
+
+	int LHDownwardOpponentPiece;
+
+	int RHDownwardOpponentPiece;
+
+	bool BLHUpwardOpponentPiece = false;
+
+	bool BRHUpwardOpponentPiece = false;
+
+	bool BLHDownwardOpponentPiece = false;
+
+	bool BRHDownwardOpponentPiece = false;
+
+	int AKey = 0x41;
+
+	int DKey = 0x44;
+
+	int JKey = 0x4A;
+
+	int LKey = 0x4C;
+
+	int WKey = 0x57;
+
+	int SKey = 0x53;
+
+	int KeyToBePassed;
+
+
+	//UI Elements for Health Bars 
+
+	int UIP1RenderXCoord;
+
+	int UIP1RenderYCoord;
+
+	int UIP2RenderXCoord;
+
+	int UIP2RenderYCoord;
+
+	
+	//UI Elements for Start Game Menu 
+
+	std::vector<int> YCOORDVector{ 5, 10, 15, 20 };
+
+	int XCOORD = 5;
+
+	std::vector<UIMenus> ButtonStorageVector;
+
+	int CurrentlySelectedMenuButton = 0;
+
+
 	//Functions
 
 	BaseGameMode();
@@ -284,6 +341,12 @@ public:
 	//void QuadSetupForNonKingedQuads(int PlayerQuadSelection);
 
 	void KingedQuadMovementUnusedQuads(int LHMoveValue, int RHMoveValue);
+
+	void AssignOpponentPiecePlacement(int ValueToBeChecked, int& DestinationQuad);
+
+	void StartGameMenu();
+
+	void EndGameMenu();
 
 	~BaseGameMode();
 

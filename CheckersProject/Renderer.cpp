@@ -84,6 +84,49 @@ void Renderer::Draw2DVector(const std::vector<std::vector<char>>& Vec, const Poi
 
 }
 
+void Renderer::Draw2DVectorUI(const std::vector<std::vector<char>>& Vec, const Point& position, const int& HealthBarColor, int VerticleMeasure, int HorizontalMeasure)
+{
+	int IterateYUI = 0;
+	SetCursorToPosition(position.x, position.y);
+
+	for (int i = 0; i < VerticleMeasure; i++)
+	{
+		for (int j = 0; j < HorizontalMeasure; j++)
+		{
+			SetTextColor(HealthBarColor);
+			std::cout << Vec[i][j];
+		}
+		IterateYUI++;
+		SetCursorToPosition(position.x, position.y + IterateYUI);
+	}
+}
+
+void Renderer::Draw2DVectorUIHealthBar(const std::vector<std::vector<char>>& Vec, const Point& position, const int& HealthBarColor, int VerticleMeasure, int HorizontalMeasure)
+{
+	int IterateYUI = 0;
+	SetCursorToPosition(position.x, position.y);
+
+	for (int i = 0; i < VerticleMeasure; i++)
+	{
+		for (int j = 0; j < HorizontalMeasure; j++)
+		{
+			SetTextColor(HealthBarColor);
+			std::cout << Vec[i][j];
+		}
+		IterateYUI--;
+		SetCursorToPosition(position.x, position.y + IterateYUI);
+	}
+}
+
+void Renderer::DrawCoreButton(const char& CoreButton, const Point& position, const int& Color)
+{
+	SetCursorToPosition(position.x, position.y);
+	
+	SetTextColor(Color);
+
+	std::cout << CoreButton;
+}
+
 
 //void Renderer::Draw2DObjectVector(const std::vector<std::vector<CheckerBoardQuads>>& Vec, const Point& position)
 //{

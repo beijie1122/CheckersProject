@@ -42,6 +42,12 @@ public:
 
 	void Draw2DVector(const std::vector<std::vector<char>>& Vec, const Point& position, const int& Color);
 
+	void Draw2DVectorUI(const std::vector<std::vector<char>>& Vec, const Point& position, const int& HealthBarColor, int VerticleMeasure, int HorizontalMeasure);
+
+	void Draw2DVectorUIHealthBar(const std::vector<std::vector<char>>& Vec, const Point& position, const int& HealthBarColor, int VerticleMeasure, int HorizontalMeasure);
+
+	void DrawCoreButton(const char& CoreButton, const Point& position, const int& Color);
+
 	//void Draw2DObjectVector(const std::vector<std::vector<CheckerBoardQuads>>& Vec, const Point& position);
 
 	void SetTextColor(int Color);

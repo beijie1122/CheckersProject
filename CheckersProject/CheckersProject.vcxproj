@@ -143,11 +143,17 @@
     <ClCompile Include="CheckerBoardQuads.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="UIElements.cpp" />
+    <ClCompile Include="UIMenus.cpp" />
+    <ClCompile Include="UIMenusSelection.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseGameMode.h" />
     <ClInclude Include="CheckerBoardQuads.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="UIElements.h" />
+    <ClInclude Include="UIMenus.h" />
+    <ClInclude Include="UIMenusSelection.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="DebugMenuTextFile.txt" />

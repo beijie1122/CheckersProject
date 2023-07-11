@@ -1,5 +1,6 @@
 #include "BaseGameMode.h"
 #include "Renderer.h"
+#include "UIElements.h"
 
 #include <iostream>
 #include <string>
@@ -11,6 +12,9 @@
 #include <iterator>
 #include <numeric>
 #include <fstream>
+
+std::unique_ptr<UIElements> Player1HealthBar = std::make_unique<UIElements>();
+std::unique_ptr<UIElements> Player2HealthBar = std::make_unique<UIElements>();
 
 BaseGameMode::BaseGameMode() 
 {
@@ -25,7 +29,6 @@ bool IsVirtualKeyPressed(int VirtKey)
 
 void BaseGameMode::MainMenu()
 {
-
 	while (true)
 	{
 		FStreamExtractionFunctions(FStreamPlayerRemainingPiecesString, PlayersRemainingPiecesMenu);
@@ -90,9 +93,21 @@ void BaseGameMode::InitializeFullBoard()
 
 void BaseGameMode::RenderBoard()
 {
+	
+	Player1HealthBar->PopulateHealthBarBorder();
+	Player1HealthBar->PopulateHealthBar();
+
+	Player2HealthBar->PopulateHealthBarBorder();
+	Player2HealthBar->PopulateHealthBar();
+
+	UIP1RenderXCoord = RenderXCord.at(0) - 3;
+	UIP1RenderYCoord = 5;
+	UIP2RenderXCoord = RenderXCord.at(8);
+	UIP2RenderYCoord = 5;
+
+
 	while (true)
 	{
-
 		Renderer BoardRenderer;
 
 		int XCordCounter = 0;
@@ -172,6 +187,13 @@ void BaseGameMode::RenderBoard()
 			BoardRenderer.DrawVectorInt(Player2Pieces, { 1, 1 }, RenderColorPlayer2Pieces);
 			BoardRenderer.DrawVectorInt(Player1Pieces, { 1, 2 }, RenderColorPlayer1Pieces);
 
+			Player1HealthBar->CheckAndUpdateHealthBarState(Player1HealthBar->PlayerRemainingPieces);
+			Player2HealthBar->CheckAndUpdateHealthBarState(Player2HealthBar->PlayerRemainingPieces);
+
+			Player1HealthBar->RenderHealthBar(BoardRenderer, UIP1RenderXCoord, UIP1RenderYCoord, RenderColorPlayer1Pieces, Player1HealthBar->CurrentHealthBarColor, Player1HealthBar->PlayerRemainingPieces);
+			Player2HealthBar->RenderHealthBar(BoardRenderer, UIP2RenderXCoord, UIP2RenderYCoord, RenderColorPlayer2Pieces, Player2HealthBar->CurrentHealthBarColor, Player2HealthBar->PlayerRemainingPieces);
+
+
 			RenderColorDebugMenu++;
 
 			if (RenderColorDebugMenu == 6)
@@ -223,6 +245,15 @@ void BaseGameMode::RenderBoard()
 			}
 
 			BoardRenderer.DrawInt(LeftHandBoundryValue, { 40, 1 });   
+
+
+			//Win Conditions 
+
+			if (Player1HealthBar->PlayerRemainingPieces < 1)
+			{
+				EndGameMenu();
+				//break;
+			}
 
 			//Test for UI Length Value 
 			//BoardRenderer.DrawInt(PlayerPiecesMenuTextLength, { 40, 3 });
@@ -276,9 +307,15 @@ void BaseGameMode::RenderBoard()
 			{
 				CheckPlayerTurnWithQuadSetup(11, Player2QuadSelectionChars.size() - 12);
 			}
-	
-			if (IsVirtualKeyPressed(0x41)) // A Key
+			else if (IsVirtualKeyPressed(0x4E)) //N Key
 			{
+				//Testing for win conditions and resetting the game 
+				Player1HealthBar->PlayerRemainingPieces = 0;
+			}
+	
+			if (IsVirtualKeyPressed(AKey)) // A Key
+			{
+				KeyToBePassed = AKey;
 				//Will need to mod for when pieces are kinged
 				if (IsPlayer1Turn == true && QuadStorageVector.at(CheckIfP1PieceIsKingedVar).IsPieceKinged == true)
 				{
@@ -291,8 +328,9 @@ void BaseGameMode::RenderBoard()
 				}
 				
 			}
-			else if (IsVirtualKeyPressed(0x44)) //D key
+			else if (IsVirtualKeyPressed(DKey)) //D key
 			{
+				KeyToBePassed = DKey;
 				//Will need to mod for when pieces are kinged
 				if (IsPlayer1Turn == true && QuadStorageVector.at(CheckIfP1PieceIsKingedVar).IsPieceKinged == true)
 				{
@@ -304,8 +342,9 @@ void BaseGameMode::RenderBoard()
 					MoveQuadtoRightQuad(Player1Pieces, UpwardMovementLeftMeasure, UpwardMovementRightMeasure, LHUpwardMovement, RHUpwardMovement);
 				}
 			}
-			else if (IsVirtualKeyPressed(0x4A)) //J key
+			else if (IsVirtualKeyPressed(JKey)) //J key
 			{
+				KeyToBePassed = JKey;
 				//Will need to mod for when pieces are kinged
 				if (IsPlayer2Turn == true)
 				{
@@ -317,8 +356,9 @@ void BaseGameMode::RenderBoard()
 					MoveQuadtoLeftQuad(Player1Pieces, DownwardMovementLeftMeasure, DownwardMovementRightMeasure, LHDownwardMovement, RHDownwardMovement);
 				}
 			}
-			else if (IsVirtualKeyPressed(0x4C))// L key
+			else if (IsVirtualKeyPressed(LKey))// L key
 			{
+				KeyToBePassed = LKey;
 				//Will need to mod for when pieces are kinged
 				if (IsPlayer2Turn == true)
 				{
@@ -444,10 +484,26 @@ void BaseGameMode::MovementSetup(int SelectedQuad, std::vector<int> SelectedPlay
 	{
 		QuadStorageVector.at(RHMovementQuadValue).MoveSelectionQuadFill(SelectedQuadMove2CharValue);
 	}
-	if (IsOpponentsPieceToBeTaken == true)
+	if (BLHUpwardOpponentPiece == true)
 	{
-		QuadStorageVector.at(OpponentPieceToBeTaken).PopulateQuadWithPrepareToBeTaken();
+		QuadStorageVector.at(LHUpwardOpponentPiece).PopulateQuadWithPrepareToBeTaken();
 	}
+	
+	if (BRHUpwardOpponentPiece == true)
+	{
+		QuadStorageVector.at(RHUpwardOpponentPiece).PopulateQuadWithPrepareToBeTaken();
+	}
+	
+	if (BLHDownwardOpponentPiece == true)
+	{
+		QuadStorageVector.at(LHDownwardOpponentPiece).PopulateQuadWithPrepareToBeTaken();
+	}
+	
+	if (BRHDownwardOpponentPiece == true)
+	{
+		QuadStorageVector.at(RHDownwardOpponentPiece).PopulateQuadWithPrepareToBeTaken();
+	}
+
 	IsQuadSelectedToMove = true;
 
 }
@@ -462,15 +518,20 @@ void BaseGameMode::CheckMovementQuadDestinationIsOccupied(int &DestinationQuad, 
 			//Checks if piece is at top/bottom edges of board
 			if (DestinationQuad > 7 && DestinationQuad < 56)
 			{
-				OpponentPieceToBeTaken = DestinationQuad;
+				//OpponentPieceToBeTaken = DestinationQuad;
+
+				AssignOpponentPiecePlacement(MovementModifier, DestinationQuad);
+
+				char SavedCharacter;
+				
 				for (int i = 0; i < PlayerPiecesVectorSize; i++)
 				{
-					if (OpponentPieceToBeTaken == Player2Pieces.at(i))
+					if (DestinationQuad == Player2Pieces.at(i))
 					{
 						TakenPieceIndexinPiecesQuad = i;
 					}
 				}
-				IsOpponentsPieceToBeTaken = true;
+				//IsOpponentsPieceToBeTaken = true;
 				CheckFollowingQuadForOccupation(MovementModifier, DestinationQuad, CannotMoveBool);
 			}
 
@@ -503,15 +564,17 @@ void BaseGameMode::CheckMovementQuadDestinationIsOccupied(int &DestinationQuad, 
 			//Checks if piece is at LH/RH edges of board
 			if (DestinationQuad > 7 && DestinationQuad < 56)
 			{
-				OpponentPieceToBeTaken = DestinationQuad;
+				//OpponentPieceToBeTaken = DestinationQuad;
+
+				AssignOpponentPiecePlacement(MovementModifier, DestinationQuad);
 				for (int i = 0; i < PlayerPiecesVectorSize; i++)
 				{
-					if (OpponentPieceToBeTaken == Player1Pieces.at(i))
+					if (DestinationQuad == Player1Pieces.at(i))
 					{
 						TakenPieceIndexinPiecesQuad = i;
 					}
 				}
-				IsOpponentsPieceToBeTaken = true;
+				//IsOpponentsPieceToBeTaken = true;
 				CheckFollowingQuadForOccupation(MovementModifier, DestinationQuad, CannotMoveBool);
 			}
 			else
@@ -537,9 +600,35 @@ void BaseGameMode::CheckMovementQuadDestinationIsOccupied(int &DestinationQuad, 
 	}
 }
 
+void BaseGameMode::AssignOpponentPiecePlacement(int ValueToBeChecked, int& DestinationQuad)
+{
+	if (ValueToBeChecked == UpwardMovementLeftMeasure)
+	{
+		LHUpwardOpponentPiece = DestinationQuad;
+		BLHUpwardOpponentPiece = true;
+	}
+	else if (ValueToBeChecked == UpwardMovementRightMeasure)
+	{
+		RHUpwardOpponentPiece = DestinationQuad;
+		BRHUpwardOpponentPiece = true;
+	}
+	else if (ValueToBeChecked == DownwardMovementLeftMeasure)
+	{
+		LHDownwardOpponentPiece = DestinationQuad;
+		BLHDownwardOpponentPiece = true;
+	}
+	else
+	{
+		RHDownwardOpponentPiece = DestinationQuad;
+		BRHDownwardOpponentPiece = true;
+	}
+
+}
+
+
 void BaseGameMode::CheckFollowingQuadForOccupation(int MovementModifier, int& DestinationQuad, bool &CannotMoveBool)
 {
-	CheckFollowingQuadInt = OpponentPieceToBeTaken + MovementModifier;
+	CheckFollowingQuadInt = DestinationQuad + MovementModifier;
 	if (QuadStorageVector.at(CheckFollowingQuadInt).IsPlayer1Quad == true || QuadStorageVector.at(CheckFollowingQuadInt).IsPlayer2Quad == true)
 	{
 		CannotMoveBool = true;
@@ -666,8 +755,47 @@ void BaseGameMode::MoveQuadtoLeftQuad(std::vector<int> SelectedPlayerPieces, int
 		QuadStorageVector.at(RHMovementQuadValue).PopulateQuadWithBaseSymbol();
 	}
 
-	
+	if (KeyToBePassed == AKey && BLHUpwardOpponentPiece == true)
+	{
+		QuadStorageVector.at(LHUpwardOpponentPiece).PopulateQuadWithBaseSymbol();
+		UpdateVecForPieceCapture(SelectedPlayerPieces);
+	}
+	else if (KeyToBePassed == JKey && BLHDownwardOpponentPiece == true)
+	{
+		QuadStorageVector.at(LHDownwardOpponentPiece).PopulateQuadWithBaseSymbol();
+		UpdateVecForPieceCapture(SelectedPlayerPieces);
+	}
 
+	if (BRHUpwardOpponentPiece == true)
+	{
+		if (IsPlayer1Turn == true)
+		{
+			//UPDATE - This One is sort of working 
+			QuadStorageVector.at(RHUpwardOpponentPiece).PopulateQuadWithPlayer2Symbol(QuadStorageVector.at(RHUpwardOpponentPiece).SavedQuadAssignedChar);
+		}
+		else
+		{
+			//UPDATE
+			QuadStorageVector.at(RHUpwardOpponentPiece).PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(2));
+		}
+	}
+
+	if (BRHDownwardOpponentPiece == true)
+	{
+		if (IsPlayer1Turn == true)
+		{
+			//UPDATE
+			QuadStorageVector.at(RHDownwardOpponentPiece).PopulateQuadWithPlayer2Symbol(Player2QuadSelectionChars.at(2));
+		}
+		else
+		{
+			//UPDATE
+			QuadStorageVector.at(RHDownwardOpponentPiece).PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(2));
+		}
+	}
+
+
+	/*
 	if (OpponentPieceToBeTaken == SelectedPlayerPieces.at(PiecePlaceinVector) + LeftHandMeasure)
 	{
 		QuadStorageVector.at(OpponentPieceToBeTaken).PopulateQuadWithBaseSymbol();
@@ -684,6 +812,7 @@ void BaseGameMode::MoveQuadtoLeftQuad(std::vector<int> SelectedPlayerPieces, int
 			QuadStorageVector.at(OpponentPieceToBeTaken).PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(TakenPieceIndexinPiecesQuad));
 		}
 	}
+	*/
 
 	QuadStorageVector.at(SelectedPlayerPieces.at(PiecePlaceinVector)).PopulateQuadWithBaseSymbol();
 
@@ -737,7 +866,47 @@ void BaseGameMode::MoveQuadtoRightQuad(std::vector<int> SelectedPlayerPieces, in
 		CheckIfPieceShouldBeKinged(RHMovementQuadValue);
 	}
 
+	if (KeyToBePassed == DKey && BRHUpwardOpponentPiece == true)
+	{
+		QuadStorageVector.at(RHUpwardOpponentPiece).PopulateQuadWithBaseSymbol();
+		UpdateVecForPieceCapture(SelectedPlayerPieces);
+	}
+	else if (KeyToBePassed == JKey && BRHDownwardOpponentPiece == true)
+	{
+		QuadStorageVector.at(RHDownwardOpponentPiece).PopulateQuadWithBaseSymbol();
+		UpdateVecForPieceCapture(SelectedPlayerPieces);
+	}
 
+	if (BLHUpwardOpponentPiece == true)
+	{
+		if (IsPlayer1Turn == true)
+		{
+			//UPDATE
+			QuadStorageVector.at(LHUpwardOpponentPiece).PopulateQuadWithPlayer2Symbol(Player2QuadSelectionChars.at(2));
+		}
+		else
+		{
+			//UPDATE
+			QuadStorageVector.at(LHUpwardOpponentPiece).PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(2));
+		}
+	}
+
+	if (BLHDownwardOpponentPiece == true)
+	{
+		if (IsPlayer1Turn == true)
+		{
+			//UPDATE
+			QuadStorageVector.at(LHDownwardOpponentPiece).PopulateQuadWithPlayer2Symbol(Player2QuadSelectionChars.at(2));
+		}
+		else
+		{
+			//UPDATE
+			QuadStorageVector.at(LHDownwardOpponentPiece).PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(2));
+		}
+	}
+
+
+	/*
 	if (OpponentPieceToBeTaken == SelectedPlayerPieces.at(PiecePlaceinVector) + RightHandMeasure)
 	{
 		QuadStorageVector.at(OpponentPieceToBeTaken).PopulateQuadWithBaseSymbol();
@@ -754,7 +923,7 @@ void BaseGameMode::MoveQuadtoRightQuad(std::vector<int> SelectedPlayerPieces, in
 			QuadStorageVector.at(OpponentPieceToBeTaken).PopulateQuadWithPlayer1Symbol(Player1QuadSelectionChars.at(TakenPieceIndexinPiecesQuad));
 		}
 	}
-
+	*/
 	QuadStorageVector.at(SelectedPlayerPieces.at(PiecePlaceinVector)).PopulateQuadWithBaseSymbol();
 
 
@@ -941,6 +1110,11 @@ void BaseGameMode::ResetBoolValues()
 	RightHandBoundryValue = 0;
 	OpponentPieceToBeTaken = 0;
 
+	BLHUpwardOpponentPiece = false;
+	BRHUpwardOpponentPiece = false;
+	BLHDownwardOpponentPiece = false;
+	BRHDownwardOpponentPiece = false;
+
 }
 
 void BaseGameMode::UpdateVecForPieceCapture(std::vector<int> SelectedPlayerPieces)
@@ -949,11 +1123,13 @@ void BaseGameMode::UpdateVecForPieceCapture(std::vector<int> SelectedPlayerPiece
 	{
 		Player2Pieces.at(TakenPieceIndexinPiecesQuad) = NULL;
 		Player2RemainingPieces--;
+		Player2HealthBar->PlayerRemainingPieces--;
 	}
 	else
 	{
 		Player1Pieces.at(TakenPieceIndexinPiecesQuad) = NULL;
 		Player1RemainingPieces--;
+		Player1HealthBar->PlayerRemainingPieces--;
 	}
 }
 
@@ -1051,6 +1227,68 @@ void BaseGameMode::CheckIfPieceShouldBeKinged(int QuadToBeChecked)
 			}
 		}
 		QuadStorageVector.at(QuadToBeChecked).PopulateQuadWithPlayer2Symbol(Player2QuadSelectionChars.at(PiecePlaceinVector));
+	}
+}
+
+void BaseGameMode::StartGameMenu()
+{
+	std::unique_ptr<UIMenus>Button1 = std::make_unique<UIMenus>();
+	ButtonStorageVector.push_back(*Button1);
+	std::unique_ptr<UIMenus>Button2 = std::make_unique<UIMenus>();
+	ButtonStorageVector.push_back(*Button2);
+	std::unique_ptr<UIMenus>Button3 = std::make_unique<UIMenus>();
+	ButtonStorageVector.push_back(*Button3);
+	std::unique_ptr<UIMenus>Button4 = std::make_unique<UIMenus>();
+	ButtonStorageVector.push_back(*Button4);
+	
+	while (true)
+	{
+
+		ButtonStorageVector.at(CurrentlySelectedMenuButton).CoreButtonColor = 4;
+
+		Renderer RenderMode;
+		for (int i = 0; i < ButtonStorageVector.size(); i++)
+		{
+			ButtonStorageVector.at(i).RenderButton(RenderMode, XCOORD, YCOORDVector.at(i));
+		}
+		RenderMode.Draw("Please Press 0 to begin the game", { XCOORD + 4, YCOORDVector.at(0) + 1 });
+	
+		if (IsVirtualKeyPressed(VK_NUMPAD0))
+		{
+			MainMenu();
+		}
+		else if (IsVirtualKeyPressed(WKey))
+		{
+			if (CurrentlySelectedMenuButton != 0)
+			{
+				ButtonStorageVector.at(CurrentlySelectedMenuButton).CoreButtonColor = 3;
+				CurrentlySelectedMenuButton--;
+			}
+		}
+		else if (IsVirtualKeyPressed(SKey))
+		{
+
+			if (CurrentlySelectedMenuButton != 3)
+			{
+				ButtonStorageVector.at(CurrentlySelectedMenuButton).CoreButtonColor = 3;
+				CurrentlySelectedMenuButton++;
+			}
+		}
+	}
+}
+
+void BaseGameMode::EndGameMenu()
+{
+	
+	while (true)
+	{
+		Renderer RenderMode;
+		RenderMode.Draw("Please Press 0 to return to Start Menu", { 25, 25 });
+		
+		if (IsVirtualKeyPressed(VK_NUMPAD0))
+		{
+			break;
+		}
 	}
 }
 

@@ -33,12 +33,13 @@ void CheckerBoardQuads::PopulateQuadWithPlayer1Symbol(char& AssignedNumberFromBa
 		}
 	}
 	Quadrant[1][1] = AssignedNumberFromBaseGame;
+	SavedQuadAssignedChar = AssignedNumberFromBaseGame;
 	//Quadrant[1][1] = '1';
 	IsUnoccupiedQuad = false;
 	IsPlayer1Quad = true;
 	IsPlayer2Quad = false;
 	PopulateQuadWithBorders();
-	QuadColor = 2;
+	QuadColor = 7;
 
 }
 
@@ -52,6 +53,7 @@ void CheckerBoardQuads::PopulateQuadWithPlayer2Symbol(char& AssignedNumberFromBa
 		}
 	}
 	Quadrant[1][1] = AssignedNumberFromBaseGame;
+	SavedQuadAssignedChar = AssignedNumberFromBaseGame;
 	IsUnoccupiedQuad = false;
 	IsPlayer1Quad = false;
 	IsPlayer2Quad = true;

@@ -9,7 +9,7 @@ int main()
 
 	InitializeRenderer();
 	std::unique_ptr<BaseGameMode> BaseMode = std::make_unique<BaseGameMode>();
-	BaseMode->MainMenu();
+	BaseMode->StartGameMenu();
 
 	return 0;
 }

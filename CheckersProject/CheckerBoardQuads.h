@@ -32,6 +32,8 @@ public:
 
 	char PrepareToBeTakenSymbol{ '$' };
 
+	char SavedQuadAssignedChar;
+
 	bool IsPlayer1Quad = false;
 
 	bool IsPlayer2Quad = false;

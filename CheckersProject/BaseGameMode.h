@@ -295,6 +295,8 @@ public:
 
 	int CurrentlySelectedMenuButton = 0;
 
+	int BasicTextColor = 6;
+
 
 	//Functions
 

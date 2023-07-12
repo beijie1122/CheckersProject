@@ -1251,11 +1251,40 @@ void BaseGameMode::StartGameMenu()
 		{
 			ButtonStorageVector.at(i).RenderButton(RenderMode, XCOORD, YCOORDVector.at(i));
 		}
-		RenderMode.Draw("Please Press 0 to begin the game", { XCOORD + 4, YCOORDVector.at(0) + 1 });
+		RenderMode.DrawMenuString("Begin the game", { XCOORD + 4, YCOORDVector.at(0) + 1 }, BasicTextColor);
+		RenderMode.DrawMenuString("Change the box border color", { XCOORD + 4, YCOORDVector.at(1) + 1 }, BasicTextColor);
+		RenderMode.DrawMenuString("Change the box inner color", { XCOORD + 4, YCOORDVector.at(2) + 1 }, BasicTextColor);
+		RenderMode.DrawMenuString("Reset box colors", { XCOORD + 4, YCOORDVector.at(3) + 1 }, BasicTextColor);
+
 	
 		if (IsVirtualKeyPressed(VK_NUMPAD0))
 		{
-			MainMenu();
+			if (CurrentlySelectedMenuButton == 0)
+			{
+				MainMenu();
+			}
+			else if (CurrentlySelectedMenuButton == 1)
+			{
+				for (int i = 0; i < ButtonStorageVector.size(); i++)
+				{
+					ButtonStorageVector.at(i).ButtonColor = 4;
+				}
+			}
+			else if (CurrentlySelectedMenuButton == 2)
+			{
+				for (int i = 0; i < ButtonStorageVector.size(); i++)
+				{
+					ButtonStorageVector.at(i).CoreButtonColor = 5;
+				}
+			}
+			else if (CurrentlySelectedMenuButton == 3)
+			{
+				for (int i = 0; i < ButtonStorageVector.size(); i++)
+				{
+					ButtonStorageVector.at(i).ButtonColor = 2;
+					ButtonStorageVector.at(i).CoreButtonColor = 3;
+				}
+			}	
 		}
 		else if (IsVirtualKeyPressed(WKey))
 		{

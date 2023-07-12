@@ -34,6 +34,13 @@ void Renderer::Draw(const std::string& text, const Point& position)
 	std::cout << text;
 }
 
+void Renderer::DrawMenuString(const std::string& text, const Point& position, const int& Color)
+{
+	SetCursorToPosition(position.x, position.y);
+	SetTextColor(Color);
+	std::cout << text;
+}
+
 void Renderer::DrawVector(const std::vector<char>& Vec, const Point& position)
 {
 	SetCursorToPosition(position.x, position.y);

@@ -32,6 +32,8 @@ public:
 
 	void Draw(const std::string& text, const Point& position);
 
+	void DrawMenuString(const std::string& text, const Point& position, const int& Color);
+
 	void DrawInt(const int & variable, const Point& position);
 
 	void DrawVector(const std::vector<char>& Vec, const Point& position);

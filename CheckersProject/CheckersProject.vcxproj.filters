@@ -64,5 +64,8 @@
     <Text Include="DebugMenuTextFile.txt">
       <Filter>Source Files</Filter>
     </Text>
+    <Text Include="StartMenuButtonText.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

@@ -158,6 +158,7 @@
   <ItemGroup>
     <Text Include="DebugMenuTextFile.txt" />
     <Text Include="PlayerRemainingPiecesTextDoc.txt" />
+    <Text Include="StartMenuButtonText.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

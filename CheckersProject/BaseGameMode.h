@@ -297,6 +297,10 @@ public:
 
 	int BasicTextColor = 6;
 
+	std::vector<std::string> StartMenuButtonTextVec{};
+
+	std::string FStreamStartMenuButton{ "StartMenuButtonText.txt" };
+
 
 	//Functions
 

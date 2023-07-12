@@ -1232,6 +1232,7 @@ void BaseGameMode::CheckIfPieceShouldBeKinged(int QuadToBeChecked)
 
 void BaseGameMode::StartGameMenu()
 {
+	FStreamExtractionFunctions(FStreamStartMenuButton, StartMenuButtonTextVec);
 	std::unique_ptr<UIMenus>Button1 = std::make_unique<UIMenus>();
 	ButtonStorageVector.push_back(*Button1);
 	std::unique_ptr<UIMenus>Button2 = std::make_unique<UIMenus>();
@@ -1247,14 +1248,19 @@ void BaseGameMode::StartGameMenu()
 		ButtonStorageVector.at(CurrentlySelectedMenuButton).CoreButtonColor = 4;
 
 		Renderer RenderMode;
+
+		RenderMode.DrawMenuString("Press 0 to make a selection", { XCOORD, YCOORDVector.at(0) - 3 }, BasicTextColor);
+		RenderMode.DrawMenuString("Press W to move up, press S to move down", { XCOORD, YCOORDVector.at(0) - 2 }, BasicTextColor);
+
 		for (int i = 0; i < ButtonStorageVector.size(); i++)
 		{
 			ButtonStorageVector.at(i).RenderButton(RenderMode, XCOORD, YCOORDVector.at(i));
 		}
-		RenderMode.DrawMenuString("Begin the game", { XCOORD + 4, YCOORDVector.at(0) + 1 }, BasicTextColor);
-		RenderMode.DrawMenuString("Change the box border color", { XCOORD + 4, YCOORDVector.at(1) + 1 }, BasicTextColor);
-		RenderMode.DrawMenuString("Change the box inner color", { XCOORD + 4, YCOORDVector.at(2) + 1 }, BasicTextColor);
-		RenderMode.DrawMenuString("Reset box colors", { XCOORD + 4, YCOORDVector.at(3) + 1 }, BasicTextColor);
+
+		for (int i = 0; i < StartMenuButtonTextVec.size(); i++)
+		{
+			RenderMode.DrawMenuString(StartMenuButtonTextVec.at(i), { XCOORD + 4, YCOORDVector.at(i) + 1 }, BasicTextColor);
+		}
 
 	
 		if (IsVirtualKeyPressed(VK_NUMPAD0))

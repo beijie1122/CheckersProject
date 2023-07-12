@@ -1,0 +1,4 @@
+Begin the game
+Change the box border color 
+Change the box inner color 
+Reset box colors
